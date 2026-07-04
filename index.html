@@ -1,0 +1,1736 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Gelecek Envanteri</title>
+<meta name="description" content="Ev kurulum ve envanter sistemi">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8EFEA">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14151F">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Envanter">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* ————————————————————————————————————————————————
+   GELECEK ENVANTERİ · design tokens (deck-derived)
+   indigo #3F4DBA · blush #F8EFEA · butter #FCF1C4
+   sand #EFE7DA · terra #C96A3A · sage #9BA17B
+   plum #A55C7A · brown #4A3C2F
+———————————————————————————————————————————————— */
+:root{
+  --indigo:#3F4DBA; --indigo-deep:#333F9E; --cream:#FCF1C4;
+  --terra:#C96A3A; --sage:#9BA17B; --plum:#A55C7A; --brown:#4A3C2F;
+  --ochre:#C09A3E;
+  --bg:#F8EFEA; --surface:#FFFFFF; --sand:#EFE7DA; --sand-2:#F4EDE2;
+  --ink:#3B3229; --ink-2:#8A7E70; --ink-3:#B8AC9C;
+  --line:rgba(74,60,47,.10); --line-2:rgba(74,60,47,.16);
+  --shadow:0 1px 2px rgba(74,60,47,.04), 0 8px 28px -14px rgba(74,60,47,.18);
+  --shadow-lift:0 2px 6px rgba(74,60,47,.06), 0 18px 44px -18px rgba(74,60,47,.28);
+  --r-lg:22px; --r-md:16px; --r-sm:11px;
+  --serif:'Playfair Display', Georgia, serif;
+  --sans:'Manrope', -apple-system, 'Segoe UI', sans-serif;
+  --nav-h:64px;
+  --ok:#7E9662; --warn:#C96A3A;
+  --chip-indigo:rgba(63,77,186,.10); --chip-terra:rgba(201,106,58,.13);
+  --chip-sage:rgba(133,150,98,.16); --chip-plum:rgba(165,92,122,.13);
+  --on-indigo:#4149A8;
+}
+html[data-theme="dark"]{
+  --bg:#14151F; --surface:#1D1E2E; --sand:#262738; --sand-2:#222334;
+  --ink:#EFE8DC; --ink-2:#A79D8F; --ink-3:#6E6759;
+  --line:rgba(239,232,220,.08); --line-2:rgba(239,232,220,.14);
+  --shadow:0 1px 2px rgba(0,0,0,.2), 0 8px 28px -14px rgba(0,0,0,.5);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.3), 0 18px 44px -18px rgba(0,0,0,.6);
+  --cream:#F6E9BF;
+  --chip-indigo:rgba(133,144,236,.16); --chip-terra:rgba(224,138,94,.16);
+  --chip-sage:rgba(155,161,123,.18); --chip-plum:rgba(197,126,155,.16);
+  --on-indigo:#A9B2F2; --ochre:#D2AC52; --ok:#A3B786;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font:15px/1.5 var(--sans); letter-spacing:.005em;
+  min-height:100dvh; overscroll-behavior-y:none;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+#app{max-width:640px; margin:0 auto; padding:18px 18px calc(var(--nav-h) + 30px + env(safe-area-inset-bottom));}
+h1,h2,h3{margin:0; font-weight:600}
+button{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer; touch-action:manipulation}
+input,select,textarea{font:inherit; color:var(--ink)}
+a{color:var(--on-indigo); text-decoration:none}
+::placeholder{color:var(--ink-3)}
+:focus-visible{outline:2px solid var(--indigo); outline-offset:2px; border-radius:6px}
+@media (prefers-reduced-motion:reduce){ *,*::before,*::after{animation-duration:.01ms!important; transition-duration:.01ms!important} }
+
+/* — type — */
+.serif{font-family:var(--serif)}
+.eyebrow{
+  font-size:10.5px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ink-2); display:flex; align-items:center; gap:8px;
+}
+.eyebrow .sp{color:var(--terra); font-size:11px}
+.page-title{font-family:var(--serif); font-size:30px; font-weight:500; letter-spacing:.01em; margin-top:2px}
+.page-title em{font-style:italic; font-weight:500}
+.section-h{display:flex; align-items:baseline; justify-content:space-between; margin:26px 2px 10px}
+.section-h .eyebrow{color:var(--ink-2)}
+.section-h .act{font-size:12.5px; font-weight:700; color:var(--on-indigo)}
+
+/* — cards — */
+.card{background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow); padding:18px}
+.card.sand{background:var(--sand); box-shadow:none}
+.hr{height:1px; background:var(--line); margin:14px 0}
+
+/* — hero countdown — */
+.hero{
+  position:relative; overflow:hidden; color:var(--cream);
+  background:linear-gradient(155deg, #4553C4 0%, var(--indigo) 46%, #3A46A6 100%);
+  border-radius:26px; padding:26px 22px 22px; box-shadow:var(--shadow-lift);
+}
+.hero .spark{position:absolute; color:var(--cream); opacity:.9}
+.hero .eyebrow{color:var(--cream); opacity:.85; justify-content:center}
+.hero-title{font-family:var(--serif); font-style:italic; font-weight:500; font-size:26px; text-align:center; margin-top:10px; line-height:1.15}
+.hero-days{font-family:var(--serif); font-size:74px; font-weight:500; line-height:1; text-align:center; margin-top:10px; font-variant-numeric:lining-nums}
+.hero-days small{font-family:var(--sans); font-size:12px; font-weight:700; letter-spacing:.24em; display:block; margin-top:8px; opacity:.85}
+.hero-date{ text-align:center; font-size:12.5px; opacity:.75; margin-top:12px}
+.hero-edit{position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:50%; background:rgba(252,241,196,.14); color:var(--cream); display:grid; place-items:center}
+.hero-bar{height:5px; border-radius:99px; background:rgba(252,241,196,.22); margin-top:18px; overflow:hidden}
+.hero-bar i{display:block; height:100%; background:var(--cream); border-radius:99px; transition:width .8s cubic-bezier(.22,1,.36,1)}
+.hero-meta{display:flex; justify-content:space-between; font-size:11.5px; font-weight:600; letter-spacing:.06em; opacity:.85; margin-top:8px}
+
+/* — stat grid — */
+.stats{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px}
+.stat{background:var(--surface); border-radius:var(--r-md); box-shadow:var(--shadow); padding:15px 16px 13px}
+.stat .lb{font-size:10px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2)}
+.stat .v{font-family:var(--serif); font-size:26px; font-weight:500; margin-top:5px; font-variant-numeric:lining-nums; line-height:1.1}
+.stat .v small{font-size:15px}
+.stat .sub{font-size:11.5px; color:var(--ink-2); margin-top:3px}
+
+/* — room cards — */
+.rooms{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+.room-card{
+  border-radius:var(--r-lg); padding:16px 16px 14px; min-height:112px; text-align:left;
+  display:flex; flex-direction:column; justify-content:space-between; position:relative;
+  box-shadow:var(--shadow); transition:transform .18s ease; width:100%;
+}
+.room-card:active{transform:scale(.975)}
+.room-card .nm{font-family:var(--serif); font-size:18.5px; font-weight:500; line-height:1.15; letter-spacing:.01em}
+.room-card .pct{font-family:var(--serif); font-size:26px; font-weight:500}
+.room-card .pct sup{font-size:12px; font-weight:600}
+.room-card .cnt{font-size:11px; font-weight:600; letter-spacing:.05em; opacity:.75}
+.room-card .bar{height:4px; border-radius:99px; background:rgba(0,0,0,.14); overflow:hidden; margin-top:8px}
+.room-card .bar i{display:block; height:100%; border-radius:99px; background:currentColor; transition:width .7s cubic-bezier(.22,1,.36,1)}
+.room-card.lite .bar{background:rgba(74,60,47,.12)}
+.room-row-ft{display:flex; align-items:flex-end; justify-content:space-between; margin-top:12px}
+
+/* — chips & pills — */
+.chip{
+  display:inline-flex; align-items:center; gap:5px; padding:4px 11px; border-radius:99px;
+  font-size:11.5px; font-weight:700; letter-spacing:.02em; white-space:nowrap;
+}
+.chip.st-ihtiyac{background:var(--sand); color:var(--ink-2)}
+.chip.st-arastiriliyor{background:var(--chip-indigo); color:var(--on-indigo)}
+.chip.st-wishlist{background:var(--chip-plum); color:var(--plum)}
+html[data-theme="dark"] .chip.st-wishlist{color:#D397B4}
+.chip.st-alinacak{background:var(--chip-terra); color:var(--terra)}
+html[data-theme="dark"] .chip.st-alinacak{color:#E29A70}
+.chip.st-alindi{background:var(--chip-sage); color:var(--ok)}
+.pill{
+  display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:99px;
+  border:1px solid var(--line-2); font-size:12.5px; font-weight:700; color:var(--ink-2);
+  background:var(--surface); transition:all .15s ease;
+}
+.pill.on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.pill-row{display:flex; gap:8px; flex-wrap:wrap}
+.tagchip{display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:99px; background:var(--sand); font-size:11px; font-weight:700; color:var(--ink-2)}
+.prio-dot{width:7px; height:7px; border-radius:50%; display:inline-block}
+.prio-yuksek{background:var(--terra)} .prio-orta{background:var(--ochre)} .prio-dusuk{background:var(--ink-3)}
+
+/* — product rows — */
+.plist{background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow); overflow:hidden}
+.prow{display:flex; align-items:center; gap:12px; padding:13px 16px; width:100%; text-align:left; border-bottom:1px solid var(--line); position:relative}
+.prow:last-child{border-bottom:0}
+.prow:active{background:var(--sand-2)}
+.prow .tick{
+  width:26px; height:26px; border-radius:50%; border:1.6px solid var(--line-2); flex:none;
+  display:grid; place-items:center; color:transparent; transition:all .2s ease; background:var(--surface);
+}
+.prow .tick.on{background:var(--sage); border-color:var(--sage); color:#fff}
+.prow .bd{flex:1; min-width:0}
+.prow .nm{font-weight:600; font-size:14.5px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.prow .nm.done{color:var(--ink-3); text-decoration:line-through; text-decoration-color:var(--ink-3); text-decoration-thickness:1px}
+.prow .mt{display:flex; align-items:center; gap:7px; font-size:11.5px; color:var(--ink-2); margin-top:2px; overflow:hidden; white-space:nowrap}
+.prow .pr{font-family:var(--serif); font-size:14.5px; font-variant-numeric:lining-nums; color:var(--ink-2); flex:none}
+.cat-h{display:flex; align-items:center; justify-content:space-between; padding:14px 4px 8px; }
+.cat-h .t{font-size:12px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2)}
+.cat-h .n{font-size:11px; color:var(--ink-3); font-weight:700}
+
+/* — search & filter — */
+.search{
+  display:flex; align-items:center; gap:10px; background:var(--surface); border-radius:99px;
+  padding:11px 16px; box-shadow:var(--shadow); margin:14px 0 12px;
+}
+.search input{flex:1; border:0; background:none; outline:none; font-size:14.5px}
+.search svg{color:var(--ink-3); flex:none}
+.fbtn{position:relative; flex:none; color:var(--ink-2)}
+.fbtn .badge{position:absolute; top:-6px; right:-8px; background:var(--terra); color:#fff; font-size:9.5px; font-weight:800; min-width:16px; height:16px; border-radius:99px; display:grid; place-items:center; padding:0 4px}
+
+/* — FAB — */
+.fab{
+  position:fixed; right:18px; bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom)); z-index:40;
+  width:56px; height:56px; border-radius:50%; background:var(--indigo); color:var(--cream);
+  box-shadow:0 10px 30px -8px rgba(63,77,186,.55); display:grid; place-items:center;
+  transition:transform .15s ease;
+}
+.fab:active{transform:scale(.92)}
+
+/* — bottom nav — */
+nav.bottom{
+  position:fixed; left:0; right:0; bottom:0; z-index:30;
+  background:color-mix(in srgb, var(--surface) 88%, transparent);
+  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+  border-top:1px solid var(--line); padding-bottom:env(safe-area-inset-bottom);
+}
+nav.bottom .wrap{max-width:640px; margin:0 auto; display:grid; grid-template-columns:repeat(5,1fr); height:var(--nav-h)}
+nav.bottom button{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--ink-3); font-size:9.5px; font-weight:800; letter-spacing:.06em}
+nav.bottom button.on{color:var(--ink)}
+nav.bottom button.on svg{color:var(--indigo)}
+html[data-theme="dark"] nav.bottom button.on svg{color:var(--on-indigo)}
+
+/* — sheets — */
+.veil{position:fixed; inset:0; background:rgba(30,25,20,.42); z-index:50; opacity:0; transition:opacity .22s ease}
+html[data-theme="dark"] .veil{background:rgba(0,0,0,.55)}
+.veil.in{opacity:1}
+.sheet{
+  position:fixed; left:0; right:0; bottom:0; z-index:51; max-width:640px; margin:0 auto;
+  background:var(--bg); border-radius:26px 26px 0 0; box-shadow:var(--shadow-lift);
+  transform:translateY(102%); transition:transform .3s cubic-bezier(.22,1,.36,1);
+  max-height:90dvh; display:flex; flex-direction:column;
+}
+.sheet.in{transform:translateY(0)}
+.sheet .grab{width:38px; height:4px; border-radius:99px; background:var(--line-2); margin:10px auto 0; flex:none}
+.sheet .sh-h{display:flex; align-items:center; justify-content:space-between; padding:12px 20px 6px; flex:none}
+.sheet .sh-t{font-family:var(--serif); font-size:21px; font-weight:500}
+.sheet .sh-x{width:32px; height:32px; border-radius:50%; background:var(--sand); color:var(--ink-2); display:grid; place-items:center}
+.sheet .sh-b{overflow-y:auto; padding:8px 20px calc(24px + env(safe-area-inset-bottom)); -webkit-overflow-scrolling:touch}
+
+/* — forms — */
+.fld{margin-top:14px}
+.fld label{display:block; font-size:10.5px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2); margin:0 2px 6px}
+.inp, textarea.inp{
+  width:100%; border:1px solid var(--line-2); background:var(--surface); border-radius:var(--r-sm);
+  padding:12px 14px; font-size:15px; outline:none; transition:border-color .15s;
+}
+.inp:focus{border-color:var(--indigo)}
+textarea.inp{resize:vertical; min-height:84px; line-height:1.5}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%;
+  background:var(--indigo); color:var(--cream); font-weight:800; font-size:14.5px; letter-spacing:.03em;
+  border-radius:var(--r-md); padding:15px; margin-top:18px; transition:transform .12s ease, opacity .2s;
+}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.4; pointer-events:none}
+.btn.ghost{background:var(--sand); color:var(--ink)}
+.btn.danger{background:var(--chip-terra); color:var(--terra)}
+.btn.sm{width:auto; padding:9px 16px; font-size:12.5px; margin-top:0; border-radius:99px}
+.two{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+
+/* — product detail rows — */
+.sect{background:var(--surface); border-radius:var(--r-md); box-shadow:var(--shadow); margin-top:14px; overflow:hidden}
+.sect summary{
+  list-style:none; display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px; cursor:pointer; font-size:11px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-2);
+}
+.sect summary::-webkit-details-marker{display:none}
+.sect summary .ar{transition:transform .2s ease; color:var(--ink-3)}
+.sect[open] summary .ar{transform:rotate(180deg)}
+.sect .in{padding:0 16px 14px}
+.frow{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 0; border-top:1px solid var(--line)}
+.frow:first-child{border-top:0}
+.frow .k{font-size:12.5px; font-weight:700; color:var(--ink-2); flex:none}
+.frow .v{flex:1; text-align:right; font-size:14.5px; font-weight:600; min-width:0}
+.frow input, .frow select{border:0; background:none; text-align:right; width:100%; outline:none; font-weight:600; font-size:14.5px; padding:2px 0}
+.frow select{-webkit-appearance:none; appearance:none; direction:rtl}
+.frow .ghosty{color:var(--ink-3); font-weight:600}
+.linkrow{display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--line)}
+.linkrow:first-child{border-top:0}
+.linkrow .u{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:13.5px; font-weight:600; color:var(--on-indigo)}
+.linkrow .x{color:var(--ink-3)}
+
+/* — alternatives — */
+.alt{display:flex; align-items:center; gap:12px; padding:12px 0; border-top:1px solid var(--line)}
+.alt:first-child{border-top:0}
+.alt .bd{flex:1; min-width:0}
+.alt .nm{font-weight:700; font-size:14px}
+.alt .mt{font-size:12px; color:var(--ink-2); margin-top:1px}
+.alt.won .nm::after{content:" ✦"; color:var(--terra)}
+.alt.arch{opacity:.45}
+.alt .pk{flex:none; font-size:11.5px; font-weight:800; color:var(--on-indigo); padding:7px 12px; border:1px solid var(--line-2); border-radius:99px}
+.alt .pk.done{color:var(--ok); border-color:transparent; background:var(--chip-sage)}
+
+/* — insights — */
+.ins{display:flex; gap:12px; align-items:flex-start; padding:13px 2px; border-top:1px solid var(--line)}
+.ins:first-child{border-top:0}
+.ins .ic{width:34px; height:34px; border-radius:12px; display:grid; place-items:center; flex:none; margin-top:1px}
+.ins .bd{flex:1; min-width:0}
+.ins .t{font-weight:700; font-size:13.5px}
+.ins .d{font-size:12.5px; color:var(--ink-2); margin-top:1px; line-height:1.45}
+
+/* — finance — */
+.fin-hero{background:var(--brown); color:var(--cream); border-radius:26px; padding:22px; box-shadow:var(--shadow-lift); position:relative; overflow:hidden}
+html[data-theme="dark"] .fin-hero{background:#3A3020}
+.fin-hero .lb{font-size:10px; font-weight:800; letter-spacing:.2em; text-transform:uppercase; opacity:.75}
+.fin-hero .v{font-family:var(--serif); font-size:42px; font-weight:500; margin-top:6px; font-variant-numeric:lining-nums; line-height:1}
+.fin-hero .row{display:flex; gap:22px; margin-top:16px}
+.fin-hero .row .lb{font-size:9.5px}
+.fin-hero .row .v2{font-family:var(--serif); font-size:19px; margin-top:3px; font-variant-numeric:lining-nums}
+.mbar{display:flex; align-items:flex-end; gap:6px; height:110px; margin-top:6px}
+.mbar .col{flex:1; display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0}
+.mbar .stack{width:100%; max-width:30px; display:flex; flex-direction:column-reverse; gap:2px; border-radius:6px; overflow:hidden}
+.mbar .seg{width:100%}
+.mbar .ml{font-size:9px; font-weight:800; letter-spacing:.04em; color:var(--ink-3); text-transform:uppercase; white-space:nowrap}
+.mbar .mv{font-size:9.5px; font-weight:700; color:var(--ink-2); font-variant-numeric:tabular-nums; white-space:nowrap}
+.legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:12px}
+.legend span{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700; color:var(--ink-2)}
+.legend i{width:9px; height:9px; border-radius:3px; display:inline-block}
+.iprog{height:4px; background:var(--sand); border-radius:99px; overflow:hidden; margin-top:7px}
+.iprog i{display:block; height:100%; background:var(--sage); border-radius:99px}
+
+/* — settings — */
+.set-row{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 16px; border-top:1px solid var(--line); width:100%; text-align:left}
+.set-row:first-child{border-top:0}
+.set-row .k{font-weight:700; font-size:14.5px}
+.set-row .d{font-size:12px; color:var(--ink-2); margin-top:2px}
+.set-row .v{color:var(--ink-2); font-size:13.5px; font-weight:600; flex:none; display:flex; align-items:center; gap:6px}
+.seg-ctl{display:flex; background:var(--sand); border-radius:99px; padding:3px}
+.seg-ctl button{padding:7px 14px; border-radius:99px; font-size:12px; font-weight:800; color:var(--ink-2)}
+.seg-ctl button.on{background:var(--surface); color:var(--ink); box-shadow:var(--shadow)}
+
+/* — toast — */
+#toast{
+  position:fixed; left:50%; bottom:calc(var(--nav-h) + 26px + env(safe-area-inset-bottom)); transform:translate(-50%,20px);
+  background:var(--ink); color:var(--bg); font-size:13px; font-weight:700; padding:11px 18px;
+  border-radius:99px; z-index:80; opacity:0; pointer-events:none; transition:all .25s ease; max-width:86vw; text-align:center;
+}
+html[data-theme="dark"] #toast{background:var(--cream); color:#14151F}
+#toast.in{opacity:1; transform:translate(-50%,0)}
+
+/* — sparkle fx — */
+.spark-burst{position:fixed; z-index:90; pointer-events:none; color:var(--terra); font-size:13px}
+@keyframes sb{ 0%{transform:translate(0,0) scale(.4); opacity:1} 100%{transform:translate(var(--dx),var(--dy)) scale(1.15); opacity:0} }
+.spark-burst span{position:absolute; animation:sb .65s ease-out forwards}
+
+/* — drag sort — */
+.drag-handle{color:var(--ink-3); flex:none; touch-action:none; padding:4px; cursor:grab}
+.dragging{opacity:.35}
+.drag-ghost{position:fixed; z-index:95; pointer-events:none; box-shadow:var(--shadow-lift); border-radius:var(--r-md); opacity:.96}
+
+/* — misc — */
+.empty{padding:38px 20px; text-align:center; color:var(--ink-2)}
+.empty .sp{font-size:22px; color:var(--terra)}
+.empty .t{font-family:var(--serif); font-size:19px; color:var(--ink); margin-top:8px}
+.empty .d{font-size:13px; margin-top:5px; line-height:1.5}
+.notice{background:var(--sand); border-radius:var(--r-md); padding:13px 15px; font-size:12.5px; color:var(--ink-2); line-height:1.55; margin-top:12px}
+.notice b{color:var(--ink)}
+.count-b{font-size:11px; font-weight:800; background:var(--sand); color:var(--ink-2); border-radius:99px; padding:2px 9px}
+.hidden{display:none!important}
+.fadein{animation:fi .28s ease both}
+@keyframes fi{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none}}
+.sync-dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+.sync-dot.ok{background:var(--sage)} .sync-dot.err{background:var(--terra)} .sync-dot.off{background:var(--ink-3)}
+datalist{display:none}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<button class="fab" id="fab" aria-label="Hızlı ekle">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+</button>
+
+<nav class="bottom"><div class="wrap" id="nav"></div></nav>
+<div id="layers"></div>
+<div id="toast" role="status"></div>
+
+<script>
+'use strict';
+/* ═══════════════════ GELECEK ENVANTERİ v1.0.0 ═══════════════════ */
+const VERSION = '1.0.0';
+const SEED = {"rooms":[{"id":"r1","name":"Yatak Odası","color":"#A55C7A","order":0},{"id":"r2","name":"Salon","color":"#3F4DBA","order":1},{"id":"r3","name":"Mutfak","color":"#C96A3A","order":2},{"id":"r4","name":"Banyo","color":"#9BA17B","order":3},{"id":"r5","name":"Çalışma Alanı","color":"#4A3C2F","order":4},{"id":"r6","name":"Genel Ev","color":"#EFE7DA","order":5},{"id":"r7","name":"Bucky","color":"#FCF1C4","order":6}],"cats":[{"id":"c1","roomId":"r6","name":"Temizlik Ekipmanı","order":0},{"id":"c2","roomId":"r6","name":"Temizlik Ürünleri","order":1},{"id":"c3","roomId":"r6","name":"Çamaşır","order":2},{"id":"c4","roomId":"r6","name":"Alet & Tamir","order":3},{"id":"c5","roomId":"r6","name":"Acil & Güvenlik","order":4},{"id":"c6","roomId":"r6","name":"Kırtasiye & Ofis","order":5},{"id":"c7","roomId":"r6","name":"Çeşitli","order":6},{"id":"c8","roomId":"r1","name":"Yatak & Baza","order":0},{"id":"c9","roomId":"r1","name":"Depolama","order":1},{"id":"c10","roomId":"r1","name":"Aydınlatma","order":2},{"id":"c11","roomId":"r1","name":"Tekstil","order":3},{"id":"c12","roomId":"r1","name":"Elektronik","order":4},{"id":"c13","roomId":"r1","name":"Küçük Aksesuar","order":5},{"id":"c14","roomId":"r2","name":"Oturma Grubu","order":0},{"id":"c15","roomId":"r2","name":"Elektronik","order":1},{"id":"c16","roomId":"r2","name":"Aydınlatma","order":2},{"id":"c17","roomId":"r2","name":"Tekstil","order":3},{"id":"c18","roomId":"r2","name":"Küçük Aksesuar","order":4},{"id":"c19","roomId":"r3","name":"Büyük Beyaz Eşya","order":0},{"id":"c20","roomId":"r3","name":"Küçük Elektrikli","order":1},{"id":"c21","roomId":"r3","name":"Pişirme Gereçleri","order":2},{"id":"c22","roomId":"r3","name":"Mutfak Aletleri","order":3},{"id":"c23","roomId":"r3","name":"Servis & Sofra","order":4},{"id":"c24","roomId":"r3","name":"Depolama & Düzen","order":5},{"id":"c25","roomId":"r3","name":"Temizlik","order":6},{"id":"c26","roomId":"r4","name":"Tekstil","order":0},{"id":"c27","roomId":"r4","name":"Depolama & Düzen","order":1},{"id":"c28","roomId":"r4","name":"Kişisel Bakım Başlangıç","order":2},{"id":"c29","roomId":"r5","name":"Mobilya","order":0},{"id":"c30","roomId":"r5","name":"Elektronik","order":1},{"id":"c31","roomId":"r5","name":"Aydınlatma","order":2},{"id":"c32","roomId":"r5","name":"Depolama & Düzen","order":3},{"id":"c33","roomId":"r7","name":"Beslenme","order":0},{"id":"c34","roomId":"r7","name":"Tuvalet","order":1},{"id":"c35","roomId":"r7","name":"Yaşam Alanı","order":2},{"id":"c36","roomId":"r7","name":"Bakım","order":3}],"products":[{"id":"p1","name":"Elektrikli süpürge (veya robot)","roomId":"r6","catId":"c1","order":0},{"id":"p2","name":"Paspas + kova","roomId":"r6","catId":"c1","order":1},{"id":"p3","name":"Faraş + süpürge","roomId":"r6","catId":"c1","order":2},{"id":"p4","name":"Temizlik bezi / mikrofiber (x5)","roomId":"r6","catId":"c1","order":3},{"id":"p5","name":"Mop / ıslak paspas","roomId":"r6","catId":"c1","order":4},{"id":"p6","name":"Yüzey temizleyici","roomId":"r6","catId":"c2","order":0},{"id":"p7","name":"Banyo temizleyici","roomId":"r6","catId":"c2","order":1},{"id":"p8","name":"Cam temizleyici","roomId":"r6","catId":"c2","order":2},{"id":"p9","name":"Çamaşır deterjanı","roomId":"r6","catId":"c2","order":3},{"id":"p10","name":"Yumuşatıcı","roomId":"r6","catId":"c2","order":4},{"id":"p11","name":"Bulaşık makinesi tableti","roomId":"r6","catId":"c2","order":5},{"id":"p12","name":"Ütü","roomId":"r6","catId":"c3","order":0},{"id":"p13","name":"Ütü masası","roomId":"r6","catId":"c3","order":1},{"id":"p14","name":"Çamaşır askısı (iç mekan)","roomId":"r6","catId":"c3","order":2},{"id":"p15","name":"Çamaşır sepeti","roomId":"r6","catId":"c3","order":3},{"id":"p16","name":"Çamaşır torbası / file","roomId":"r6","catId":"c3","order":4},{"id":"p17","name":"Tornavida seti (düz + yıldız)","roomId":"r6","catId":"c4","order":0},{"id":"p18","name":"Çekiç","roomId":"r6","catId":"c4","order":1},{"id":"p19","name":"Pense","roomId":"r6","catId":"c4","order":2},{"id":"p20","name":"Metre / şerit metre","roomId":"r6","catId":"c4","order":3},{"id":"p21","name":"Dübel + vida seti","roomId":"r6","catId":"c4","order":4},{"id":"p22","name":"Matkap (veya komşudan ödünç)","roomId":"r6","catId":"c4","order":5},{"id":"p23","name":"İlk yardım çantası","roomId":"r6","catId":"c5","order":0},{"id":"p24","name":"Yangın söndürücü (küçük)","roomId":"r6","catId":"c5","order":1},{"id":"p25","name":"Duman dedektörü","roomId":"r6","catId":"c5","order":2},{"id":"p26","name":"El feneri + pil","roomId":"r6","catId":"c5","order":3},{"id":"p27","name":"Makas","roomId":"r6","catId":"c6","order":0},{"id":"p28","name":"Bant + çift taraflı bant","roomId":"r6","catId":"c6","order":1},{"id":"p29","name":"Kalem / tükenmez","roomId":"r6","catId":"c6","order":2},{"id":"p30","name":"Not defteri","roomId":"r6","catId":"c6","order":3},{"id":"p31","name":"Zarf + pul (muhtemelen hiç lazım olmayacak)","roomId":"r6","catId":"c6","order":4},{"id":"p32","name":"Pil seti (AA + AAA)","roomId":"r6","catId":"c7","order":0},{"id":"p33","name":"Ampul yedek (E27 + diğer)","roomId":"r6","catId":"c7","order":1},{"id":"p34","name":"Çok girişli uzatma kablosu (x3)","roomId":"r6","catId":"c7","order":2},{"id":"p35","name":"Kapı paspası","roomId":"r6","catId":"c7","order":3},{"id":"p36","name":"Ayakkabılık / raf","roomId":"r6","catId":"c7","order":4},{"id":"p37","name":"Askılık (antre)","roomId":"r6","catId":"c7","order":5},{"id":"p38","name":"Şemsiye","roomId":"r6","catId":"c7","order":6},{"id":"p39","name":"Çift kişilik baza (başlıklı)","roomId":"r1","catId":"c8","order":0},{"id":"p40","name":"Yatak/şilte (160x200)","roomId":"r1","catId":"c8","order":1},{"id":"p41","name":"Yastık (x2)","roomId":"r1","catId":"c8","order":2},{"id":"p42","name":"Nevresim takımı (x2)","roomId":"r1","catId":"c8","order":3},{"id":"p43","name":"Koruyucu yatak pedi","roomId":"r1","catId":"c8","order":4},{"id":"p44","name":"Gardırop","roomId":"r1","catId":"c9","order":0},{"id":"p45","name":"Komodin (x2)","roomId":"r1","catId":"c9","order":1},{"id":"p46","name":"Şifonyer / Çekmece ünitesi","roomId":"r1","catId":"c9","order":2},{"id":"p47","name":"Tavan armatürü","roomId":"r1","catId":"c10","order":0},{"id":"p48","name":"Abajur / gece lambası (x2)","roomId":"r1","catId":"c10","order":1},{"id":"p49","name":"Priz başı gece lambası","roomId":"r1","catId":"c10","order":2},{"id":"p50","name":"Stor/Perde","roomId":"r1","catId":"c11","order":0},{"id":"p51","name":"Halı / kilim","roomId":"r1","catId":"c11","order":1},{"id":"p52","name":"Uzatma kablosu / akıllı priz","roomId":"r1","catId":"c12","order":0},{"id":"p53","name":"Boy aynası","roomId":"r1","catId":"c13","order":0},{"id":"p54","name":"Çerçeve / tablo","roomId":"r1","catId":"c13","order":1},{"id":"p55","name":"Kanca (kapı arkası)","roomId":"r1","catId":"c13","order":2},{"id":"p56","name":"Kanepe / köşe koltuk","roomId":"r2","catId":"c14","order":0},{"id":"p57","name":"Koltuk (tekli)","roomId":"r2","catId":"c14","order":1},{"id":"p58","name":"Sehpa","roomId":"r2","catId":"c14","order":2},{"id":"p59","name":"Tv ünitesi / konsol","roomId":"r2","catId":"c14","order":3},{"id":"p60","name":"Kitaplık / raf ünitesi","roomId":"r2","catId":"c14","order":4},{"id":"p61","name":"Televizyon","roomId":"r2","catId":"c15","order":0},{"id":"p62","name":"Soundbar / hoparlör","roomId":"r2","catId":"c15","order":1},{"id":"p63","name":"HDMI kablosu","roomId":"r2","catId":"c15","order":2},{"id":"p64","name":"Akıllı priz / çoklu uzatma","roomId":"r2","catId":"c15","order":3},{"id":"p65","name":"Tavan armatürü","roomId":"r2","catId":"c16","order":0},{"id":"p66","name":"Lambader","roomId":"r2","catId":"c16","order":1},{"id":"p67","name":"LED şerit (dekoratif)","roomId":"r2","catId":"c16","order":2},{"id":"p68","name":"Perde (x2 kanat)","roomId":"r2","catId":"c17","order":0},{"id":"p69","name":"Halı","roomId":"r2","catId":"c17","order":1},{"id":"p70","name":"Kırlent takımı","roomId":"r2","catId":"c17","order":2},{"id":"p71","name":"Battaniye / plaid","roomId":"r2","catId":"c17","order":3},{"id":"p72","name":"Ayna","roomId":"r2","catId":"c18","order":0},{"id":"p73","name":"Çerçeve / tablo / poster","roomId":"r2","catId":"c18","order":1},{"id":"p74","name":"Dekoratif vazo / obje","roomId":"r2","catId":"c18","order":2},{"id":"p75","name":"Buzdolabı","roomId":"r3","catId":"c19","order":0},{"id":"p76","name":"Çamaşır makinesi","roomId":"r3","catId":"c19","order":1},{"id":"p77","name":"Bulaşık makinesi","roomId":"r3","catId":"c19","order":2},{"id":"p78","name":"Fırın / ocak","roomId":"r3","catId":"c19","order":3},{"id":"p79","name":"Aspiratör","roomId":"r3","catId":"c19","order":4},{"id":"p80","name":"Kettle","roomId":"r3","catId":"c20","order":0},{"id":"p81","name":"Kahve makinesi / Moka pot","roomId":"r3","catId":"c20","order":1},{"id":"p82","name":"Blender / el blenderi","roomId":"r3","catId":"c20","order":2,"brand":"Tigrecook"},{"id":"p83","name":"Tost makinesi / ızgara","roomId":"r3","catId":"c20","order":3},{"id":"p84","name":"Mikrodalga fırın","roomId":"r3","catId":"c20","order":4},{"id":"p85","name":"Hava fritözü (isteğe bağlı)","roomId":"r3","catId":"c20","order":5,"brand":"Philips"},{"id":"p86","name":"Tencere seti (12'li)","roomId":"r3","catId":"c21","order":0,"brand":"Tefal"},{"id":"p87","name":"Döküm tava (isteğe bağlı)","roomId":"r3","catId":"c21","order":1},{"id":"p88","name":"Borcam set","roomId":"r3","catId":"c21","order":2},{"id":"p89","name":"Bıçak seti","roomId":"r3","catId":"c22","order":0},{"id":"p90","name":"Kesme tahtası (x2)","roomId":"r3","catId":"c22","order":1},{"id":"p91","name":"Rende / doğrayıcı","roomId":"r3","catId":"c22","order":2},{"id":"p92","name":"Kevgir / süzgeç","roomId":"r3","catId":"c22","order":3},{"id":"p93","name":"Kepçe / spatula seti","roomId":"r3","catId":"c22","order":4},{"id":"p94","name":"Kaşık seti","roomId":"r3","catId":"c22","order":5},{"id":"p95","name":"Ölçü kapları","roomId":"r3","catId":"c22","order":6},{"id":"p96","name":"Açacak / tirbüşon","roomId":"r3","catId":"c22","order":7},{"id":"p97","name":"Tencere altlığı (x2)","roomId":"r3","catId":"c22","order":8},{"id":"p98","name":"Tabak seti (yemek + çorba + tatlı)","roomId":"r3","catId":"c23","order":0},{"id":"p99","name":"Kase seti","roomId":"r3","catId":"c23","order":1},{"id":"p100","name":"Bardak seti (su + meşrubat)","roomId":"r3","catId":"c23","order":2},{"id":"p101","name":"Çay bardağı + fincan takımı","roomId":"r3","catId":"c23","order":3},{"id":"p102","name":"Çay / Kahve seti","roomId":"r3","catId":"c23","order":4},{"id":"p103","name":"Çatal bıçak kaşık seti","roomId":"r3","catId":"c23","order":5},{"id":"p104","name":"Servis tabağı / sahan","roomId":"r3","catId":"c23","order":6},{"id":"p105","name":"Saklama kabı seti","roomId":"r3","catId":"c23","order":7},{"id":"p106","name":"Baharat rafı / organizeri","roomId":"r3","catId":"c24","order":0},{"id":"p107","name":"Dolap içi raf / organizeri","roomId":"r3","catId":"c24","order":1},{"id":"p108","name":"Çöp kutusu (kapaklı)","roomId":"r3","catId":"c24","order":2},{"id":"p109","name":"Geri dönüşüm kutusu","roomId":"r3","catId":"c24","order":3},{"id":"p110","name":"Kağıt havluluk","roomId":"r3","catId":"c24","order":4},{"id":"p111","name":"Bulaşık süngeri + tel (x3)","roomId":"r3","catId":"c25","order":0},{"id":"p112","name":"Bulaşık deterjanı (başlangıç)","roomId":"r3","catId":"c25","order":1},{"id":"p113","name":"Mutfak bezi (x5)","roomId":"r3","catId":"c25","order":2},{"id":"p114","name":"Banyo havlusu (x4 beden)","roomId":"r4","catId":"c26","order":0},{"id":"p115","name":"El havlusu (x2)","roomId":"r4","catId":"c26","order":1},{"id":"p116","name":"Bornoz","roomId":"r4","catId":"c26","order":2},{"id":"p117","name":"Banyo paspası","roomId":"r4","catId":"c26","order":3},{"id":"p118","name":"Duş perdesi + ray","roomId":"r4","catId":"c26","order":4},{"id":"p119","name":"Diş fırçalık / banyo organizer","roomId":"r4","catId":"c27","order":0},{"id":"p120","name":"Şampuan/sabun raf/organizer","roomId":"r4","catId":"c27","order":1},{"id":"p121","name":"Tuvalet kağıdı tutacağı","roomId":"r4","catId":"c27","order":2},{"id":"p122","name":"Çöp kutusu","roomId":"r4","catId":"c27","order":3},{"id":"p123","name":"Ayna (yoksa)","roomId":"r4","catId":"c27","order":4},{"id":"p124","name":"Şampuan & saç bakım","roomId":"r4","catId":"c28","order":0},{"id":"p125","name":"Duş jeli / sabun","roomId":"r4","catId":"c28","order":1},{"id":"p126","name":"Diş fırçası + macun","roomId":"r4","catId":"c28","order":2},{"id":"p127","name":"Deodorant","roomId":"r4","catId":"c28","order":3},{"id":"p128","name":"Cilt bakım rutini","roomId":"r4","catId":"c28","order":4},{"id":"p129","name":"Tıraş / epilasyon gereçleri","roomId":"r4","catId":"c28","order":5},{"id":"p130","name":"Çalışma masası","roomId":"r5","catId":"c29","order":0},{"id":"p131","name":"Ofis koltuğu (ergonomik)","roomId":"r5","catId":"c29","order":1},{"id":"p132","name":"Raf / kitaplık","roomId":"r5","catId":"c29","order":2},{"id":"p133","name":"Monitör (isteğe bağlı)","roomId":"r5","catId":"c30","order":0},{"id":"p134","name":"Klavye + mouse (harici)","roomId":"r5","catId":"c30","order":1},{"id":"p135","name":"Laptop standı","roomId":"r5","catId":"c30","order":2},{"id":"p136","name":"USB hub","roomId":"r5","catId":"c30","order":3},{"id":"p137","name":"Kulaklık / mikrofon","roomId":"r5","catId":"c30","order":4},{"id":"p138","name":"Webcam (isteğe bağlı)","roomId":"r5","catId":"c30","order":5},{"id":"p139","name":"Masa lambası","roomId":"r5","catId":"c31","order":0},{"id":"p140","name":"Masa organizer","roomId":"r5","catId":"c32","order":0},{"id":"p141","name":"Kalem kutusu","roomId":"r5","catId":"c32","order":1},{"id":"p142","name":"Dosya organizer / kutu","roomId":"r5","catId":"c32","order":2},{"id":"p143","name":"Mama kabı + su kabı (çelik)","roomId":"r7","catId":"c33","order":0},{"id":"p144","name":"Brit Care Sterilised Tavşanlı mama","roomId":"r7","catId":"c33","order":1},{"id":"p145","name":"Malt takviyesi","roomId":"r7","catId":"c33","order":2},{"id":"p146","name":"Vitamin takviyesi","roomId":"r7","catId":"c33","order":3},{"id":"p147","name":"Kedi tuvaleti (kapalı tercihli)","roomId":"r7","catId":"c34","order":0},{"id":"p148","name":"Kedi kumu (bol stok)","roomId":"r7","catId":"c34","order":1},{"id":"p149","name":"Kürek","roomId":"r7","catId":"c34","order":2},{"id":"p150","name":"Koku giderici sprey","roomId":"r7","catId":"c34","order":3},{"id":"p151","name":"Kedi yatağı / evi","roomId":"r7","catId":"c35","order":0},{"id":"p152","name":"Tırmalama tahtası / direği","roomId":"r7","catId":"c35","order":1},{"id":"p153","name":"Kedi oyuncakları","roomId":"r7","catId":"c35","order":2},{"id":"p154","name":"Tarak / fırça (British Shorthair için)","roomId":"r7","catId":"c36","order":0},{"id":"p155","name":"Kedi taşıma çantası","roomId":"r7","catId":"c36","order":1},{"id":"p156","name":"Veteriner kartı / dosya","roomId":"r7","catId":"c36","order":2}]};
+
+/* ——— utils ——— */
+const $  = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const now = () => Date.now();
+const trLow = s => String(s ?? '').toLocaleLowerCase('tr');
+const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
+const byOrder = (a, b) => (a.order ?? 0) - (b.order ?? 0);
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+function fmtMoney(n, dec = 0){
+  if (n == null || isNaN(n)) return '—';
+  return new Intl.NumberFormat('tr-TR', { minimumFractionDigits: dec, maximumFractionDigits: dec }).format(n) + ' ' + S.settings.currency;
+}
+function parseMoney(v){
+  if (v == null) return null;
+  let s = String(v).trim().replace(/[^\d.,\-]/g, '');
+  if (!s) return null;
+  if (s.includes('.') && s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  else if (s.includes(',')) s = s.replace(',', '.');
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+function fmtDateTR(iso){
+  if (!iso) return '—';
+  const d = new Date(iso + (iso.length === 7 ? '-01' : '') + 'T00:00:00');
+  if (isNaN(d)) return '—';
+  const opts = iso.length === 7 ? { month:'long', year:'numeric' } : { day:'numeric', month:'long', year:'numeric' };
+  return d.toLocaleDateString('tr-TR', opts);
+}
+const ymNow = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0'); };
+const ymIdx = ym => { if(!ym) return null; const [y,m] = ym.split('-').map(Number); return y*12 + (m-1); };
+const idxYm = i => Math.floor(i/12) + '-' + String((i%12)+1).padStart(2,'0');
+const ymLabel = ym => new Date(ym+'-01T00:00:00').toLocaleDateString('tr-TR',{month:'short'}).replace('.','') + ' ' + ym.slice(2,4);
+
+/* ——— safe storage (private-mode & sandbox tolerant) ——— */
+const store = (() => {
+  let mem = {};
+  let ok = false;
+  try { localStorage.setItem('__t','1'); localStorage.removeItem('__t'); ok = true; } catch(e){}
+  return {
+    persistent: ok,
+    get k(){ return ok; },
+    read(k){ try { return ok ? localStorage.getItem(k) : (mem[k] ?? null); } catch(e){ return mem[k] ?? null; } },
+    write(k, v){ mem[k] = v; try { if (ok) localStorage.setItem(k, v); } catch(e){} },
+    del(k){ delete mem[k]; try { if (ok) localStorage.removeItem(k); } catch(e){} }
+  };
+})();
+
+/* ——— state ——— */
+const KEY = 'ge_state_v1';
+const STATUSES = [
+  { id:'ihtiyac',       label:'İhtiyaç' },
+  { id:'arastiriliyor', label:'Araştırılıyor' },
+  { id:'wishlist',      label:'Wishlist' },
+  { id:'alinacak',      label:'Alınacak' },
+  { id:'alindi',        label:'Satın Alındı' },
+];
+const stLabel = id => (STATUSES.find(s => s.id === id) || STATUSES[0]).label;
+const PRIOS = [ {id:'yuksek',label:'Yüksek'}, {id:'orta',label:'Orta'}, {id:'dusuk',label:'Düşük'} ];
+const ROOM_COLORS = ['#3F4DBA','#C96A3A','#A55C7A','#9BA17B','#4A3C2F','#EFE7DA','#FCF1C4','#C09A3E'];
+const lightRoom = c => ['#EFE7DA','#FCF1C4'].includes((c||'').toUpperCase());
+
+let S = null;
+
+function freshState(){
+  const t = now();
+  const st = {
+    v: 1,
+    settings: { title:'Şehre Dönüş', date:'2028-02-01', currency:'₺', theme:'system', clientId:'', updatedAt:t },
+    rooms: [], cats: [], products: [], tagBank: [],
+    meta: { installedAt:t, welcomed:false, deviceId:uid() },
+    lastSync: 0,
+  };
+  if (SEED){
+    st.rooms   = SEED.rooms.map(r => ({ ...r, updatedAt:t }));
+    st.cats    = SEED.cats.map(c => ({ ...c, updatedAt:t }));
+    st.products= SEED.products.map(p => ({
+      status:'ihtiyac', priority:null, tags:[], links:[], alts:[], notes:'',
+      brand:p.brand||'', model:'', listPrice:null, price:null, card:'', instCount:null, instStart:null,
+      createdAt:t, updatedAt:t, ...p,
+    }));
+  }
+  return st;
+}
+function load(){
+  try {
+    const raw = store.read(KEY);
+    if (raw){ S = JSON.parse(raw); migrate(); return; }
+  } catch(e){ console.warn('state parse failed', e); }
+  S = freshState();
+  persistNow();
+}
+function migrate(){
+  if (!S.tagBank) S.tagBank = [];
+  if (!S.meta) S.meta = { installedAt:now(), welcomed:true, deviceId:uid() };
+  if (!S.settings.theme) S.settings.theme = 'system';
+  S.products.forEach(p => { p.tags ??= []; p.links ??= []; p.alts ??= []; });
+}
+const persistNow = () => store.write(KEY, JSON.stringify(S));
+const persist = debounce(persistNow, 250);
+
+/* mutate + persist + rerender + queue sync */
+function save(opts = {}){
+  persist();
+  if (!opts.silent) render();
+  Sync.queue();
+}
+function touch(obj){ obj.updatedAt = now(); }
+
+/* ——— derived helpers ——— */
+const alive = x => !x.deleted;
+const roomsA   = () => S.rooms.filter(alive).sort(byOrder);
+const catsA    = rid => S.cats.filter(c => alive(c) && (!rid || c.roomId === rid)).sort(byOrder);
+const prodsA   = () => S.products.filter(alive);
+const room     = id => S.rooms.find(r => r.id === id);
+const cat      = id => S.cats.find(c => c.id === id);
+const prod     = id => S.products.find(p => p.id === id);
+const roomProds= rid => prodsA().filter(p => p.roomId === rid);
+const catProds = cid => prodsA().filter(p => p.catId === cid).sort(byOrder);
+const isDone   = p => p.status === 'alindi';
+const usedTags = () => { const s = new Set(S.tagBank.map(t=>t.name)); prodsA().forEach(p => p.tags.forEach(t => s.add(t))); return [...s].sort((a,b)=>a.localeCompare(b,'tr')); };
+const usedCards= () => { const s = new Set(); prodsA().forEach(p => p.card && s.add(p.card)); return [...s]; };
+
+/* ——— finance ——— */
+function finOf(p){
+  const price = p.price ?? null;
+  if (price == null || !p.instCount || !p.instStart) return { monthly:0, paid:0, remain:0, remCnt:0, active:false };
+  const monthly = price / p.instCount;
+  const iNow = ymIdx(ymNow()), i0 = ymIdx(p.instStart);
+  const paid = clamp(iNow - i0 + 1, 0, p.instCount);
+  const remCnt = p.instCount - paid;
+  return { monthly, paid, remCnt, remain: remCnt * monthly, active: iNow >= i0 && iNow < i0 + p.instCount };
+}
+function finance(){
+  let debt = 0, month = 0, spent = 0, remCnt = 0, spentCnt = 0, unpriced = 0;
+  const cards = {};
+  const upcoming = {}; // ymIdx -> {card: amount}
+  const i0 = ymIdx(ymNow());
+  for (const p of prodsA()){
+    if (!isDone(p)) continue;
+    spentCnt++;
+    if (p.price != null) spent += p.price; else { unpriced++; continue; }
+    const f = finOf(p);
+    if (!f.monthly) continue;
+    debt += f.remain; remCnt += f.remCnt;
+    if (f.active) month += f.monthly;
+    const cardName = p.card || 'Kart belirtilmedi';
+    cards[cardName] = (cards[cardName] || 0) + f.remain;
+    const s = ymIdx(p.instStart);
+    for (let i = Math.max(s, i0); i < s + p.instCount; i++){
+      (upcoming[i] ??= {})[cardName] = ((upcoming[i] ??= {})[cardName] || 0) + f.monthly;
+    }
+  }
+  return { debt, month, spent, remCnt, spentCnt, unpriced, cards, upcoming };
+}
+
+/* ——— insights ——— */
+const normName = s => trLow(s).replace(/\([^)]*\)/g,'').replace(/[^a-zçğıöşü0-9 ]/gi,' ').replace(/\s+/g,' ').trim();
+function insights(){
+  const out = [];
+  const ps = prodsA();
+  // duplicates
+  const groups = {};
+  ps.forEach(p => { const k = p.roomId + '|' + normName(p.name); (groups[k] ??= []).push(p); });
+  const dups = Object.values(groups).filter(g => g.length > 1);
+  if (dups.length) out.push({ type:'dup', t:`${dups.length} olası kopya ürün grubu`, d: dups.slice(0,3).map(g => g[0].name).join(' · '), ids: dups.flat().map(p=>p.id) });
+  // high priority unpurchased
+  const hi = ps.filter(p => p.priority === 'yuksek' && !isDone(p));
+  if (hi.length) out.push({ type:'prio', t:`${hi.length} yüksek öncelikli ürün bekliyor`, d: hi.slice(0,3).map(p=>p.name).join(' · '), ids: hi.map(p=>p.id) });
+  // expensive remaining
+  const exp = ps.filter(p => !isDone(p) && (p.price ?? p.listPrice) != null)
+    .sort((a,b) => (b.price ?? b.listPrice) - (a.price ?? a.listPrice)).slice(0,5);
+  if (exp.length) out.push({ type:'exp', t:'En büyük bekleyen harcamalar', d: exp.slice(0,3).map(p => `${p.name} · ${fmtMoney(p.price ?? p.listPrice)}`).join('  ·  '), ids: exp.map(p=>p.id) });
+  // stale wishlist
+  const staleT = now() - 45*864e5;
+  const stale = ps.filter(p => (p.status === 'wishlist' || p.status === 'arastiriliyor') && p.updatedAt < staleT);
+  if (stale.length) out.push({ type:'stale', t:`${stale.length} wishlist ürünü 45+ gündür bekliyor`, d: stale.slice(0,3).map(p=>p.name).join(' · '), ids: stale.map(p=>p.id) });
+  return out;
+}
+</script>
+<script>
+/* ═══════════════════ UI KIT ═══════════════════ */
+const I = {
+  home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>',
+  box:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.3 7.6 12 3l8.7 4.6v8.8L12 21l-8.7-4.6z"/><path d="M3.3 7.6 12 12.2l8.7-4.6"/><path d="M12 12.2V21"/></svg>',
+  spark:'<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.6 4.8 2.4 7.4 8 8-5.6.6-7.4 3.2-8 8-.6-4.8-2.4-7.4-8-8 5.6-.6 7.4-3.2 8-8Z"/></svg>',
+  fin:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>',
+  gear:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55A7 7 0 0 0 5 12c0 .48.05.94.14 1.4l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.09-.46.14-.92.14-1.4Z"/></svg>',
+  search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
+  filter:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+  x:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
+  chev:'<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+  right:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
+  pen:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3.5 20.5 7 8.5 19H5v-3.5z"/></svg>',
+  tick:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
+  plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+  drag:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>',
+  trash:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.8A1 1 0 0 1 10 4h4a1 1 0 0 1 1 1V7m3 0-.8 12.2a2 2 0 0 1-2 1.8H8.8a2 2 0 0 1-2-1.8L6 7"/></svg>',
+  link:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M10 14a4.5 4.5 0 0 0 6.4.4l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/><path d="M14 10a4.5 4.5 0 0 0-6.4-.4l-3 3a4.5 4.5 0 0 0 6.4 6.4L12.5 17.5"/></svg>',
+  cloud:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 18.5a4.5 4.5 0 0 0 .4-9A6 6 0 0 0 6.2 8.6 4.8 4.8 0 0 0 7 18.2z"/></svg>',
+};
+const sparkTxt = '✦';
+
+/* toast */
+let toastT;
+function toast(msg, ms = 2200){
+  const el = $('#toast'); el.textContent = msg; el.classList.add('in');
+  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove('in'), ms);
+}
+
+/* sparkle burst micro-interaction */
+function sparkle(x, y){
+  const b = document.createElement('div');
+  b.className = 'spark-burst'; b.style.left = x + 'px'; b.style.top = y + 'px';
+  for (let i = 0; i < 6; i++){
+    const s = document.createElement('span');
+    const a = (i / 6) * Math.PI * 2 + Math.random() * .5;
+    const d = 22 + Math.random() * 16;
+    s.style.setProperty('--dx', Math.cos(a) * d + 'px');
+    s.style.setProperty('--dy', Math.sin(a) * d + 'px');
+    s.textContent = sparkTxt; b.appendChild(s);
+  }
+  document.body.appendChild(b);
+  try { navigator.vibrate?.(12); } catch(e){}
+  setTimeout(() => b.remove(), 700);
+}
+
+/* sheet stack */
+const sheets = [];
+function openSheet(html, { onClose } = {}){
+  const layers = $('#layers');
+  const veil = document.createElement('div'); veil.className = 'veil';
+  const sh = document.createElement('div'); sh.className = 'sheet';
+  sh.innerHTML = `<div class="grab"></div>` + html;
+  layers.append(veil, sh);
+  requestAnimationFrame(() => { veil.classList.add('in'); sh.classList.add('in'); });
+  const rec = { veil, sh, onClose };
+  const close = () => closeSheet(rec);
+  veil.addEventListener('click', close);
+  sh.addEventListener('click', e => { const c = e.target.closest('[data-close]'); if (c) close(); });
+  sheets.push(rec);
+  document.documentElement.style.overflow = 'hidden';
+  return rec;
+}
+function closeSheet(rec = sheets[sheets.length - 1]){
+  if (!rec) return;
+  sheets.splice(sheets.indexOf(rec), 1);
+  rec.veil.classList.remove('in'); rec.sh.classList.remove('in');
+  setTimeout(() => { rec.veil.remove(); rec.sh.remove(); }, 300);
+  if (!sheets.length) document.documentElement.style.overflow = '';
+  rec.onClose?.();
+}
+function closeAllSheets(){ while (sheets.length) closeSheet(); }
+const sheetHead = (title, sub='') => `
+  <div class="sh-h">
+    <div><div class="sh-t serif">${title}</div>${sub ? `<div style="font-size:12px;color:var(--ink-2);margin-top:1px">${sub}</div>` : ''}</div>
+    <button class="sh-x" data-close aria-label="Kapat">${I.x}</button>
+  </div>`;
+
+/* confirm dialog */
+function confirmSheet({ title, body, okLabel = 'Onayla', danger = false }, onOk){
+  const rec = openSheet(`
+    ${sheetHead(title)}
+    <div class="sh-b">
+      <p style="margin:4px 2px 0; color:var(--ink-2); font-size:14px; line-height:1.55">${body}</p>
+      <div class="two">
+        <button class="btn ghost" data-close>Vazgeç</button>
+        <button class="btn ${danger ? 'danger' : ''}" id="cf-ok">${okLabel}</button>
+      </div>
+    </div>`);
+  $('#cf-ok', rec.sh).addEventListener('click', () => { closeSheet(rec); onOk(); });
+}
+
+/* drag-to-sort (pointer based, mobile friendly) */
+function makeSortable(container, itemSel, onReorder){
+  let drag = null;
+  container.addEventListener('pointerdown', e => {
+    const h = e.target.closest('.drag-handle'); if (!h) return;
+    const item = h.closest(itemSel); if (!item || item.parentElement !== container) return;
+    e.preventDefault();
+    const rect = item.getBoundingClientRect();
+    const ghost = item.cloneNode(true);
+    ghost.classList.add('drag-ghost');
+    Object.assign(ghost.style, { width: rect.width+'px', left: rect.left+'px', top: rect.top+'px', background:'var(--surface)' });
+    document.body.appendChild(ghost);
+    item.classList.add('dragging');
+    drag = { item, ghost, dy: e.clientY - rect.top };
+    h.setPointerCapture(e.pointerId);
+    const move = ev => {
+      if (!drag) return;
+      const y = ev.clientY;
+      drag.ghost.style.top = (y - drag.dy) + 'px';
+      const sibs = $$(itemSel, container).filter(el => el !== drag.item);
+      for (const s of sibs){
+        const r = s.getBoundingClientRect();
+        if (y > r.top && y < r.bottom){
+          const before = y < r.top + r.height / 2;
+          container.insertBefore(drag.item, before ? s : s.nextSibling);
+          break;
+        }
+      }
+    };
+    const up = () => {
+      if (!drag) return;
+      drag.ghost.remove(); drag.item.classList.remove('dragging');
+      const ids = $$(itemSel, container).map(el => el.dataset.id);
+      drag = null;
+      h.removeEventListener('pointermove', move);
+      onReorder(ids);
+    };
+    h.addEventListener('pointermove', move);
+    h.addEventListener('pointerup', up, { once:true });
+    h.addEventListener('pointercancel', up, { once:true });
+  });
+}
+
+/* status + prio pickers as chip rows */
+const statusChips = (sel, name='st') => STATUSES.map(s =>
+  `<button class="pill ${sel === s.id ? 'on' : ''}" data-${name}="${s.id}">${s.label}</button>`).join('');
+const prioChips = sel => `<button class="pill ${!sel ? 'on' : ''}" data-prio="">Yok</button>` + PRIOS.map(p =>
+  `<button class="pill ${sel === p.id ? 'on' : ''}" data-prio="${p.id}"><span class="prio-dot prio-${p.id}"></span>${p.label}</button>`).join('');
+</script>
+<script>
+/* ═══════════════════ VIEWS ═══════════════════ */
+let TAB = 'home';
+let invRoom = null;            // open room id in Envanter
+let sortMode = false;          // reorder mode in Envanter
+const F = { q:'', status:[], prio:[], tags:[], roomId:null };   // filters
+const filterCount = () => F.status.length + F.prio.length + F.tags.length + (F.roomId ? 1 : 0);
+
+const NAV = [
+  { id:'home', label:'Ana Sayfa', ic:I.home },
+  { id:'inv',  label:'Envanter',  ic:I.box },
+  { id:'wish', label:'Wishlist',  ic:I.spark },
+  { id:'fin',  label:'Finans',    ic:I.fin },
+  { id:'set',  label:'Ayarlar',   ic:I.gear },
+];
+function renderNav(){
+  $('#nav').innerHTML = NAV.map(n =>
+    `<button data-tab="${n.id}" class="${TAB === n.id ? 'on' : ''}" aria-label="${n.label}">${n.ic}<span>${n.label}</span></button>`).join('');
+}
+function go(tab){
+  TAB = tab;
+  if (tab !== 'inv') sortMode = false;
+  window.scrollTo({ top:0 });
+  render();
+}
+
+function pageHead(eyebrow, title){
+  return `<div class="eyebrow"><span class="sp">${sparkTxt}</span>${eyebrow}</div><h1 class="page-title">${title}</h1>`;
+}
+
+/* ——— HOME ——— */
+function daysLeft(){
+  const d = new Date(S.settings.date + 'T00:00:00');
+  return Math.ceil((d - new Date().setHours(0,0,0,0)) / 864e5);
+}
+function renderHome(){
+  const ps = prodsA();
+  const done = ps.filter(isDone).length;
+  const pct = ps.length ? Math.round(done / ps.length * 100) : 0;
+  const fin = finance();
+  const dl = daysLeft();
+  const ins = insights();
+  const t0 = S.meta.installedAt;
+  const span = new Date(S.settings.date + 'T00:00:00') - t0;
+  const timePct = span > 0 ? clamp((now() - t0) / span * 100, 0, 100) : 100;
+
+  return `
+  ${pageHead('Gelecek Envanteri', '<em>Ana</em> Sayfa')}
+  <div class="hero fadein" style="margin-top:16px">
+    <span class="spark" style="top:16px;left:18px;font-size:15px">${sparkTxt}</span>
+    <span class="spark" style="bottom:52px;right:24px;font-size:11px;opacity:.55">${sparkTxt}</span>
+    <button class="hero-edit" id="ed-count" aria-label="Geri sayımı düzenle">${I.pen}</button>
+    <div class="eyebrow">Hedef</div>
+    <div class="hero-title">${esc(S.settings.title)}</div>
+    <div class="hero-days">${dl >= 0 ? dl : 0}<small>${dl >= 0 ? 'GÜN KALDI' : 'GÜN GEÇTİ · YENİ HEDEF ZAMANI'}</small></div>
+    <div class="hero-date">${fmtDateTR(S.settings.date)}</div>
+    <div class="hero-bar"><i style="width:${pct}%"></i></div>
+    <div class="hero-meta"><span>%${pct} tamamlandı</span><span>zamanın %${Math.round(timePct)}'i geçti</span></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="lb">Tamamlanan</div><div class="v serif">${done}<small> / ${ps.length}</small></div><div class="sub">${ps.length - done} ürün bekliyor</div></div>
+    <div class="stat"><div class="lb">Tamamlanma</div><div class="v serif">%${pct}</div><div class="sub">tüm envanter</div></div>
+    <div class="stat"><div class="lb">Güncel Borç</div><div class="v serif" style="font-size:21px">${fmtMoney(fin.debt)}</div><div class="sub">${fin.remCnt} taksit kaldı</div></div>
+    <div class="stat"><div class="lb">Bu Ay Taksit</div><div class="v serif" style="font-size:21px">${fmtMoney(fin.month)}</div><div class="sub">${ymLabel(ymNow())} ödemesi</div></div>
+  </div>
+
+  <div class="section-h"><div class="eyebrow">Odalar</div><button class="act" data-go="inv">Tümü ${sparkTxt}</button></div>
+  <div class="rooms">${roomsA().map(roomCard).join('')}</div>
+
+  ${ins.length ? `
+  <div class="section-h"><div class="eyebrow">Akıllı Notlar</div></div>
+  <div class="card" style="padding:5px 16px">${ins.map(insRow).join('')}</div>` : ''}
+
+  ${!S.meta.welcomed ? `
+  <div class="notice fadein">${sparkTxt} <b>Excel envanterin içe aktarıldı</b> — ${prodsA().length} ürün, ${catsA().length} kategori, ${roomsA().length} oda. Salon sayfasındaki birebir kopya satırlar (19 adet) tekilleştirildi. Artık her şey burada yaşıyor. <button style="font-weight:800;color:var(--on-indigo)" id="wel-ok">Anladım</button></div>` : ''}
+  `;
+}
+function roomCard(r){
+  const ps = roomProds(r.id);
+  const done = ps.filter(isDone).length;
+  const pct = ps.length ? Math.round(done / ps.length * 100) : 0;
+  const lite = lightRoom(r.color);
+  const fg = lite ? 'var(--brown)' : 'var(--cream)';
+  return `<button class="room-card ${lite ? 'lite' : ''}" data-room="${r.id}" style="background:${r.color};color:${fg}">
+    <div class="nm serif">${esc(r.name)}</div>
+    <div>
+      <div class="room-row-ft"><span class="cnt">${done}/${ps.length} ürün</span><span class="pct serif">${pct}<sup>%</sup></span></div>
+      <div class="bar"><i style="width:${pct}%"></i></div>
+    </div>
+  </button>`;
+}
+function insRow(i){
+  const conf = {
+    dup:  { bg:'var(--chip-terra)',  fg:'var(--terra)', ic:'⧉' },
+    prio: { bg:'var(--chip-indigo)', fg:'var(--on-indigo)', ic:'!' },
+    exp:  { bg:'var(--chip-plum)',   fg:'var(--plum)', ic:'₺' },
+    stale:{ bg:'var(--chip-sage)',   fg:'var(--ok)', ic:sparkTxt },
+  }[i.type];
+  return `<button class="ins" data-ins='${esc(JSON.stringify(i.ids))}' style="width:100%;text-align:left">
+    <div class="ic" style="background:${conf.bg};color:${conf.fg};font-weight:800;font-size:14px">${conf.ic}</div>
+    <div class="bd"><div class="t">${i.t}</div><div class="d">${esc(i.d)}</div></div>
+    <span style="color:var(--ink-3)">${I.right}</span>
+  </button>`;
+}
+
+/* ——— INVENTORY ——— */
+function matchesFilters(p){
+  if (F.q){ const q = trLow(F.q); if (!trLow(p.name).includes(q) && !trLow(p.brand).includes(q) && !trLow(p.model).includes(q)) return false; }
+  if (F.status.length && !F.status.includes(p.status)) return false;
+  if (F.prio.length && !F.prio.includes(p.priority)) return false;
+  if (F.tags.length && !F.tags.every(t => p.tags.includes(t))) return false;
+  if (F.roomId && p.roomId !== F.roomId) return false;
+  return true;
+}
+const filtersLive = () => F.q || filterCount() > 0;
+
+function invBody(){
+  const searching = filtersLive();
+  let body;
+  if (searching){
+    const hits = prodsA().filter(matchesFilters);
+    body = hits.length
+      ? `<div class="plist fadein">${hits.slice(0, 200).map(p => prodRow(p, { ctx:true })).join('')}</div>
+         ${hits.length > 200 ? `<p class="empty" style="padding:14px">İlk 200 sonuç gösteriliyor</p>` : ''}`
+      : `<div class="empty"><div class="sp">${sparkTxt}</div><div class="t serif">Sonuç yok</div><div class="d">Aramayı veya filtreleri gevşetmeyi dene.</div></div>`;
+    body = `<div style="display:flex;align-items:center;justify-content:space-between;margin:2px 2px 10px">
+      <span class="count-b">${hits.length} sonuç</span>
+      <button class="act" style="font-size:12.5px;font-weight:800;color:var(--on-indigo)" id="clear-f">Temizle</button></div>` + body;
+  } else if (invRoom){
+    body = roomDetail(invRoom);
+  } else {
+    body = `<div class="rooms fadein">${roomsA().map(roomCard).join('')}</div>
+      ${sortMode ? `<div class="card" style="margin-top:14px;padding:6px 8px" id="room-sort">${roomsA().map(r =>
+        `<div class="frow" data-id="${r.id}" style="padding:10px 8px"><span class="drag-handle">${I.drag}</span><span style="flex:1;font-weight:700">${esc(r.name)}</span>
+         <button class="pill" data-edroom="${r.id}" style="padding:5px 11px">${I.pen}</button></div>`).join('')}</div>` : ''}
+      <div class="two" style="margin-top:14px">
+        <button class="btn ghost sm" style="width:100%;padding:12px" id="add-room">${I.plus} Oda ekle</button>
+        <button class="btn ghost sm" style="width:100%;padding:12px" id="sort-rooms">${sortMode ? 'Bitti' : 'Düzenle / Sırala'}</button>
+      </div>`;
+  }
+  return body;
+}
+function renderInv(){
+  return `
+  ${pageHead('Oda → Kategori → Ürün', '<em>Envanter</em>')}
+  <div class="search">
+    ${I.search}
+    <input id="q" placeholder="Ürün, marka ara…" value="${esc(F.q)}" autocomplete="off">
+    <button class="fbtn" id="open-f" aria-label="Filtreler">${I.filter}${filterCount() ? `<span class="badge">${filterCount()}</span>` : ''}</button>
+  </div>
+  <div id="inv-body">${invBody()}</div>`;
+}
+
+function roomDetail(rid){
+  const r = room(rid);
+  if (!r) { invRoom = null; return ''; }
+  const cats = catsA(rid);
+  const ps = roomProds(rid);
+  const done = ps.filter(isDone).length;
+  const pct = ps.length ? Math.round(done / ps.length * 100) : 0;
+  return `
+  <div class="fadein">
+  <button style="display:flex;align-items:center;gap:6px;font-weight:800;font-size:13px;color:var(--ink-2);margin:2px 0 10px" id="back-rooms">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg> Odalar
+  </button>
+  <div class="card" style="display:flex;align-items:center;gap:14px;padding:16px">
+    <div style="width:44px;height:44px;border-radius:14px;background:${r.color};flex:none;display:grid;place-items:center;color:${lightRoom(r.color) ? 'var(--brown)' : 'var(--cream)'};font-family:var(--serif);font-size:19px">${esc([...r.name][0])}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-family:var(--serif);font-size:20px">${esc(r.name)}</div>
+      <div style="font-size:12px;color:var(--ink-2);margin-top:1px">${done}/${ps.length} ürün · %${pct}</div>
+      <div class="iprog"><i style="width:${pct}%"></i></div>
+    </div>
+    <button class="pill" data-edroom="${r.id}" style="padding:7px 12px">${I.pen}</button>
+  </div>
+  <div class="two" style="margin-top:12px">
+    <button class="btn ghost sm" style="width:100%;padding:11px" data-addcat="${rid}">${I.plus} Kategori</button>
+    <button class="btn ghost sm" style="width:100%;padding:11px" id="sort-toggle">${sortMode ? 'Sıralama bitti' : 'Sırala'}</button>
+  </div>
+  ${cats.length ? (sortMode
+    ? `<div id="cat-sort" style="margin-top:6px">${cats.map(c => catBlock(c, true)).join('')}</div>`
+    : cats.map(c => catBlock(c, false)).join(''))
+    : `<div class="empty"><div class="sp">${sparkTxt}</div><div class="t serif">Henüz kategori yok</div><div class="d">İlk kategoriyi ekleyerek başla.</div></div>`}
+  </div>`;
+}
+function catBlock(c, sortable){
+  const ps = catProds(c.id);
+  const done = ps.filter(isDone).length;
+  return `<div data-id="${c.id}" class="catblock">
+    <div class="cat-h">
+      <div style="display:flex;align-items:center;gap:8px">
+        ${sortable ? `<span class="drag-handle">${I.drag}</span>` : ''}
+        <span class="t">${esc(c.name)}</span>
+        <button data-edcat="${c.id}" style="color:var(--ink-3)">${I.pen}</button>
+      </div>
+      <span class="n">${done}/${ps.length}</span>
+    </div>
+    ${ps.length ? `<div class="plist" ${sortable ? `data-psort="${c.id}"` : ''}>${ps.map(p => prodRow(p, { sortable })).join('')}</div>`
+    : `<div class="plist"><div style="padding:13px 16px;font-size:13px;color:var(--ink-3)">Bu kategoride ürün yok</div></div>`}
+  </div>`;
+}
+function prodRow(p, { ctx = false, sortable = false } = {}){
+  const done = isDone(p);
+  const price = p.price ?? p.listPrice;
+  const meta = [];
+  if (ctx) meta.push(`${esc(room(p.roomId)?.name || '')} ${sparkTxt} ${esc(cat(p.catId)?.name || '')}`);
+  if (p.brand) meta.push(esc(p.brand));
+  if (p.tags.length) meta.push(p.tags.slice(0,2).map(esc).join(', '));
+  return `<button class="prow" data-prod="${p.id}" data-idsort="${p.id}" data-id="${p.id}">
+    ${sortable ? `<span class="drag-handle">${I.drag}</span>` : `<span class="tick ${done ? 'on' : ''}" data-tick="${p.id}">${I.tick}</span>`}
+    <span class="bd">
+      <span class="nm ${done ? 'done' : ''}" style="display:block">${p.priority ? `<span class="prio-dot prio-${p.priority}" style="margin-right:6px;vertical-align:2px"></span>` : ''}${esc(p.name)}</span>
+      <span class="mt">${done ? `<span class="chip st-alindi" style="padding:2px 8px">Satın Alındı</span>` : `<span class="chip st-${p.status}" style="padding:2px 8px">${stLabel(p.status)}</span>`}${meta.length ? `<span style="overflow:hidden;text-overflow:ellipsis">${meta.join(' · ')}</span>` : ''}</span>
+    </span>
+    ${price != null ? `<span class="pr">${fmtMoney(price)}</span>` : ''}
+    ${p.alts?.some(a => a.st === 'a') ? `<span style="color:var(--plum);font-size:12px">${sparkTxt}</span>` : ''}
+  </button>`;
+}
+</script>
+<script>
+/* ——— WISHLIST ——— */
+function renderWish(){
+  const items = prodsA().filter(p => p.status === 'wishlist' || p.alts.length);
+  return `
+  ${pageHead('Karşılaştır, seç, arşivle', '<em>Wishlist</em>')}
+  ${items.length ? items.map(wishCard).join('') : `
+    <div class="empty" style="margin-top:30px"><div class="sp">${sparkTxt}</div>
+    <div class="t serif">Wishlist boş</div>
+    <div class="d">Bir ürünün durumunu <b>Wishlist</b> yap veya ürün detayından alternatif ekle;<br>karşılaştırma burada yaşar.</div></div>`}`;
+}
+function wishCard(p){
+  const acts = p.alts.filter(a => a.st !== 'x');
+  const arch = p.alts.filter(a => a.st === 'x');
+  const prices = acts.map(a => a.price).filter(n => n != null);
+  const min = prices.length ? Math.min(...prices) : null;
+  return `<div class="card fadein" style="margin-top:14px;padding:16px 16px 12px">
+    <button data-prod="${p.id}" style="display:flex;align-items:center;gap:10px;width:100%;text-align:left">
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:800;font-size:15.5px">${esc(p.name)}</div>
+        <div style="font-size:12px;color:var(--ink-2);margin-top:1px">${esc(room(p.roomId)?.name || '')} · ${esc(cat(p.catId)?.name || '')}</div>
+      </div>
+      <span class="chip st-${p.status}">${stLabel(p.status)}</span>
+    </button>
+    <div style="margin-top:6px">
+    ${acts.length ? acts.map(a => altRow(p, a, min)).join('') : `<div style="font-size:12.5px;color:var(--ink-3);padding:10px 0">Henüz alternatif yok</div>`}
+    </div>
+    ${arch.length ? `<details><summary style="font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--ink-3);padding:8px 0;cursor:pointer;list-style:none">ARŞİV · ${arch.length}</summary>${arch.map(a => altRow(p, a, null)).join('')}</details>` : ''}
+    <button class="btn ghost sm" style="margin-top:8px" data-addalt="${p.id}">${I.plus} Alternatif ekle</button>
+  </div>`;
+}
+function altRow(p, a, min){
+  const won = a.st === 's', archd = a.st === 'x';
+  const best = min != null && a.price === min && !won;
+  return `<div class="alt ${won ? 'won' : ''} ${archd ? 'arch' : ''}">
+    <div class="bd" data-altedit='${p.id}|${a.id}' style="cursor:pointer">
+      <div class="nm">${esc(a.name)}${a.url ? ` <a href="${esc(a.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="color:var(--on-indigo);vertical-align:-2px">${I.link}</a>` : ''}</div>
+      <div class="mt">${[a.price != null ? fmtMoney(a.price) + (best ? ' · en uygun' : '') : null, a.note ? esc(a.note) : null].filter(Boolean).join(' · ') || '&nbsp;'}</div>
+    </div>
+    ${won ? `<span class="pk done">Seçildi</span>`
+      : archd ? `<button class="pk" data-altback='${p.id}|${a.id}'>Geri al</button>`
+      : `<button class="pk" data-altpick='${p.id}|${a.id}'>Bunu seç</button>`}
+    ${!won ? `<button style="color:var(--ink-3)" data-altdel='${p.id}|${a.id}'>${I.x}</button>` : ''}
+  </div>`;
+}
+
+/* ——— FINANCE ——— */
+function renderFin(){
+  const f = finance();
+  const i0 = ymIdx(ymNow());
+  const months = Array.from({length:12}, (_,k) => i0 + k);
+  const cardNames = Object.keys(f.cards);
+  const cardColors = ['var(--indigo)','var(--terra)','var(--plum)','var(--sage)','var(--ochre)','var(--brown)'];
+  const cc = n => cardColors[cardNames.indexOf(n) % cardColors.length];
+  const maxM = Math.max(1, ...months.map(i => Object.values(f.upcoming[i] || {}).reduce((a,b)=>a+b,0)));
+  const instP = prodsA().filter(p => isDone(p) && p.instCount && p.price != null && p.instStart);
+
+  return `
+  ${pageHead('Otomatik hesap · elle sıfır', '<em>Finans</em>')}
+  <div class="fin-hero fadein" style="margin-top:16px">
+    <span style="position:absolute;top:16px;right:18px;opacity:.6">${sparkTxt}</span>
+    <div class="lb">Güncel Kart Borcu</div>
+    <div class="v">${fmtMoney(f.debt)}</div>
+    <div class="row">
+      <div><div class="lb">Bu ay</div><div class="v2">${fmtMoney(f.month)}</div></div>
+      <div><div class="lb">Kalan taksit</div><div class="v2">${f.remCnt}</div></div>
+      <div><div class="lb">Toplam harcanan</div><div class="v2">${fmtMoney(f.spent)}</div></div>
+    </div>
+  </div>
+
+  <div class="section-h"><div class="eyebrow">Önümüzdeki 12 Ay</div></div>
+  <div class="card">
+    ${f.remCnt ? `
+    <div class="mbar">
+      ${months.map(i => { const seg = f.upcoming[i] || {}; const tot = Object.values(seg).reduce((a,b)=>a+b,0);
+        return `<div class="col">
+          <span class="mv">${tot ? Math.round(tot/1000) + 'k' : ''}</span>
+          <div class="stack" style="height:${Math.max(3, tot/maxM*78)}px">${Object.entries(seg).map(([c,v]) =>
+            `<i class="seg" style="height:${v/Math.max(tot,1)*100}%;background:${cc(c)}"></i>`).join('')}</div>
+          <span class="ml">${ymLabel(idxYm(i))}</span></div>`; }).join('')}
+    </div>
+    <div class="legend">${cardNames.map(c => `<span><i style="background:${cc(c)}"></i>${esc(c)} · ${fmtMoney(f.cards[c])}</span>`).join('')}</div>`
+    : `<div class="empty" style="padding:22px"><div class="sp">${sparkTxt}</div><div class="d">Aktif taksit yok. Satın alınan bir ürüne fiyat + taksit girdiğinde<br>aylık yük burada otomatik belirir.</div></div>`}
+  </div>
+
+  ${instP.length ? `
+  <div class="section-h"><div class="eyebrow">Taksitli Ürünler</div><span class="count-b">${instP.length}</span></div>
+  <div class="plist">
+    ${instP.map(p => { const fo = finOf(p); return `
+    <button class="prow" data-prod="${p.id}">
+      <span class="bd">
+        <span class="nm">${esc(p.name)}</span>
+        <span class="mt">${esc(p.card || 'Kart yok')} · ${fo.paid}/${p.instCount} taksit · ay ${fmtMoney(fo.monthly)}</span>
+        <span class="iprog" style="margin-top:6px"><i style="width:${fo.paid/p.instCount*100}%"></i></span>
+      </span>
+      <span class="pr">${fmtMoney(fo.remain)}<br><small style="font-family:var(--sans);font-size:10px;color:var(--ink-3)">kalan</small></span>
+    </button>`; }).join('')}
+  </div>` : ''}
+
+  ${f.unpriced ? `<div class="notice">${f.unpriced} satın alınmış ürünün fiyatı girilmemiş — toplam harcanana dahil değiller.</div>` : ''}`;
+}
+
+/* ——— SETTINGS ——— */
+function renderSet(){
+  const themes = [['system','Oto'],['light','Açık'],['dark','Koyu']];
+  const syncOn = !!S.settings.clientId && Sync.enabled();
+  const dot = Sync.status === 'ok' ? 'ok' : (Sync.status === 'error' || Sync.status === 'noauth') ? 'err' : 'off';
+  const stTxt = { off:'Kapalı', ok:'Bağlı', syncing:'Eşitleniyor…', error:'Hata', noauth:'Yeniden bağlan' }[Sync.status] || 'Kapalı';
+  return `
+  ${pageHead('Kişiselleştir', '<em>Ayarlar</em>')}
+  <div class="section-h"><div class="eyebrow">Hedef</div></div>
+  <div class="card" style="padding:5px 0">
+    <button class="set-row" id="ed-count"><span><span class="k">Geri sayım</span><div class="d">${esc(S.settings.title)} · ${fmtDateTR(S.settings.date)}</div></span><span class="v">${I.right}</span></button>
+  </div>
+
+  <div class="section-h"><div class="eyebrow">Görünüm</div></div>
+  <div class="card" style="padding:5px 0">
+    <div class="set-row"><span class="k">Tema</span>
+      <div class="seg-ctl">${themes.map(([id,l]) => `<button data-theme-set="${id}" class="${S.settings.theme === id ? 'on' : ''}">${l}</button>`).join('')}</div>
+    </div>
+    <div class="set-row"><span class="k">Para birimi</span>
+      <div class="seg-ctl">${['₺','€','$'].map(c => `<button data-cur="${c}" class="${S.settings.currency === c ? 'on' : ''}">${c}</button>`).join('')}</div>
+    </div>
+  </div>
+
+  <div class="section-h"><div class="eyebrow">Eşitleme</div></div>
+  <div class="card" style="padding:5px 0">
+    <div class="set-row"><span><span class="k">Google Drive</span><div class="d">Veriler kendi Drive'ında, uygulamaya özel gizli klasörde saklanır.</div></span>
+      <span class="v"><span class="sync-dot ${dot}"></span>${stTxt}</span></div>
+    <div style="padding:4px 16px 14px">
+      <input class="inp" id="cid" placeholder="Google OAuth Client ID (…apps.googleusercontent.com)" value="${esc(S.settings.clientId)}" autocomplete="off" style="font-size:12.5px">
+      <div class="two">
+        <button class="btn sm ghost" style="width:100%" id="sync-save">Kaydet</button>
+        ${syncOn ? `<button class="btn sm ghost" style="width:100%" id="sync-off">Bağlantıyı kes</button>`
+                  : `<button class="btn sm" style="width:100%;background:var(--indigo);color:var(--cream)" id="sync-on">${I.cloud} Bağlan</button>`}
+      </div>
+      ${Sync.lastAt ? `<div style="font-size:11px;color:var(--ink-3);margin-top:8px">Son eşitleme: ${new Date(Sync.lastAt).toLocaleString('tr-TR')}</div>` : ''}
+      <div style="font-size:11px;color:var(--ink-3);margin-top:6px">Kurulum adımları README dosyasında.</div>
+    </div>
+  </div>
+
+  <div class="section-h"><div class="eyebrow">Gelişmiş</div></div>
+  <div class="card" style="padding:5px 0">
+    <button class="set-row" id="exp-json"><span class="k">Verileri dışa aktar</span><span class="v">JSON</span></button>
+    <button class="set-row" id="imp-json"><span class="k">Yedekten geri yükle</span><span class="v">JSON</span></button>
+    <button class="set-row" id="reset-all"><span class="k" style="color:var(--terra)">Tüm verileri sıfırla</span><span class="v"></span></button>
+    <input type="file" id="imp-file" accept="application/json" class="hidden">
+  </div>
+  <p style="text-align:center;font-size:11px;color:var(--ink-3);margin-top:22px">Gelecek Envanteri ${sparkTxt} v${VERSION}${store.persistent ? '' : ' · <b style="color:var(--terra)">geçici depolama modu</b>'}</p>`;
+}
+</script>
+<script>
+/* ═══════════════════ SHEETS ═══════════════════ */
+
+/* — product detail — */
+function productSheet(pid){
+  const p = prod(pid); if (!p) return;
+  const f = () => finOf(p);
+  const rec = openSheet(`
+    ${sheetHead(esc(p.name), `${esc(room(p.roomId)?.name || '')} · ${esc(cat(p.catId)?.name || '')}`)}
+    <div class="sh-b" id="ps">
+      <details class="sect" open>
+        <summary>Genel ${I.chev}</summary>
+        <div class="in">
+          <div class="frow"><span class="k">Ürün adı</span><span class="v"><input data-f="name" value="${esc(p.name)}"></span></div>
+          <div class="frow"><span class="k">Konum</span><span class="v"><button data-move="${p.id}" style="color:var(--on-indigo);font-weight:700">${esc(room(p.roomId)?.name)} · ${esc(cat(p.catId)?.name)} ${I.right}</button></span></div>
+          <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Durum</span><div class="pill-row" id="ps-st">${statusChips(p.status)}</div></div>
+          <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Öncelik</span><div class="pill-row" id="ps-pr">${prioChips(p.priority)}</div></div>
+          <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Etiketler</span><div class="pill-row" id="ps-tg"></div></div>
+          <div class="frow"><span class="k">Marka</span><span class="v"><input data-f="brand" value="${esc(p.brand)}" placeholder="Ekle"></span></div>
+          <div class="frow"><span class="k">Model</span><span class="v"><input data-f="model" value="${esc(p.model)}" placeholder="Ekle"></span></div>
+        </div>
+      </details>
+
+      <details class="sect" ${p.price != null || p.instCount ? 'open' : ''}>
+        <summary>Finans ${I.chev}</summary>
+        <div class="in">
+          <div class="frow"><span class="k">Liste fiyatı</span><span class="v"><input data-money="listPrice" inputmode="decimal" value="${p.listPrice ?? ''}" placeholder="—"></span></div>
+          <div class="frow"><span class="k">Alış fiyatı</span><span class="v"><input data-money="price" inputmode="decimal" value="${p.price ?? ''}" placeholder="—"></span></div>
+          <div class="frow"><span class="k">Kredi kartı</span><span class="v"><input data-f="card" value="${esc(p.card)}" placeholder="Ekle" list="cards-dl"></span></div>
+          <div class="frow"><span class="k">Taksit sayısı</span><span class="v"><input data-int="instCount" inputmode="numeric" value="${p.instCount ?? ''}" placeholder="—"></span></div>
+          <div class="frow"><span class="k">Taksit başlangıcı</span><span class="v" style="display:flex;gap:6px;justify-content:flex-end">
+            <select data-instm style="font:inherit;font-weight:600;color:inherit;background:none;text-align:right"><option value="">— Ay</option>${['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'].map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${p.instStart?.slice(5)===v?'selected':''}>${m}</option>`;}).join('')}</select>
+            <select data-insty style="font:inherit;font-weight:600;color:inherit;background:none"><option value="">Yıl</option>${Array.from({length:9},(_,i)=>2024+i).map(y=>`<option ${p.instStart?.slice(0,4)==String(y)?'selected':''}>${y}</option>`).join('')}</select>
+          </span></div>
+          <div class="frow" id="ps-fin"><span class="k">Hesap</span><span class="v ghosty" id="ps-fin-v"></span></div>
+        </div>
+      </details>
+
+      <details class="sect" ${p.alts.length ? 'open' : ''}>
+        <summary>Wishlist · Alternatifler ${I.chev}</summary>
+        <div class="in" id="ps-alts"></div>
+      </details>
+
+      <details class="sect" ${p.notes ? 'open' : ''}>
+        <summary>Notlar ${I.chev}</summary>
+        <div class="in"><textarea class="inp" data-f="notes" placeholder="Kendine not…" style="border:0;padding:4px 0;background:none">${esc(p.notes)}</textarea></div>
+      </details>
+
+      <details class="sect" ${p.links.length ? 'open' : ''}>
+        <summary>Alışveriş Bağlantıları ${I.chev}</summary>
+        <div class="in" id="ps-links"></div>
+      </details>
+
+      <button class="btn danger" data-delprod="${p.id}">${I.trash} Ürünü sil</button>
+      <datalist id="cards-dl">${usedCards().map(c => `<option value="${esc(c)}">`).join('')}</datalist>
+    </div>`);
+
+  const sh = rec.sh;
+  const refreshFin = () => {
+    const x = f();
+    $('#ps-fin-v', sh).textContent = x.monthly
+      ? `ayda ${fmtMoney(x.monthly)} · ${x.paid}/${p.instCount} ödendi · kalan ${fmtMoney(x.remain)}`
+      : 'fiyat + taksit + başlangıç gir';
+  };
+  const refreshTags = () => {
+    $('#ps-tg', sh).innerHTML = p.tags.map(t =>
+      `<span class="pill on" style="gap:7px">${esc(t)}<button data-rmtag="${esc(t)}" style="color:inherit;opacity:.7">${I.x}</button></span>`).join('')
+      + `<button class="pill" id="ps-addtag">${I.plus} Etiket</button>`;
+  };
+  const refreshAlts = () => {
+    const acts = p.alts.filter(a => a.st !== 'x'), arch = p.alts.filter(a => a.st === 'x');
+    const prices = acts.map(a => a.price).filter(n => n != null);
+    const min = prices.length ? Math.min(...prices) : null;
+    $('#ps-alts', sh).innerHTML =
+      (p.alts.length ? acts.map(a => altRow(p, a, min)).join('') + arch.map(a => altRow(p, a, null)).join('') : `<div style="font-size:12.5px;color:var(--ink-3);padding:8px 0">Alternatif ekle, fiyatları yan yana gör.</div>`)
+      + `<button class="btn ghost sm" style="margin-top:10px" data-addalt="${p.id}">${I.plus} Alternatif ekle</button>`;
+  };
+  const refreshLinks = () => {
+    $('#ps-links', sh).innerHTML =
+      p.links.map(l => `<div class="linkrow">
+        <span style="color:var(--on-indigo)">${I.link}</span>
+        <a class="u" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || l.url.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a>
+        <button class="x" data-rmlink="${l.id}">${I.x}</button></div>`).join('')
+      + `<button class="btn ghost sm" style="margin-top:10px" id="ps-addlink">${I.plus} Bağlantı ekle</button>`;
+  };
+  refreshFin(); refreshTags(); refreshAlts(); refreshLinks();
+
+  sh.addEventListener('change', e => {
+    const t = e.target;
+    if (t.dataset.f !== undefined){
+      const k = t.dataset.f, v = t.value.trim();
+      if (k === 'name' && !v){ t.value = p.name; return; }
+      p[k] = k === 'instStart' ? (v || null) : v;
+      touch(p); save({ silent:true }); refreshFin();
+      if (k === 'name') $('.sh-t', sh).textContent = p.name;
+      render();
+    }
+    if (t.dataset.money !== undefined){ p[t.dataset.money] = parseMoney(t.value); touch(p); save({silent:true}); refreshFin(); render(); }
+    if (t.dataset.int !== undefined){ const n = parseInt(t.value, 10); p[t.dataset.int] = isNaN(n) || n <= 0 ? null : n; touch(p); save({silent:true}); refreshFin(); render(); }
+    if (t.dataset.instm !== undefined || t.dataset.insty !== undefined){
+      const m = $('[data-instm]', sh).value, y = $('[data-insty]', sh).value;
+      p.instStart = m && y ? `${y}-${m}` : null;
+      touch(p); save({silent:true}); refreshFin(); render();
+    }
+  });
+  sh.addEventListener('click', e => {
+    const st = e.target.closest('[data-st]');
+    if (st){ setStatus(p, st.dataset.st, e); $('#ps-st', sh).innerHTML = statusChips(p.status); return; }
+    const pr = e.target.closest('[data-prio]');
+    if (pr){ p.priority = pr.dataset.prio || null; touch(p); save({silent:true}); $('#ps-pr', sh).innerHTML = prioChips(p.priority); render(); return; }
+    const rt = e.target.closest('[data-rmtag]');
+    if (rt){ p.tags = p.tags.filter(x => x !== rt.dataset.rmtag); touch(p); save({silent:true}); refreshTags(); render(); return; }
+    if (e.target.closest('#ps-addtag')){ tagPickSheet(p, refreshTags); return; }
+    if (e.target.closest('#ps-addlink')){ linkSheet(p, refreshLinks); return; }
+    const rl = e.target.closest('[data-rmlink]');
+    if (rl){ p.links = p.links.filter(l => l.id !== rl.dataset.rmlink); touch(p); save({silent:true}); refreshLinks(); return; }
+    const mv = e.target.closest('[data-move]');
+    if (mv){ moveSheet(p, () => { closeSheet(rec); productSheet(p.id); }); return; }
+    const dp = e.target.closest('[data-delprod]');
+    if (dp){ confirmSheet({ title:'Ürünü sil', body:`<b>${esc(p.name)}</b> envanterden kaldırılacak.`, okLabel:'Sil', danger:true }, () => { p.deleted = now(); touch(p); save(); closeSheet(rec); toast('Ürün silindi'); }); return; }
+    /* alt actions inside sheet */
+    if (handleAltClick(e, () => { refreshAlts(); })) return;
+  });
+}
+
+function setStatus(p, st, e){
+  if (st === p.status) return;
+  if (st === 'alindi'){ p.prevStatus = p.status; p.purchasedAt = now(); if (e) sparkle(e.clientX || innerWidth/2, e.clientY || innerHeight/2); toast('Satın alındı olarak işaretlendi ' + sparkTxt); }
+  if (p.status === 'alindi' && st !== 'alindi') p.purchasedAt = null;
+  p.status = st; touch(p); save({ silent:true }); render();
+}
+
+/* — tag picker — */
+function tagPickSheet(p, done){
+  const all = usedTags().filter(t => !p.tags.includes(t));
+  const rec = openSheet(`
+    ${sheetHead('Etiket ekle')}
+    <div class="sh-b">
+      <div class="fld"><label>Yeni etiket</label>
+        <div style="display:flex;gap:8px"><input class="inp" id="tg-new" placeholder="ör. Japandi, IKEA, İndirim Bekleniyor" style="flex:1">
+        <button class="btn sm" style="background:var(--indigo);color:var(--cream);border-radius:var(--r-sm);padding:0 16px" id="tg-add">Ekle</button></div></div>
+      ${all.length ? `<div class="fld"><label>Mevcut</label><div class="pill-row">${all.map(t => `<button class="pill" data-tgpick="${esc(t)}">${esc(t)}</button>`).join('')}</div></div>` : ''}
+    </div>`);
+  const add = name => {
+    name = name.trim(); if (!name) return;
+    if (!p.tags.includes(name)) p.tags.push(name);
+    if (!S.tagBank.find(t => trLow(t.name) === trLow(name))) S.tagBank.push({ id:uid(), name, updatedAt:now() });
+    touch(p); save({silent:true}); render(); closeSheet(rec); done();
+  };
+  $('#tg-add', rec.sh).addEventListener('click', () => add($('#tg-new', rec.sh).value));
+  $('#tg-new', rec.sh).addEventListener('keydown', e => { if (e.key === 'Enter') add(e.target.value); });
+  rec.sh.addEventListener('click', e => { const t = e.target.closest('[data-tgpick]'); if (t) add(t.dataset.tgpick); });
+}
+
+/* — link editor — */
+function linkSheet(p, done){
+  const rec = openSheet(`
+    ${sheetHead('Bağlantı ekle')}
+    <div class="sh-b">
+      <div class="fld"><label>URL</label><input class="inp" id="lk-url" inputmode="url" placeholder="https://…"></div>
+      <div class="fld"><label>Etiket · isteğe bağlı</label><input class="inp" id="lk-lb" placeholder="ör. Trendyol, IKEA"></div>
+      <button class="btn" id="lk-ok">Ekle</button>
+    </div>`);
+  $('#lk-ok', rec.sh).addEventListener('click', () => {
+    let url = $('#lk-url', rec.sh).value.trim(); if (!url) return;
+    if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+    p.links.push({ id:uid(), url, label:$('#lk-lb', rec.sh).value.trim() });
+    touch(p); save({silent:true}); closeSheet(rec); done();
+  });
+}
+
+/* — alternative editor + actions — */
+function altSheet(p, alt, done){
+  const isNew = !alt;
+  alt = alt || { id:uid(), name:'', price:null, url:'', note:'', st:'a' };
+  const rec = openSheet(`
+    ${sheetHead(isNew ? 'Alternatif ekle' : 'Alternatifi düzenle', esc(p.name))}
+    <div class="sh-b">
+      <div class="fld"><label>İsim / Marka</label><input class="inp" id="al-nm" value="${esc(alt.name)}" placeholder="ör. Philips Airfryer XL"></div>
+      <div class="fld"><label>Fiyat</label><input class="inp" id="al-pr" inputmode="decimal" value="${alt.price ?? ''}" placeholder="—"></div>
+      <div class="fld"><label>Bağlantı</label><input class="inp" id="al-ur" inputmode="url" value="${esc(alt.url)}" placeholder="https://…"></div>
+      <div class="fld"><label>Not</label><input class="inp" id="al-nt" value="${esc(alt.note)}" placeholder="artı / eksi"></div>
+      <button class="btn" id="al-ok">${isNew ? 'Ekle' : 'Kaydet'}</button>
+    </div>`);
+  $('#al-ok', rec.sh).addEventListener('click', () => {
+    const nm = $('#al-nm', rec.sh).value.trim(); if (!nm) return;
+    alt.name = nm;
+    alt.price = parseMoney($('#al-pr', rec.sh).value);
+    let u = $('#al-ur', rec.sh).value.trim(); alt.url = u && !/^https?:\/\//i.test(u) ? 'https://' + u : u;
+    alt.note = $('#al-nt', rec.sh).value.trim();
+    if (isNew){ p.alts.push(alt); if (p.status === 'ihtiyac') p.status = 'arastiriliyor'; }
+    touch(p); save(); closeSheet(rec); done?.();
+  });
+}
+function handleAltClick(e, after = () => {}){
+  const pick = e.target.closest('[data-altpick]');
+  if (pick){
+    const [pid, aid] = pick.dataset.altpick.split('|');
+    const p = prod(pid), a = p.alts.find(x => x.id === aid);
+    confirmSheet({ title:'Bunu seç ' + sparkTxt, body:`<b>${esc(a.name)}</b> seçilecek; diğer alternatifler arşive kalkacak. Marka ve fiyat ürüne yazılır.`, okLabel:'Seç' }, () => {
+      p.alts.forEach(x => x.st = x.id === aid ? 's' : 'x');
+      if (!p.brand) p.brand = a.name;
+      if (a.price != null && p.price == null) p.price = a.price;
+      if (a.url && !p.links.find(l => l.url === a.url)) p.links.push({ id:uid(), url:a.url, label:a.name });
+      if (p.status === 'wishlist' || p.status === 'arastiriliyor') p.status = 'alinacak';
+      touch(p); save(); after(); sparkle(e.clientX, e.clientY); toast('Seçildi — diğerleri arşivde');
+    });
+    return true;
+  }
+  const back = e.target.closest('[data-altback]');
+  if (back){ const [pid, aid] = back.dataset.altback.split('|'); const p = prod(pid); p.alts.find(x => x.id === aid).st = 'a'; touch(p); save(); after(); return true; }
+  const del = e.target.closest('[data-altdel]');
+  if (del){ const [pid, aid] = del.dataset.altdel.split('|'); const p = prod(pid); p.alts = p.alts.filter(x => x.id !== aid); touch(p); save(); after(); return true; }
+  const add = e.target.closest('[data-addalt]');
+  if (add){ altSheet(prod(add.dataset.addalt), null, after); return true; }
+  const ed = e.target.closest('[data-altedit]');
+  if (ed){ const [pid, aid] = ed.dataset.altedit.split('|'); const p = prod(pid); altSheet(p, p.alts.find(x => x.id === aid), after); return true; }
+  return false;
+}
+
+/* — quick add — */
+function quickAdd(){
+  let rid = invRoom || roomsA()[0]?.id, cid = null;
+  const rec = openSheet(`
+    ${sheetHead('Hızlı ekle', '3 alan yeter — gerisi sonra')}
+    <div class="sh-b">
+      <div class="fld"><label>Ürün adı</label><input class="inp" id="qa-nm" placeholder="ör. Kahve makinesi" autocomplete="off"></div>
+      <div class="fld"><label>Oda</label><div class="pill-row" id="qa-rooms"></div></div>
+      <div class="fld"><label>Kategori</label><div class="pill-row" id="qa-cats"></div></div>
+      <div class="fld hidden" id="qa-newcat-w"><label>Yeni kategori adı</label><input class="inp" id="qa-newcat" placeholder="ör. Küçük Elektrikli"></div>
+      <div class="two"><button class="btn ghost" id="qa-more">Kaydet + Detay</button><button class="btn" id="qa-ok">Kaydet</button></div>
+    </div>`);
+  const sh = rec.sh;
+  const paintRooms = () => { $('#qa-rooms', sh).innerHTML = roomsA().map(r => `<button class="pill ${r.id === rid ? 'on' : ''}" data-r="${r.id}">${esc(r.name)}</button>`).join(''); };
+  const paintCats = () => {
+    const cs = catsA(rid);
+    if (!cid || !cs.find(c => c.id === cid)) cid = cs[0]?.id || null;
+    $('#qa-cats', sh).innerHTML = cs.map(c => `<button class="pill ${c.id === cid ? 'on' : ''}" data-c="${c.id}">${esc(c.name)}</button>`).join('')
+      + `<button class="pill ${cid === '__new' ? 'on' : ''}" data-c="__new">${I.plus} Yeni</button>`;
+    $('#qa-newcat-w', sh).classList.toggle('hidden', cid !== '__new');
+  };
+  paintRooms(); paintCats();
+  setTimeout(() => $('#qa-nm', sh).focus(), 350);
+  sh.addEventListener('click', e => {
+    const r = e.target.closest('[data-r]'); if (r){ rid = r.dataset.r; cid = null; paintRooms(); paintCats(); return; }
+    const c = e.target.closest('[data-c]'); if (c){ cid = c.dataset.c; paintCats(); return; }
+  });
+  const doSave = openAfter => {
+    const nm = $('#qa-nm', sh).value.trim();
+    if (!nm){ $('#qa-nm', sh).focus(); return; }
+    let catId = cid;
+    if (cid === '__new'){
+      const cn = $('#qa-newcat', sh).value.trim(); if (!cn){ $('#qa-newcat', sh).focus(); return; }
+      const c = { id:uid(), roomId:rid, name:cn, order:catsA(rid).length, updatedAt:now() };
+      S.cats.push(c); catId = c.id;
+    }
+    if (!catId){ toast('Önce bir kategori ekle'); return; }
+    const t = now();
+    const p = { id:uid(), name:nm, roomId:rid, catId, status:'ihtiyac', priority:null, tags:[], links:[], alts:[],
+      brand:'', model:'', notes:'', listPrice:null, price:null, card:'', instCount:null, instStart:null,
+      order:catProds(catId).length, createdAt:t, updatedAt:t };
+    S.products.push(p); save(); closeSheet(rec);
+    toast('Eklendi ' + sparkTxt);
+    if (openAfter) productSheet(p.id);
+  };
+  $('#qa-ok', sh).addEventListener('click', () => doSave(false));
+  $('#qa-more', sh).addEventListener('click', () => doSave(true));
+  $('#qa-nm', sh).addEventListener('keydown', e => { if (e.key === 'Enter') doSave(false); });
+}
+
+/* — filters — */
+function filterSheet(){
+  const rec = openSheet(`
+    ${sheetHead('Filtreler')}
+    <div class="sh-b">
+      <div class="fld"><label>Durum</label><div class="pill-row" id="ft-st"></div></div>
+      <div class="fld"><label>Öncelik</label><div class="pill-row" id="ft-pr"></div></div>
+      <div class="fld"><label>Oda</label><div class="pill-row" id="ft-rm"></div></div>
+      <div class="fld"><label>Etiket</label><div class="pill-row" id="ft-tg"></div></div>
+      <div class="two"><button class="btn ghost" id="ft-clear">Temizle</button><button class="btn" data-close>Uygula</button></div>
+    </div>`);
+  const sh = rec.sh;
+  const paint = () => {
+    $('#ft-st', sh).innerHTML = STATUSES.map(s => `<button class="pill ${F.status.includes(s.id) ? 'on' : ''}" data-fst="${s.id}">${s.label}</button>`).join('');
+    $('#ft-pr', sh).innerHTML = PRIOS.map(p => `<button class="pill ${F.prio.includes(p.id) ? 'on' : ''}" data-fpr="${p.id}"><span class="prio-dot prio-${p.id}"></span>${p.label}</button>`).join('');
+    $('#ft-rm', sh).innerHTML = roomsA().map(r => `<button class="pill ${F.roomId === r.id ? 'on' : ''}" data-frm="${r.id}">${esc(r.name)}</button>`).join('');
+    const tags = usedTags();
+    $('#ft-tg', sh).innerHTML = tags.length ? tags.map(t => `<button class="pill ${F.tags.includes(t) ? 'on' : ''}" data-ftg="${esc(t)}">${esc(t)}</button>`).join('') : `<span style="font-size:12.5px;color:var(--ink-3)">Henüz etiket yok</span>`;
+  };
+  paint();
+  const tgl = (arr, v) => { const i = arr.indexOf(v); i >= 0 ? arr.splice(i, 1) : arr.push(v); };
+  sh.addEventListener('click', e => {
+    const st = e.target.closest('[data-fst]'); if (st){ tgl(F.status, st.dataset.fst); paint(); render(); return; }
+    const pr = e.target.closest('[data-fpr]'); if (pr){ tgl(F.prio, pr.dataset.fpr); paint(); render(); return; }
+    const rm = e.target.closest('[data-frm]'); if (rm){ F.roomId = F.roomId === rm.dataset.frm ? null : rm.dataset.frm; paint(); render(); return; }
+    const tg = e.target.closest('[data-ftg]'); if (tg){ tgl(F.tags, tg.dataset.ftg); paint(); render(); return; }
+    if (e.target.closest('#ft-clear')){ F.status = []; F.prio = []; F.tags = []; F.roomId = null; paint(); render(); }
+  });
+  rec.onClose = () => { if (TAB === 'inv') render(); };
+}
+
+/* — countdown / room / category / move editors — */
+function countdownSheet(){
+  const rec = openSheet(`
+    ${sheetHead('Geri sayım')}
+    <div class="sh-b">
+      <div class="fld"><label>Başlık</label><input class="inp" id="cd-t" value="${esc(S.settings.title)}"></div>
+      <div class="fld"><label>Hedef tarih</label><input class="inp" id="cd-d" type="date" value="${S.settings.date}"></div>
+      <button class="btn" id="cd-ok">Kaydet</button>
+    </div>`);
+  $('#cd-ok', rec.sh).addEventListener('click', () => {
+    const t = $('#cd-t', rec.sh).value.trim(), d = $('#cd-d', rec.sh).value;
+    if (t) S.settings.title = t;
+    if (d) S.settings.date = d;
+    touch(S.settings); save(); closeSheet(rec);
+  });
+}
+function roomSheet(rid){
+  const r = rid ? room(rid) : null;
+  let color = r?.color || ROOM_COLORS[roomsA().length % ROOM_COLORS.length];
+  const cnt = r ? roomProds(r.id).length : 0;
+  const rec = openSheet(`
+    ${sheetHead(r ? 'Odayı düzenle' : 'Oda ekle')}
+    <div class="sh-b">
+      <div class="fld"><label>Oda adı</label><input class="inp" id="rm-nm" value="${esc(r?.name || '')}" placeholder="ör. Balkon"></div>
+      <div class="fld"><label>Renk</label><div class="pill-row" id="rm-cl"></div></div>
+      <button class="btn" id="rm-ok">${r ? 'Kaydet' : 'Ekle'}</button>
+      ${r ? `<button class="btn danger" id="rm-del">${I.trash} Odayı sil${cnt ? ` · ${cnt} ürün var` : ''}</button>` : ''}
+    </div>`);
+  const paint = () => { $('#rm-cl', rec.sh).innerHTML = ROOM_COLORS.map(c =>
+    `<button data-cl="${c}" style="width:38px;height:38px;border-radius:12px;background:${c};border:${c === color ? '2.5px solid var(--ink)' : '1px solid var(--line-2)'}"></button>`).join(''); };
+  paint();
+  rec.sh.addEventListener('click', e => { const c = e.target.closest('[data-cl]'); if (c){ color = c.dataset.cl; paint(); } });
+  $('#rm-ok', rec.sh).addEventListener('click', () => {
+    const nm = $('#rm-nm', rec.sh).value.trim(); if (!nm) return;
+    if (r){ r.name = nm; r.color = color; touch(r); }
+    else S.rooms.push({ id:uid(), name:nm, color, order:roomsA().length, updatedAt:now() });
+    save(); closeSheet(rec);
+  });
+  if (r) $('#rm-del', rec.sh)?.addEventListener('click', () => {
+    if (cnt){ toast('Önce üründeki ' + cnt + ' ürünü taşı veya sil'); return; }
+    confirmSheet({ title:'Odayı sil', body:`<b>${esc(r.name)}</b> ve boş kategorileri silinecek.`, okLabel:'Sil', danger:true }, () => {
+      r.deleted = now(); touch(r);
+      catsA(r.id).forEach(c => { c.deleted = now(); touch(c); });
+      if (invRoom === r.id) invRoom = null;
+      save(); closeSheet(rec);
+    });
+  });
+}
+function catSheet(roomId, cid){
+  const c = cid ? cat(cid) : null;
+  const cnt = c ? catProds(c.id).length : 0;
+  const rec = openSheet(`
+    ${sheetHead(c ? 'Kategoriyi düzenle' : 'Kategori ekle', esc(room(roomId)?.name || ''))}
+    <div class="sh-b">
+      <div class="fld"><label>Kategori adı</label><input class="inp" id="ct-nm" value="${esc(c?.name || '')}" placeholder="ör. Aydınlatma"></div>
+      <button class="btn" id="ct-ok">${c ? 'Kaydet' : 'Ekle'}</button>
+      ${c ? `<button class="btn danger" id="ct-del">${I.trash} Kategoriyi sil${cnt ? ` · ${cnt} ürün var` : ''}</button>` : ''}
+    </div>`);
+  $('#ct-ok', rec.sh).addEventListener('click', () => {
+    const nm = $('#ct-nm', rec.sh).value.trim(); if (!nm) return;
+    if (c){ c.name = nm; touch(c); }
+    else S.cats.push({ id:uid(), roomId, name:nm, order:catsA(roomId).length, updatedAt:now() });
+    save(); closeSheet(rec);
+  });
+  if (c) $('#ct-del', rec.sh)?.addEventListener('click', () => {
+    if (cnt){ toast('Önce ' + cnt + ' ürünü taşı veya sil'); return; }
+    confirmSheet({ title:'Kategoriyi sil', body:`<b>${esc(c.name)}</b> silinecek.`, okLabel:'Sil', danger:true }, () => { c.deleted = now(); touch(c); save(); closeSheet(rec); });
+  });
+}
+function moveSheet(p, done){
+  let rid = p.roomId;
+  const rec = openSheet(`
+    ${sheetHead('Taşı', esc(p.name))}
+    <div class="sh-b">
+      <div class="fld"><label>Oda</label><div class="pill-row" id="mv-r"></div></div>
+      <div class="fld"><label>Kategori</label><div class="pill-row" id="mv-c"></div></div>
+    </div>`);
+  const paint = () => {
+    $('#mv-r', rec.sh).innerHTML = roomsA().map(r => `<button class="pill ${r.id === rid ? 'on' : ''}" data-r="${r.id}">${esc(r.name)}</button>`).join('');
+    $('#mv-c', rec.sh).innerHTML = catsA(rid).map(c => `<button class="pill ${c.id === p.catId ? 'on' : ''}" data-c="${c.id}">${esc(c.name)}</button>`).join('') || `<span style="font-size:12.5px;color:var(--ink-3)">Bu odada kategori yok</span>`;
+  };
+  paint();
+  rec.sh.addEventListener('click', e => {
+    const r = e.target.closest('[data-r]'); if (r){ rid = r.dataset.r; paint(); return; }
+    const c = e.target.closest('[data-c]');
+    if (c){ p.roomId = rid; p.catId = c.dataset.c; p.order = catProds(c.dataset.c).length; touch(p); save(); closeSheet(rec); toast('Taşındı'); done?.(); }
+  });
+}
+
+/* — insight result list — */
+function insListSheet(ids){
+  const list = ids.map(prod).filter(Boolean).filter(alive);
+  const rec = openSheet(`
+    ${sheetHead('Akıllı not', list.length + ' ürün')}
+    <div class="sh-b"><div class="plist">${list.map(p => prodRow(p, { ctx:true })).join('')}</div></div>`);
+  rec.sh.addEventListener('click', e => {
+    const t = e.target.closest('[data-tick]'); if (t){ e.stopPropagation(); toggleTick(t, e); return; }
+    const pr = e.target.closest('[data-prod]'); if (pr){ closeSheet(rec); productSheet(pr.dataset.prod); }
+  });
+}
+function toggleTick(el, e){
+  const p = prod(el.dataset.tick); if (!p) return;
+  if (isDone(p)) setStatus(p, p.prevStatus && p.prevStatus !== 'alindi' ? p.prevStatus : 'ihtiyac');
+  else setStatus(p, 'alindi', e);
+}
+</script>
+<script>
+/* ═══════════════════ RENDER DISPATCH + WIRING ═══════════════════ */
+function render(){
+  renderNav();
+  $('#app').innerHTML = ({ home:renderHome, inv:renderInv, wish:renderWish, fin:renderFin, set:renderSet })[TAB]();
+  wireInv();
+}
+function wireInv(){
+  if (TAB !== 'inv') return;
+  const rs = $('#room-sort');
+  if (rs) makeSortable(rs, '.frow', ids => { ids.forEach((id, i) => { const r = room(id); if (r){ r.order = i; touch(r); } }); save({ silent:true }); });
+  const cs = $('#cat-sort');
+  if (cs) makeSortable(cs, '.catblock', ids => { ids.forEach((id, i) => { const c = cat(id); if (c){ c.order = i; touch(c); } }); save({ silent:true }); });
+  $$('[data-psort]', $('#app')).forEach(pl =>
+    makeSortable(pl, '.prow', ids => { ids.forEach((id, i) => { const p = prod(id); if (p){ p.order = i; touch(p); } }); save({ silent:true }); }));
+}
+const qPaint = debounce(() => { const b = $('#inv-body'); if (b){ b.innerHTML = invBody(); wireInv(); } }, 160);
+
+/* ——— global delegation (sheets handle their own clicks) ——— */
+function onClick(e){
+  if (e.target.closest('.sheet') || e.target.closest('.veil')) return;
+
+  const tab = e.target.closest('[data-tab]');   if (tab){ go(tab.dataset.tab); return; }
+  const gg  = e.target.closest('[data-go]');    if (gg){ go(gg.dataset.go); return; }
+  if (e.target.closest('#fab')){ quickAdd(); return; }
+
+  const tk = e.target.closest('[data-tick]');   if (tk){ toggleTick(tk, e); return; }
+  const pr = e.target.closest('[data-prod]');   if (pr){ productSheet(pr.dataset.prod); return; }
+  const rm = e.target.closest('[data-room]');   if (rm){ invRoom = rm.dataset.room; TAB === 'inv' ? render() : go('inv'); return; }
+  const ins= e.target.closest('[data-ins]');    if (ins){ try { insListSheet(JSON.parse(ins.dataset.ins)); } catch(_){} return; }
+
+  if (e.target.closest('#wel-ok')){ S.meta.welcomed = true; touch(S.meta); save(); return; }
+  if (e.target.closest('#ed-count')){ countdownSheet(); return; }
+  if (e.target.closest('#add-room')){ roomSheet(); return; }
+  if (e.target.closest('#sort-rooms') || e.target.closest('#sort-toggle')){ sortMode = !sortMode; render(); return; }
+  if (e.target.closest('#back-rooms')){ invRoom = null; sortMode = false; render(); return; }
+  const er = e.target.closest('[data-edroom]'); if (er){ roomSheet(er.dataset.edroom); return; }
+  const ac = e.target.closest('[data-addcat]'); if (ac){ catSheet(ac.dataset.addcat); return; }
+  const ec = e.target.closest('[data-edcat]');  if (ec){ const c = cat(ec.dataset.edcat); if (c) catSheet(c.roomId, c.id); return; }
+  if (e.target.closest('#open-f')){ filterSheet(); return; }
+  if (e.target.closest('#clear-f')){ F.q=''; F.status=[]; F.prio=[]; F.tags=[]; F.roomId=null; render(); return; }
+
+  if (handleAltClick(e)) return;
+
+  const th = e.target.closest('[data-theme-set]'); if (th){ S.settings.theme = th.dataset.themeSet; touch(S.settings); applyTheme(); save(); return; }
+  const cu = e.target.closest('[data-cur]');       if (cu){ S.settings.currency = cu.dataset.cur; touch(S.settings); save(); return; }
+  if (e.target.closest('#sync-save')){ S.settings.clientId = ($('#cid')?.value || '').trim(); touch(S.settings); persistNow(); toast('Kaydedildi'); render(); return; }
+  if (e.target.closest('#sync-on')){ Sync.connect(true); return; }
+  if (e.target.closest('#sync-off')){ Sync.disconnect(); return; }
+  if (e.target.closest('#exp-json')){ exportJSON(); return; }
+  if (e.target.closest('#imp-json')){ $('#imp-file')?.click(); return; }
+  if (e.target.closest('#reset-all')){
+    confirmSheet({ title:'Her şeyi sıfırla', body:'Tüm odalar, ürünler ve ayarlar <b>bu cihazdan</b> silinir. Drive yedeğin varsa oradan geri dönebilirsin.', okLabel:'Sıfırla', danger:true },
+      () => { S = freshState(); S.meta.welcomed = true; persistNow(); render(); toast('Sıfırlandı'); });
+    return;
+  }
+}
+function onInput(e){
+  if (e.target.id === 'q'){ F.q = e.target.value; qPaint(); }
+}
+function onChange(e){
+  if (e.target.id === 'imp-file'){
+    const f = e.target.files[0]; if (!f) return;
+    f.text().then(t => {
+      const data = JSON.parse(t);
+      if (!data || !Array.isArray(data.rooms) || !Array.isArray(data.products)) throw 0;
+      const r = Sync.mergeRemote(data);
+      persistNow(); render();
+      toast(r.changedLocal ? 'Yedek birleştirildi ' + sparkTxt : 'Yedek zaten güncel');
+    }).catch(() => toast('Dosya okunamadı — geçerli bir yedek değil'));
+    e.target.value = '';
+  }
+}
+
+/* ——— theme ——— */
+const mq = matchMedia('(prefers-color-scheme: dark)');
+function applyTheme(){
+  const t = S.settings.theme || 'system';
+  document.documentElement.dataset.theme = t === 'system' ? (mq.matches ? 'dark' : 'light') : t;
+  const m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.content = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim();
+}
+mq.addEventListener?.('change', () => { if (S?.settings.theme === 'system') applyTheme(); });
+
+/* ——— export ——— */
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(S, null, 2)], { type:'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'gelecek-envanteri-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+</script>
+<script>
+/* ═══════════════════ GOOGLE DRIVE SYNC ═══════════════════ */
+const Sync = {
+  status: 'off',
+  lastAt: +(store.read('ge_lastsync') || 0),
+  fileId: store.read('ge_fileid') || null,
+  token: null, exp: 0, tc: null, pushT: null, gsiP: null, busy: false,
+
+  enabled(){ return store.read('ge_sync') === '1'; },
+  authValid(){ return this.token && Date.now() < this.exp - 30e3; },
+  setStatus(s){ this.status = s; if (TAB === 'set') render(); },
+
+  loadGsi(){
+    if (window.google?.accounts?.oauth2) return Promise.resolve();
+    if (this.gsiP) return this.gsiP;
+    this.gsiP = new Promise((res, rej) => {
+      const sc = document.createElement('script');
+      sc.src = 'https://accounts.google.com/gsi/client';
+      sc.onload = res; sc.onerror = () => rej(new Error('gsi yüklenemedi'));
+      document.head.appendChild(sc);
+    });
+    return this.gsiP;
+  },
+
+  getToken(interactive){
+    return this.loadGsi().then(() => new Promise((res, rej) => {
+      this.tc = google.accounts.oauth2.initTokenClient({
+        client_id: S.settings.clientId,
+        scope: 'https://www.googleapis.com/auth/drive.appdata',
+        callback: t => {
+          if (t.error) return rej(new Error(t.error));
+          this.token = t.access_token;
+          this.exp = Date.now() + (t.expires_in || 3600) * 1000;
+          res();
+        },
+        error_callback: err => rej(new Error(err?.type || 'auth')),
+      });
+      this.tc.requestAccessToken({ prompt: '' });
+    }));
+  },
+
+  async connect(interactive){
+    if (!S.settings.clientId){ toast('Önce Client ID gir — adımlar README’de'); return; }
+    if (this.busy) return; this.busy = true;
+    this.setStatus('syncing');
+    try {
+      if (!this.authValid()) await this.getToken(interactive);
+      store.write('ge_sync', '1');
+      await this.fullSync();
+      this.setStatus('ok');
+      if (interactive) toast('Drive bağlandı ' + sparkTxt);
+    } catch (err) {
+      console.warn('sync', err);
+      this.setStatus(interactive ? 'error' : 'noauth');
+      if (interactive) toast('Bağlanamadı — pop-up engelini ve Client ID’yi kontrol et');
+    } finally { this.busy = false; }
+  },
+
+  disconnect(){
+    store.del('ge_sync'); store.del('ge_fileid');
+    this.token = null; this.fileId = null;
+    this.setStatus('off'); toast('Bağlantı kesildi — veriler cihazda duruyor');
+  },
+
+  async api(url, opts = {}){
+    const r = await fetch(url, { ...opts, headers: { Authorization: 'Bearer ' + this.token, ...(opts.headers || {}) } });
+    if (r.status === 401){ this.token = null; this.setStatus('noauth'); throw new Error('401'); }
+    if (!r.ok) throw new Error('drive ' + r.status);
+    return r;
+  },
+
+  async ensureFile(){
+    if (this.fileId) return;
+    const q = encodeURIComponent("name='ge-data.json'");
+    const r = await this.api(`https://www.googleapis.com/drive/v3/files?spaces=appDataFolder&q=${q}&fields=files(id)`);
+    const { files } = await r.json();
+    if (files?.length){ this.fileId = files[0].id; }
+    else {
+      const meta = JSON.stringify({ name:'ge-data.json', parents:['appDataFolder'] });
+      const body = `--geb\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--geb\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(S)}\r\n--geb--`;
+      const c = await this.api('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+        method:'POST', headers:{ 'Content-Type':'multipart/related; boundary=geb' }, body });
+      this.fileId = (await c.json()).id;
+      this.stamp();
+    }
+    store.write('ge_fileid', this.fileId);
+  },
+
+  async pull(){
+    const r = await this.api(`https://www.googleapis.com/drive/v3/files/${this.fileId}?alt=media`);
+    let remote = null;
+    try { remote = await r.json(); } catch(_){ return { aheadLocal:true }; }
+    return this.mergeRemote(remote);
+  },
+
+  async push(){
+    if (!this.enabled() || !S.settings.clientId) return;
+    if (!this.authValid()){
+      try { await this.getToken(false); } catch(_) { this.setStatus('noauth'); return; }
+    }
+    try {
+      await this.ensureFile();
+      /* purge tombstones older than 60 days before upload */
+      const cut = now() - 60 * 864e5;
+      ['rooms','cats','products'].forEach(k => S[k] = S[k].filter(x => !x.deleted || x.deleted > cut));
+      await this.api(`https://www.googleapis.com/upload/drive/v3/files/${this.fileId}?uploadType=media`, {
+        method:'PATCH', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(S), keepalive:true });
+      this.stamp();
+      this.setStatus('ok');
+    } catch (err) { console.warn('push', err); if (this.status !== 'noauth') this.setStatus('error'); }
+  },
+
+  async fullSync(){
+    await this.ensureFile();
+    const r = await this.pull();
+    if (r.changedLocal){ persistNow(); render(); toast('Drive’dan güncellendi ' + sparkTxt); }
+    if (r.aheadLocal) await this.push(); else this.stamp();
+  },
+
+  stamp(){ this.lastAt = Date.now(); store.write('ge_lastsync', String(this.lastAt)); },
+
+  queue(){
+    if (!this.enabled() || !S.settings.clientId) return;
+    clearTimeout(this.pushT);
+    this.pushT = setTimeout(() => this.push(), 4000);
+  },
+
+  /* entity-level last-write-wins merge; returns what changed on each side */
+  mergeRemote(remote){
+    let changedLocal = false, aheadLocal = false;
+    const mergeArr = key => {
+      const loc = new Map((S[key] || []).map(x => [x.id, x]));
+      const rem = new Map((remote[key] || []).map(x => [x.id, x]));
+      const out = [];
+      for (const [id, l] of loc){
+        const r = rem.get(id);
+        if (!r){ out.push(l); aheadLocal = true; continue; }
+        if ((r.updatedAt || 0) > (l.updatedAt || 0)){ out.push(r); changedLocal = true; }
+        else { out.push(l); if ((l.updatedAt || 0) > (r.updatedAt || 0)) aheadLocal = true; }
+      }
+      for (const [id, r] of rem) if (!loc.has(id)){ out.push(r); changedLocal = true; }
+      S[key] = out;
+    };
+    ['rooms','cats','products','tagBank'].forEach(mergeArr);
+    if (remote.settings){
+      if ((remote.settings.updatedAt || 0) > (S.settings.updatedAt || 0)){ S.settings = { ...S.settings, ...remote.settings }; changedLocal = true; applyTheme(); }
+      else if ((S.settings.updatedAt || 0) > (remote.settings.updatedAt || 0)) aheadLocal = true;
+    }
+    if (remote.meta?.welcomed) S.meta.welcomed = true;
+    return { changedLocal, aheadLocal };
+  },
+};
+
+/* flush pending push when app goes to background */
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden' && Sync.pushT){
+    clearTimeout(Sync.pushT); Sync.pushT = null;
+    if (Sync.authValid()) Sync.push();
+  }
+});
+
+/* ═══════════════════ BOOT ═══════════════════ */
+load();
+applyTheme();
+render();
+document.addEventListener('click', onClick);
+document.addEventListener('input', onInput);
+document.addEventListener('change', onChange);
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost'))
+  navigator.serviceWorker.register('./sw.js').catch(() => {});
+if (Sync.enabled() && S.settings.clientId) setTimeout(() => Sync.connect(false), 900);
+</script>
+</body>
+</html>
