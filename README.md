@@ -55,7 +55,7 @@ Bundan sonrası otomatik: değişiklikler ~4 sn sonra sessizce Drive'a yazılır
 - **Salon** sayfasındaki 19 birebir kopya satır tekilleştirildi (aynı ürün adı + kategori, tüm meta alanları boş).
 - Eski Excel durumları (`İndirim bekleniyor`, `Zaten vardı`…) taşınmadı: dosyada hiçbir üründe durum işaretli değildi, şablon sıfırdı. Yeni durum seti: **İhtiyaç → Araştırılıyor → Wishlist → Alınacak → Satın Alındı**. "İndirim bekleniyor" ihtiyacın olursa etiket olarak yaşar (etiket sistemi serbest).
 
-## 5 · Küçük notlar 
+## 5 · Küçük notlar
 
 - **Yedek:** Ayarlar → "Verileri dışa aktar" tarihli JSON indirir; "Yedekten geri yükle" aynı dosyayı merge eder (silmez, birleştirir).
 - **Tema:** Oto/Açık/Koyu — Oto, iOS sistem temasını takip eder.

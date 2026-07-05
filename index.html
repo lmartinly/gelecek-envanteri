@@ -142,6 +142,9 @@ html[data-theme="dark"] .chip.st-wishlist{color:#D397B4}
 .chip.st-alinacak{background:var(--chip-terra); color:var(--terra)}
 html[data-theme="dark"] .chip.st-alinacak{color:#E29A70}
 .chip.st-alindi{background:var(--chip-sage); color:var(--ok)}
+.chip.st-evde{background:var(--chip-sage); color:var(--ok); opacity:.85}
+.chip.st-hediye{background:var(--chip-plum); color:var(--plum)}
+html[data-theme="dark"] .chip.st-hediye{color:#D397B4}
 .pill{
   display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:99px;
   border:1px solid var(--line-2); font-size:12.5px; font-weight:700; color:var(--ink-2);
@@ -362,7 +365,7 @@ datalist{display:none}
 <script>
 'use strict';
 /* ═══════════════════ GELECEK ENVANTERİ v1.0.0 ═══════════════════ */
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const SEED = {"rooms":[{"id":"r1","name":"Yatak Odası","color":"#A55C7A","order":0},{"id":"r2","name":"Salon","color":"#3F4DBA","order":1},{"id":"r3","name":"Mutfak","color":"#C96A3A","order":2},{"id":"r4","name":"Banyo","color":"#9BA17B","order":3},{"id":"r5","name":"Çalışma Alanı","color":"#4A3C2F","order":4},{"id":"r6","name":"Genel Ev","color":"#EFE7DA","order":5},{"id":"r7","name":"Bucky","color":"#FCF1C4","order":6}],"cats":[{"id":"c1","roomId":"r6","name":"Temizlik Ekipmanı","order":0},{"id":"c2","roomId":"r6","name":"Temizlik Ürünleri","order":1},{"id":"c3","roomId":"r6","name":"Çamaşır","order":2},{"id":"c4","roomId":"r6","name":"Alet & Tamir","order":3},{"id":"c5","roomId":"r6","name":"Acil & Güvenlik","order":4},{"id":"c6","roomId":"r6","name":"Kırtasiye & Ofis","order":5},{"id":"c7","roomId":"r6","name":"Çeşitli","order":6},{"id":"c8","roomId":"r1","name":"Yatak & Baza","order":0},{"id":"c9","roomId":"r1","name":"Depolama","order":1},{"id":"c10","roomId":"r1","name":"Aydınlatma","order":2},{"id":"c11","roomId":"r1","name":"Tekstil","order":3},{"id":"c12","roomId":"r1","name":"Elektronik","order":4},{"id":"c13","roomId":"r1","name":"Küçük Aksesuar","order":5},{"id":"c14","roomId":"r2","name":"Oturma Grubu","order":0},{"id":"c15","roomId":"r2","name":"Elektronik","order":1},{"id":"c16","roomId":"r2","name":"Aydınlatma","order":2},{"id":"c17","roomId":"r2","name":"Tekstil","order":3},{"id":"c18","roomId":"r2","name":"Küçük Aksesuar","order":4},{"id":"c19","roomId":"r3","name":"Büyük Beyaz Eşya","order":0},{"id":"c20","roomId":"r3","name":"Küçük Elektrikli","order":1},{"id":"c21","roomId":"r3","name":"Pişirme Gereçleri","order":2},{"id":"c22","roomId":"r3","name":"Mutfak Aletleri","order":3},{"id":"c23","roomId":"r3","name":"Servis & Sofra","order":4},{"id":"c24","roomId":"r3","name":"Depolama & Düzen","order":5},{"id":"c25","roomId":"r3","name":"Temizlik","order":6},{"id":"c26","roomId":"r4","name":"Tekstil","order":0},{"id":"c27","roomId":"r4","name":"Depolama & Düzen","order":1},{"id":"c28","roomId":"r4","name":"Kişisel Bakım Başlangıç","order":2},{"id":"c29","roomId":"r5","name":"Mobilya","order":0},{"id":"c30","roomId":"r5","name":"Elektronik","order":1},{"id":"c31","roomId":"r5","name":"Aydınlatma","order":2},{"id":"c32","roomId":"r5","name":"Depolama & Düzen","order":3},{"id":"c33","roomId":"r7","name":"Beslenme","order":0},{"id":"c34","roomId":"r7","name":"Tuvalet","order":1},{"id":"c35","roomId":"r7","name":"Yaşam Alanı","order":2},{"id":"c36","roomId":"r7","name":"Bakım","order":3}],"products":[{"id":"p1","name":"Elektrikli süpürge (veya robot)","roomId":"r6","catId":"c1","order":0},{"id":"p2","name":"Paspas + kova","roomId":"r6","catId":"c1","order":1},{"id":"p3","name":"Faraş + süpürge","roomId":"r6","catId":"c1","order":2},{"id":"p4","name":"Temizlik bezi / mikrofiber (x5)","roomId":"r6","catId":"c1","order":3},{"id":"p5","name":"Mop / ıslak paspas","roomId":"r6","catId":"c1","order":4},{"id":"p6","name":"Yüzey temizleyici","roomId":"r6","catId":"c2","order":0},{"id":"p7","name":"Banyo temizleyici","roomId":"r6","catId":"c2","order":1},{"id":"p8","name":"Cam temizleyici","roomId":"r6","catId":"c2","order":2},{"id":"p9","name":"Çamaşır deterjanı","roomId":"r6","catId":"c2","order":3},{"id":"p10","name":"Yumuşatıcı","roomId":"r6","catId":"c2","order":4},{"id":"p11","name":"Bulaşık makinesi tableti","roomId":"r6","catId":"c2","order":5},{"id":"p12","name":"Ütü","roomId":"r6","catId":"c3","order":0},{"id":"p13","name":"Ütü masası","roomId":"r6","catId":"c3","order":1},{"id":"p14","name":"Çamaşır askısı (iç mekan)","roomId":"r6","catId":"c3","order":2},{"id":"p15","name":"Çamaşır sepeti","roomId":"r6","catId":"c3","order":3},{"id":"p16","name":"Çamaşır torbası / file","roomId":"r6","catId":"c3","order":4},{"id":"p17","name":"Tornavida seti (düz + yıldız)","roomId":"r6","catId":"c4","order":0},{"id":"p18","name":"Çekiç","roomId":"r6","catId":"c4","order":1},{"id":"p19","name":"Pense","roomId":"r6","catId":"c4","order":2},{"id":"p20","name":"Metre / şerit metre","roomId":"r6","catId":"c4","order":3},{"id":"p21","name":"Dübel + vida seti","roomId":"r6","catId":"c4","order":4},{"id":"p22","name":"Matkap (veya komşudan ödünç)","roomId":"r6","catId":"c4","order":5},{"id":"p23","name":"İlk yardım çantası","roomId":"r6","catId":"c5","order":0},{"id":"p24","name":"Yangın söndürücü (küçük)","roomId":"r6","catId":"c5","order":1},{"id":"p25","name":"Duman dedektörü","roomId":"r6","catId":"c5","order":2},{"id":"p26","name":"El feneri + pil","roomId":"r6","catId":"c5","order":3},{"id":"p27","name":"Makas","roomId":"r6","catId":"c6","order":0},{"id":"p28","name":"Bant + çift taraflı bant","roomId":"r6","catId":"c6","order":1},{"id":"p29","name":"Kalem / tükenmez","roomId":"r6","catId":"c6","order":2},{"id":"p30","name":"Not defteri","roomId":"r6","catId":"c6","order":3},{"id":"p31","name":"Zarf + pul (muhtemelen hiç lazım olmayacak)","roomId":"r6","catId":"c6","order":4},{"id":"p32","name":"Pil seti (AA + AAA)","roomId":"r6","catId":"c7","order":0},{"id":"p33","name":"Ampul yedek (E27 + diğer)","roomId":"r6","catId":"c7","order":1},{"id":"p34","name":"Çok girişli uzatma kablosu (x3)","roomId":"r6","catId":"c7","order":2},{"id":"p35","name":"Kapı paspası","roomId":"r6","catId":"c7","order":3},{"id":"p36","name":"Ayakkabılık / raf","roomId":"r6","catId":"c7","order":4},{"id":"p37","name":"Askılık (antre)","roomId":"r6","catId":"c7","order":5},{"id":"p38","name":"Şemsiye","roomId":"r6","catId":"c7","order":6},{"id":"p39","name":"Çift kişilik baza (başlıklı)","roomId":"r1","catId":"c8","order":0},{"id":"p40","name":"Yatak/şilte (160x200)","roomId":"r1","catId":"c8","order":1},{"id":"p41","name":"Yastık (x2)","roomId":"r1","catId":"c8","order":2},{"id":"p42","name":"Nevresim takımı (x2)","roomId":"r1","catId":"c8","order":3},{"id":"p43","name":"Koruyucu yatak pedi","roomId":"r1","catId":"c8","order":4},{"id":"p44","name":"Gardırop","roomId":"r1","catId":"c9","order":0},{"id":"p45","name":"Komodin (x2)","roomId":"r1","catId":"c9","order":1},{"id":"p46","name":"Şifonyer / Çekmece ünitesi","roomId":"r1","catId":"c9","order":2},{"id":"p47","name":"Tavan armatürü","roomId":"r1","catId":"c10","order":0},{"id":"p48","name":"Abajur / gece lambası (x2)","roomId":"r1","catId":"c10","order":1},{"id":"p49","name":"Priz başı gece lambası","roomId":"r1","catId":"c10","order":2},{"id":"p50","name":"Stor/Perde","roomId":"r1","catId":"c11","order":0},{"id":"p51","name":"Halı / kilim","roomId":"r1","catId":"c11","order":1},{"id":"p52","name":"Uzatma kablosu / akıllı priz","roomId":"r1","catId":"c12","order":0},{"id":"p53","name":"Boy aynası","roomId":"r1","catId":"c13","order":0},{"id":"p54","name":"Çerçeve / tablo","roomId":"r1","catId":"c13","order":1},{"id":"p55","name":"Kanca (kapı arkası)","roomId":"r1","catId":"c13","order":2},{"id":"p56","name":"Kanepe / köşe koltuk","roomId":"r2","catId":"c14","order":0},{"id":"p57","name":"Koltuk (tekli)","roomId":"r2","catId":"c14","order":1},{"id":"p58","name":"Sehpa","roomId":"r2","catId":"c14","order":2},{"id":"p59","name":"Tv ünitesi / konsol","roomId":"r2","catId":"c14","order":3},{"id":"p60","name":"Kitaplık / raf ünitesi","roomId":"r2","catId":"c14","order":4},{"id":"p61","name":"Televizyon","roomId":"r2","catId":"c15","order":0},{"id":"p62","name":"Soundbar / hoparlör","roomId":"r2","catId":"c15","order":1},{"id":"p63","name":"HDMI kablosu","roomId":"r2","catId":"c15","order":2},{"id":"p64","name":"Akıllı priz / çoklu uzatma","roomId":"r2","catId":"c15","order":3},{"id":"p65","name":"Tavan armatürü","roomId":"r2","catId":"c16","order":0},{"id":"p66","name":"Lambader","roomId":"r2","catId":"c16","order":1},{"id":"p67","name":"LED şerit (dekoratif)","roomId":"r2","catId":"c16","order":2},{"id":"p68","name":"Perde (x2 kanat)","roomId":"r2","catId":"c17","order":0},{"id":"p69","name":"Halı","roomId":"r2","catId":"c17","order":1},{"id":"p70","name":"Kırlent takımı","roomId":"r2","catId":"c17","order":2},{"id":"p71","name":"Battaniye / plaid","roomId":"r2","catId":"c17","order":3},{"id":"p72","name":"Ayna","roomId":"r2","catId":"c18","order":0},{"id":"p73","name":"Çerçeve / tablo / poster","roomId":"r2","catId":"c18","order":1},{"id":"p74","name":"Dekoratif vazo / obje","roomId":"r2","catId":"c18","order":2},{"id":"p75","name":"Buzdolabı","roomId":"r3","catId":"c19","order":0},{"id":"p76","name":"Çamaşır makinesi","roomId":"r3","catId":"c19","order":1},{"id":"p77","name":"Bulaşık makinesi","roomId":"r3","catId":"c19","order":2},{"id":"p78","name":"Fırın / ocak","roomId":"r3","catId":"c19","order":3},{"id":"p79","name":"Aspiratör","roomId":"r3","catId":"c19","order":4},{"id":"p80","name":"Kettle","roomId":"r3","catId":"c20","order":0},{"id":"p81","name":"Kahve makinesi / Moka pot","roomId":"r3","catId":"c20","order":1},{"id":"p82","name":"Blender / el blenderi","roomId":"r3","catId":"c20","order":2,"brand":"Tigrecook"},{"id":"p83","name":"Tost makinesi / ızgara","roomId":"r3","catId":"c20","order":3},{"id":"p84","name":"Mikrodalga fırın","roomId":"r3","catId":"c20","order":4},{"id":"p85","name":"Hava fritözü (isteğe bağlı)","roomId":"r3","catId":"c20","order":5,"brand":"Philips"},{"id":"p86","name":"Tencere seti (12'li)","roomId":"r3","catId":"c21","order":0,"brand":"Tefal"},{"id":"p87","name":"Döküm tava (isteğe bağlı)","roomId":"r3","catId":"c21","order":1},{"id":"p88","name":"Borcam set","roomId":"r3","catId":"c21","order":2},{"id":"p89","name":"Bıçak seti","roomId":"r3","catId":"c22","order":0},{"id":"p90","name":"Kesme tahtası (x2)","roomId":"r3","catId":"c22","order":1},{"id":"p91","name":"Rende / doğrayıcı","roomId":"r3","catId":"c22","order":2},{"id":"p92","name":"Kevgir / süzgeç","roomId":"r3","catId":"c22","order":3},{"id":"p93","name":"Kepçe / spatula seti","roomId":"r3","catId":"c22","order":4},{"id":"p94","name":"Kaşık seti","roomId":"r3","catId":"c22","order":5},{"id":"p95","name":"Ölçü kapları","roomId":"r3","catId":"c22","order":6},{"id":"p96","name":"Açacak / tirbüşon","roomId":"r3","catId":"c22","order":7},{"id":"p97","name":"Tencere altlığı (x2)","roomId":"r3","catId":"c22","order":8},{"id":"p98","name":"Tabak seti (yemek + çorba + tatlı)","roomId":"r3","catId":"c23","order":0},{"id":"p99","name":"Kase seti","roomId":"r3","catId":"c23","order":1},{"id":"p100","name":"Bardak seti (su + meşrubat)","roomId":"r3","catId":"c23","order":2},{"id":"p101","name":"Çay bardağı + fincan takımı","roomId":"r3","catId":"c23","order":3},{"id":"p102","name":"Çay / Kahve seti","roomId":"r3","catId":"c23","order":4},{"id":"p103","name":"Çatal bıçak kaşık seti","roomId":"r3","catId":"c23","order":5},{"id":"p104","name":"Servis tabağı / sahan","roomId":"r3","catId":"c23","order":6},{"id":"p105","name":"Saklama kabı seti","roomId":"r3","catId":"c23","order":7},{"id":"p106","name":"Baharat rafı / organizeri","roomId":"r3","catId":"c24","order":0},{"id":"p107","name":"Dolap içi raf / organizeri","roomId":"r3","catId":"c24","order":1},{"id":"p108","name":"Çöp kutusu (kapaklı)","roomId":"r3","catId":"c24","order":2},{"id":"p109","name":"Geri dönüşüm kutusu","roomId":"r3","catId":"c24","order":3},{"id":"p110","name":"Kağıt havluluk","roomId":"r3","catId":"c24","order":4},{"id":"p111","name":"Bulaşık süngeri + tel (x3)","roomId":"r3","catId":"c25","order":0},{"id":"p112","name":"Bulaşık deterjanı (başlangıç)","roomId":"r3","catId":"c25","order":1},{"id":"p113","name":"Mutfak bezi (x5)","roomId":"r3","catId":"c25","order":2},{"id":"p114","name":"Banyo havlusu (x4 beden)","roomId":"r4","catId":"c26","order":0},{"id":"p115","name":"El havlusu (x2)","roomId":"r4","catId":"c26","order":1},{"id":"p116","name":"Bornoz","roomId":"r4","catId":"c26","order":2},{"id":"p117","name":"Banyo paspası","roomId":"r4","catId":"c26","order":3},{"id":"p118","name":"Duş perdesi + ray","roomId":"r4","catId":"c26","order":4},{"id":"p119","name":"Diş fırçalık / banyo organizer","roomId":"r4","catId":"c27","order":0},{"id":"p120","name":"Şampuan/sabun raf/organizer","roomId":"r4","catId":"c27","order":1},{"id":"p121","name":"Tuvalet kağıdı tutacağı","roomId":"r4","catId":"c27","order":2},{"id":"p122","name":"Çöp kutusu","roomId":"r4","catId":"c27","order":3},{"id":"p123","name":"Ayna (yoksa)","roomId":"r4","catId":"c27","order":4},{"id":"p124","name":"Şampuan & saç bakım","roomId":"r4","catId":"c28","order":0},{"id":"p125","name":"Duş jeli / sabun","roomId":"r4","catId":"c28","order":1},{"id":"p126","name":"Diş fırçası + macun","roomId":"r4","catId":"c28","order":2},{"id":"p127","name":"Deodorant","roomId":"r4","catId":"c28","order":3},{"id":"p128","name":"Cilt bakım rutini","roomId":"r4","catId":"c28","order":4},{"id":"p129","name":"Tıraş / epilasyon gereçleri","roomId":"r4","catId":"c28","order":5},{"id":"p130","name":"Çalışma masası","roomId":"r5","catId":"c29","order":0},{"id":"p131","name":"Ofis koltuğu (ergonomik)","roomId":"r5","catId":"c29","order":1},{"id":"p132","name":"Raf / kitaplık","roomId":"r5","catId":"c29","order":2},{"id":"p133","name":"Monitör (isteğe bağlı)","roomId":"r5","catId":"c30","order":0},{"id":"p134","name":"Klavye + mouse (harici)","roomId":"r5","catId":"c30","order":1},{"id":"p135","name":"Laptop standı","roomId":"r5","catId":"c30","order":2},{"id":"p136","name":"USB hub","roomId":"r5","catId":"c30","order":3},{"id":"p137","name":"Kulaklık / mikrofon","roomId":"r5","catId":"c30","order":4},{"id":"p138","name":"Webcam (isteğe bağlı)","roomId":"r5","catId":"c30","order":5},{"id":"p139","name":"Masa lambası","roomId":"r5","catId":"c31","order":0},{"id":"p140","name":"Masa organizer","roomId":"r5","catId":"c32","order":0},{"id":"p141","name":"Kalem kutusu","roomId":"r5","catId":"c32","order":1},{"id":"p142","name":"Dosya organizer / kutu","roomId":"r5","catId":"c32","order":2},{"id":"p143","name":"Mama kabı + su kabı (çelik)","roomId":"r7","catId":"c33","order":0},{"id":"p144","name":"Brit Care Sterilised Tavşanlı mama","roomId":"r7","catId":"c33","order":1},{"id":"p145","name":"Malt takviyesi","roomId":"r7","catId":"c33","order":2},{"id":"p146","name":"Vitamin takviyesi","roomId":"r7","catId":"c33","order":3},{"id":"p147","name":"Kedi tuvaleti (kapalı tercihli)","roomId":"r7","catId":"c34","order":0},{"id":"p148","name":"Kedi kumu (bol stok)","roomId":"r7","catId":"c34","order":1},{"id":"p149","name":"Kürek","roomId":"r7","catId":"c34","order":2},{"id":"p150","name":"Koku giderici sprey","roomId":"r7","catId":"c34","order":3},{"id":"p151","name":"Kedi yatağı / evi","roomId":"r7","catId":"c35","order":0},{"id":"p152","name":"Tırmalama tahtası / direği","roomId":"r7","catId":"c35","order":1},{"id":"p153","name":"Kedi oyuncakları","roomId":"r7","catId":"c35","order":2},{"id":"p154","name":"Tarak / fırça (British Shorthair için)","roomId":"r7","catId":"c36","order":0},{"id":"p155","name":"Kedi taşıma çantası","roomId":"r7","catId":"c36","order":1},{"id":"p156","name":"Veteriner kartı / dosya","roomId":"r7","catId":"c36","order":2}]};
 
 /* ——— utils ——— */
@@ -423,7 +426,10 @@ const STATUSES = [
   { id:'wishlist',      label:'Wishlist' },
   { id:'alinacak',      label:'Alınacak' },
   { id:'alindi',        label:'Satın Alındı' },
+  { id:'evde',          label:'Evde Var' },
+  { id:'hediye',        label:'Hediye' },
 ];
+const DONE_ST = ['alindi','evde','hediye'];
 const stLabel = id => (STATUSES.find(s => s.id === id) || STATUSES[0]).label;
 const PRIOS = [ {id:'yuksek',label:'Yüksek'}, {id:'orta',label:'Orta'}, {id:'dusuk',label:'Düşük'} ];
 const ROOM_COLORS = ['#3F4DBA','#C96A3A','#A55C7A','#9BA17B','#4A3C2F','#EFE7DA','#FCF1C4','#C09A3E'];
@@ -486,7 +492,7 @@ const cat      = id => S.cats.find(c => c.id === id);
 const prod     = id => S.products.find(p => p.id === id);
 const roomProds= rid => prodsA().filter(p => p.roomId === rid);
 const catProds = cid => prodsA().filter(p => p.catId === cid).sort(byOrder);
-const isDone   = p => p.status === 'alindi';
+const isDone   = p => DONE_ST.includes(p.status);
 const usedTags = () => { const s = new Set(S.tagBank.map(t=>t.name)); prodsA().forEach(p => p.tags.forEach(t => s.add(t))); return [...s].sort((a,b)=>a.localeCompare(b,'tr')); };
 const usedCards= () => { const s = new Set(); prodsA().forEach(p => p.card && s.add(p.card)); return [...s]; };
 
@@ -496,7 +502,7 @@ function finOf(p){
   if (price == null || !p.instCount || !p.instStart) return { monthly:0, paid:0, remain:0, remCnt:0, active:false };
   const monthly = price / p.instCount;
   const iNow = ymIdx(ymNow()), i0 = ymIdx(p.instStart);
-  const paid = clamp(iNow - i0 + 1, 0, p.instCount);
+  const paid = clamp(iNow - i0, 0, p.instCount);   /* taksit ay SONUNDA ödenir: içinde bulunulan ay henüz ödenmedi */
   const remCnt = p.instCount - paid;
   return { monthly, paid, remCnt, remain: remCnt * monthly, active: iNow >= i0 && iNow < i0 + p.instCount };
 }
@@ -506,7 +512,7 @@ function finance(){
   const upcoming = {}; // ymIdx -> {card: amount}
   const i0 = ymIdx(ymNow());
   for (const p of prodsA()){
-    if (!isDone(p)) continue;
+    if (p.status !== 'alindi') continue;   /* Evde Var / Hediye finansa girmez */
     spentCnt++;
     if (p.price != null) spent += p.price; else { unpriced++; continue; }
     const f = finOf(p);
@@ -901,7 +907,7 @@ function prodRow(p, { ctx = false, sortable = false } = {}){
     ${sortable ? `<span class="drag-handle">${I.drag}</span>` : `<span class="tick ${done ? 'on' : ''}" data-tick="${p.id}">${I.tick}</span>`}
     <span class="bd">
       <span class="nm ${done ? 'done' : ''}" style="display:block">${p.priority ? `<span class="prio-dot prio-${p.priority}" style="margin-right:6px;vertical-align:2px"></span>` : ''}${esc(p.name)}</span>
-      <span class="mt">${done ? `<span class="chip st-alindi" style="padding:2px 8px">Satın Alındı</span>` : `<span class="chip st-${p.status}" style="padding:2px 8px">${stLabel(p.status)}</span>`}${meta.length ? `<span style="overflow:hidden;text-overflow:ellipsis">${meta.join(' · ')}</span>` : ''}</span>
+      <span class="mt">${`<span class="chip st-${p.status}" style="padding:2px 8px">${stLabel(p.status)}</span>`}${meta.length ? `<span style="overflow:hidden;text-overflow:ellipsis">${meta.join(' · ')}</span>` : ''}</span>
     </span>
     ${price != null ? `<span class="pr">${fmtMoney(price)}</span>` : ''}
     ${p.alts?.some(a => a.st === 'a') ? `<span style="color:var(--plum);font-size:12px">${sparkTxt}</span>` : ''}
@@ -963,7 +969,7 @@ function renderFin(){
   const cardColors = ['var(--indigo)','var(--terra)','var(--plum)','var(--sage)','var(--ochre)','var(--brown)'];
   const cc = n => cardColors[cardNames.indexOf(n) % cardColors.length];
   const maxM = Math.max(1, ...months.map(i => Object.values(f.upcoming[i] || {}).reduce((a,b)=>a+b,0)));
-  const instP = prodsA().filter(p => isDone(p) && p.instCount && p.price != null && p.instStart);
+  const instP = prodsA().filter(p => p.status === 'alindi' && p.instCount && p.price != null && p.instStart);
 
   return `
   ${pageHead('Otomatik hesap · elle sıfır', '<em>Finans</em>')}
@@ -982,12 +988,15 @@ function renderFin(){
   <div class="card">
     ${f.remCnt ? `
     <div class="mbar">
-      ${months.map(i => { const seg = f.upcoming[i] || {}; const tot = Object.values(seg).reduce((a,b)=>a+b,0);
+      ${months.map((i,k) => { const seg = f.upcoming[i] || {}; const tot = Object.values(seg).reduce((a,b)=>a+b,0);
+        const ym = idxYm(i);
+        const mShort = new Date(ym + '-01T00:00:00').toLocaleDateString('tr-TR',{month:'short'}).replace('.','');
+        const lab = k % 2 ? '' : (k === 0 || ym.endsWith('-01') ? mShort + ' ' + ym.slice(2,4) : mShort);
         return `<div class="col">
           <span class="mv">${tot ? Math.round(tot/1000) + 'k' : ''}</span>
           <div class="stack" style="height:${Math.max(3, tot/maxM*78)}px">${Object.entries(seg).map(([c,v]) =>
             `<i class="seg" style="height:${v/Math.max(tot,1)*100}%;background:${cc(c)}"></i>`).join('')}</div>
-          <span class="ml">${ymLabel(idxYm(i))}</span></div>`; }).join('')}
+          <span class="ml">${lab}</span></div>`; }).join('')}
     </div>
     <div class="legend">${cardNames.map(c => `<span><i style="background:${cc(c)}"></i>${esc(c)} · ${fmtMoney(f.cards[c])}</span>`).join('')}</div>`
     : `<div class="empty" style="padding:22px"><div class="sp">${sparkTxt}</div><div class="d">Aktif taksit yok. Satın alınan bir ürüne fiyat + taksit girdiğinde<br>aylık yük burada otomatik belirir.</div></div>`}
@@ -1082,7 +1091,7 @@ function productSheet(pid){
         </div>
       </details>
 
-      <details class="sect" ${p.price != null || p.instCount ? 'open' : ''}>
+      <details class="sect" id="ps-sec-fin" ${p.price != null || p.instCount ? 'open' : ''}>
         <summary>Finans ${I.chev}</summary>
         <div class="in">
           <div class="frow"><span class="k">Liste fiyatı</span><span class="v"><input data-money="listPrice" inputmode="decimal" value="${p.listPrice ?? ''}" placeholder="—"></span></div>
@@ -1097,7 +1106,7 @@ function productSheet(pid){
         </div>
       </details>
 
-      <details class="sect" ${p.alts.length ? 'open' : ''}>
+      <details class="sect" id="ps-sec-wish" ${p.alts.length ? 'open' : ''}>
         <summary>Wishlist · Alternatifler ${I.chev}</summary>
         <div class="in" id="ps-alts"></div>
       </details>
@@ -1117,6 +1126,11 @@ function productSheet(pid){
     </div>`);
 
   const sh = rec.sh;
+  const refreshSects = () => {
+    const off = p.status === 'evde' || p.status === 'hediye';
+    $('#ps-sec-fin', sh).classList.toggle('hidden', off);
+    $('#ps-sec-wish', sh).classList.toggle('hidden', off);
+  };
   const refreshFin = () => {
     const x = f();
     $('#ps-fin-v', sh).textContent = x.monthly
@@ -1144,7 +1158,7 @@ function productSheet(pid){
         <button class="x" data-rmlink="${l.id}">${I.x}</button></div>`).join('')
       + `<button class="btn ghost sm" style="margin-top:10px" id="ps-addlink">${I.plus} Bağlantı ekle</button>`;
   };
-  refreshFin(); refreshTags(); refreshAlts(); refreshLinks();
+  refreshFin(); refreshTags(); refreshAlts(); refreshLinks(); refreshSects();
 
   sh.addEventListener('change', e => {
     const t = e.target;
@@ -1166,7 +1180,7 @@ function productSheet(pid){
   });
   sh.addEventListener('click', e => {
     const st = e.target.closest('[data-st]');
-    if (st){ setStatus(p, st.dataset.st, e); $('#ps-st', sh).innerHTML = statusChips(p.status); return; }
+    if (st){ setStatus(p, st.dataset.st, e); $('#ps-st', sh).innerHTML = statusChips(p.status); refreshSects(); return; }
     const pr = e.target.closest('[data-prio]');
     if (pr){ p.priority = pr.dataset.prio || null; touch(p); save({silent:true}); $('#ps-pr', sh).innerHTML = prioChips(p.priority); render(); return; }
     const rt = e.target.closest('[data-rmtag]');
@@ -1186,8 +1200,13 @@ function productSheet(pid){
 
 function setStatus(p, st, e){
   if (st === p.status) return;
-  if (st === 'alindi'){ p.prevStatus = p.status; p.purchasedAt = now(); if (e) sparkle(e.clientX || innerWidth/2, e.clientY || innerHeight/2); toast('Satın alındı olarak işaretlendi ' + sparkTxt); }
-  if (p.status === 'alindi' && st !== 'alindi') p.purchasedAt = null;
+  const willDone = DONE_ST.includes(st);
+  if (willDone && !isDone(p)){
+    p.prevStatus = p.status;
+    if (e) sparkle(e.clientX || innerWidth/2, e.clientY || innerHeight/2);
+    toast(({ alindi:'Satın alındı ', evde:'Evde var ', hediye:'Hediye ' })[st] + sparkTxt);
+  }
+  p.purchasedAt = st === 'alindi' ? now() : null;
   p.status = st; touch(p); save({ silent:true }); render();
 }
 
@@ -1462,7 +1481,7 @@ function insListSheet(ids){
 }
 function toggleTick(el, e){
   const p = prod(el.dataset.tick); if (!p) return;
-  if (isDone(p)) setStatus(p, p.prevStatus && p.prevStatus !== 'alindi' ? p.prevStatus : 'ihtiyac');
+  if (isDone(p)) setStatus(p, p.prevStatus && !DONE_ST.includes(p.prevStatus) ? p.prevStatus : 'ihtiyac');
   else setStatus(p, 'alindi', e);
 }
 </script>
