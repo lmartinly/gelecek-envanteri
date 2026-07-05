@@ -1,5 +1,5 @@
 /* Gelecek Envanteri — service worker */
-const V = 'ge-v1.1.0';
+const V = 'ge-v1.2.0';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
