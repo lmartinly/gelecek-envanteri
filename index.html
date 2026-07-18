@@ -155,7 +155,7 @@ html[data-theme="dark"] .chip.acq-evde{background:rgba(239,231,218,.16); color:#
 .brandmark{width:20px; height:20px; border-radius:6px; display:inline-block; vertical-align:-4px}
 .eyebrow .brandmark{width:16px; height:16px; border-radius:5px; margin-right:7px; vertical-align:-3px}
 .brandmark.dim{width:34px; height:34px; border-radius:9px; opacity:.9; display:block; margin:0 auto 8px}
-.pulse{display:flex; align-items:center; gap:11px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:13px 15px; margin:2px 0 18px; box-shadow:var(--shadow)}
+.pulse{display:flex; align-items:center; gap:11px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); padding:13px 15px; margin:6px 0 20px; box-shadow:var(--shadow)}
 .pulse .brandmark{width:26px; height:26px; border-radius:8px; flex:none}
 .pulse .tx{font-size:13px; color:var(--ink-2); line-height:1.45}
 .pulse .tx b{color:var(--ink); font-weight:800}
@@ -911,13 +911,14 @@ function renderHome(){
     <div class="stat"><div class="lb">Tasarruf</div><div class="v serif" style="font-size:21px">${fin.savedPct == null ? '—' : '%' + Math.round(fin.savedPct * 100)}</div><div class="sub">${fin.savedPct == null ? 'piyasa fiyatı girilmemiş' : fmtMoney(fin.saved) + ' cepte kaldı'}</div></div>
   </div>
 
-  ${pulseCard()}
   <div class="section-h"><div class="eyebrow">Odalar</div><button class="act" data-go="inv">Tümü ${sparkTxt}</button></div>
   <div class="rooms">${roomsA().map(roomCard).join('')}</div>
 
   ${ins.length ? `
   <div class="section-h"><div class="eyebrow">Akıllı Notlar</div></div>
   <div class="card" style="padding:5px 16px">${ins.map(insRow).join('')}</div>` : ''}
+
+  ${pulseCard()}
 
   ${!S.meta.welcomed ? `
   <div class="notice fadein">${sparkTxt} <b>Excel envanterin içe aktarıldı</b> — ${prodsA().length} ürün, ${catsA().length} kategori, ${roomsA().length} oda. Salon sayfasındaki birebir kopya satırlar (19 adet) tekilleştirildi. Artık her şey burada yaşıyor. <button style="font-weight:800;color:var(--on-indigo)" id="wel-ok">Anladım</button></div>` : ''}
