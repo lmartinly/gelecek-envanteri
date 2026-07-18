@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
 <title>Gelecek Envanteri</title>
 <meta name="description" content="Ev kurulum ve envanter sistemi">
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F8EFEA">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14151F">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -145,6 +146,33 @@ html[data-theme="dark"] .chip.st-alinacak{color:#E29A70}
 .chip.st-evde{background:var(--chip-sage); color:var(--ok); opacity:.85}
 .chip.st-hediye{background:var(--chip-plum); color:var(--plum)}
 html[data-theme="dark"] .chip.st-hediye{color:#D397B4}
+.chip.st-tamam{background:var(--chip-sage); color:var(--ok)}
+.chip.acq-satin{background:var(--chip-sage); color:var(--ok)}
+.chip.acq-hediye{background:var(--chip-plum); color:var(--plum)}
+html[data-theme="dark"] .chip.acq-hediye{color:#D397B4}
+.chip.acq-evde{background:var(--sand); color:var(--brown)}
+html[data-theme="dark"] .chip.acq-evde{background:rgba(239,231,218,.16); color:#D8CBB6}
+.brandmark{width:20px; height:20px; border-radius:6px; display:inline-block; vertical-align:-4px}
+.eyebrow .brandmark{width:16px; height:16px; border-radius:5px; margin-right:7px; vertical-align:-3px}
+.brandmark.dim{width:34px; height:34px; border-radius:9px; opacity:.9; display:block; margin:0 auto 8px}
+.pulse{display:flex; align-items:center; gap:11px; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:13px 15px; margin:2px 0 18px; box-shadow:var(--shadow)}
+.pulse .brandmark{width:26px; height:26px; border-radius:8px; flex:none}
+.pulse .tx{font-size:13px; color:var(--ink-2); line-height:1.45}
+.pulse .tx b{color:var(--ink); font-weight:800}
+.pulse .sb{color:var(--ink-3)}
+.room-card .ricon{display:block; margin-bottom:10px; opacity:.95}
+.room-card .ricon svg{width:24px; height:24px}
+.ovgrid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:6px}
+.mrow .mr-dot{width:7px; height:7px; border-radius:50%; flex:none; background:transparent}
+.mr-dot.lo{background:var(--ok)} .mr-dot.mid{background:#C9962E} .mr-dot.hi{background:var(--terra)} .mr-dot.max{background:#B5473A}
+.mrow .mr-v{width:96px; display:inline-flex; flex-direction:column; align-items:flex-end; gap:1px}
+.mom{font-size:9.5px; font-weight:700; color:var(--ink-3); letter-spacing:.02em}
+.sub-h{font-size:11px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px}
+.sect.always{border:0; padding-top:0}
+#splash{position:fixed; inset:0; z-index:999; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; transition:opacity .38s ease}
+#splash.out{opacity:0; pointer-events:none}
+#splash .bm{width:84px; height:84px; border-radius:22px; box-shadow:var(--shadow)}
+#splash .w{font-size:19px; color:var(--ink-2)}
 .pill{
   display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:99px;
   border:1px solid var(--line-2); font-size:12.5px; font-weight:700; color:var(--ink-2);
@@ -300,7 +328,7 @@ html[data-theme="dark"] .fin-hero{background:#3A3020}
 .mrow .mr-l{font-size:10px; font-weight:800; letter-spacing:.03em; color:var(--ink-3); width:36px; flex:none; font-variant-numeric:tabular-nums}
 .mrow .mr-track{flex:1; height:14px; border-radius:7px; background:var(--line-2); overflow:hidden; display:flex}
 .mrow .mr-track i{height:100%}
-.mrow .mr-v{width:86px; flex:none; text-align:right; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; color:var(--ink-2)}
+.mrow .mr-v{flex:none; text-align:right; font-size:12px; font-weight:700; font-variant-numeric:tabular-nums; color:var(--ink-2)}
 .mrow.zero .mr-track{opacity:.45}
 .mrow.zero .mr-v{color:var(--ink-3); font-weight:600}
 .legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:12px}
@@ -356,7 +384,8 @@ datalist{display:none}
 </style>
 </head>
 <body>
-<div id="app"></div>
+<div id="splash"><img class="bm" alt=""><div class="w serif">Gelecek Envanteri</div></div>
+  <div id="app"></div>
 
 <button class="fab" id="fab" aria-label="Hızlı ekle">
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -369,7 +398,7 @@ datalist{display:none}
 <script>
 'use strict';
 /* ═══════════════════ GELECEK ENVANTERİ v1.0.0 ═══════════════════ */
-const VERSION = '1.0.3';
+const VERSION = '1.1.0';
 const SEED = {"rooms":[{"id":"r1","name":"Yatak Odası","color":"#A55C7A","order":0},{"id":"r2","name":"Salon","color":"#3F4DBA","order":1},{"id":"r3","name":"Mutfak","color":"#C96A3A","order":2},{"id":"r4","name":"Banyo","color":"#9BA17B","order":3},{"id":"r5","name":"Çalışma Alanı","color":"#4A3C2F","order":4},{"id":"r6","name":"Genel Ev","color":"#EFE7DA","order":5},{"id":"r7","name":"Bucky","color":"#FCF1C4","order":6}],"cats":[{"id":"c1","roomId":"r6","name":"Temizlik Ekipmanı","order":0},{"id":"c2","roomId":"r6","name":"Temizlik Ürünleri","order":1},{"id":"c3","roomId":"r6","name":"Çamaşır","order":2},{"id":"c4","roomId":"r6","name":"Alet & Tamir","order":3},{"id":"c5","roomId":"r6","name":"Acil & Güvenlik","order":4},{"id":"c6","roomId":"r6","name":"Kırtasiye & Ofis","order":5},{"id":"c7","roomId":"r6","name":"Çeşitli","order":6},{"id":"c8","roomId":"r1","name":"Yatak & Baza","order":0},{"id":"c9","roomId":"r1","name":"Depolama","order":1},{"id":"c10","roomId":"r1","name":"Aydınlatma","order":2},{"id":"c11","roomId":"r1","name":"Tekstil","order":3},{"id":"c12","roomId":"r1","name":"Elektronik","order":4},{"id":"c13","roomId":"r1","name":"Küçük Aksesuar","order":5},{"id":"c14","roomId":"r2","name":"Oturma Grubu","order":0},{"id":"c15","roomId":"r2","name":"Elektronik","order":1},{"id":"c16","roomId":"r2","name":"Aydınlatma","order":2},{"id":"c17","roomId":"r2","name":"Tekstil","order":3},{"id":"c18","roomId":"r2","name":"Küçük Aksesuar","order":4},{"id":"c19","roomId":"r3","name":"Büyük Beyaz Eşya","order":0},{"id":"c20","roomId":"r3","name":"Küçük Elektrikli","order":1},{"id":"c21","roomId":"r3","name":"Pişirme Gereçleri","order":2},{"id":"c22","roomId":"r3","name":"Mutfak Aletleri","order":3},{"id":"c23","roomId":"r3","name":"Servis & Sofra","order":4},{"id":"c24","roomId":"r3","name":"Depolama & Düzen","order":5},{"id":"c25","roomId":"r3","name":"Temizlik","order":6},{"id":"c26","roomId":"r4","name":"Tekstil","order":0},{"id":"c27","roomId":"r4","name":"Depolama & Düzen","order":1},{"id":"c28","roomId":"r4","name":"Kişisel Bakım Başlangıç","order":2},{"id":"c29","roomId":"r5","name":"Mobilya","order":0},{"id":"c30","roomId":"r5","name":"Elektronik","order":1},{"id":"c31","roomId":"r5","name":"Aydınlatma","order":2},{"id":"c32","roomId":"r5","name":"Depolama & Düzen","order":3},{"id":"c33","roomId":"r7","name":"Beslenme","order":0},{"id":"c34","roomId":"r7","name":"Tuvalet","order":1},{"id":"c35","roomId":"r7","name":"Yaşam Alanı","order":2},{"id":"c36","roomId":"r7","name":"Bakım","order":3}],"products":[{"id":"p1","name":"Elektrikli süpürge (veya robot)","roomId":"r6","catId":"c1","order":0},{"id":"p2","name":"Paspas + kova","roomId":"r6","catId":"c1","order":1},{"id":"p3","name":"Faraş + süpürge","roomId":"r6","catId":"c1","order":2},{"id":"p4","name":"Temizlik bezi / mikrofiber (x5)","roomId":"r6","catId":"c1","order":3},{"id":"p5","name":"Mop / ıslak paspas","roomId":"r6","catId":"c1","order":4},{"id":"p6","name":"Yüzey temizleyici","roomId":"r6","catId":"c2","order":0},{"id":"p7","name":"Banyo temizleyici","roomId":"r6","catId":"c2","order":1},{"id":"p8","name":"Cam temizleyici","roomId":"r6","catId":"c2","order":2},{"id":"p9","name":"Çamaşır deterjanı","roomId":"r6","catId":"c2","order":3},{"id":"p10","name":"Yumuşatıcı","roomId":"r6","catId":"c2","order":4},{"id":"p11","name":"Bulaşık makinesi tableti","roomId":"r6","catId":"c2","order":5},{"id":"p12","name":"Ütü","roomId":"r6","catId":"c3","order":0},{"id":"p13","name":"Ütü masası","roomId":"r6","catId":"c3","order":1},{"id":"p14","name":"Çamaşır askısı (iç mekan)","roomId":"r6","catId":"c3","order":2},{"id":"p15","name":"Çamaşır sepeti","roomId":"r6","catId":"c3","order":3},{"id":"p16","name":"Çamaşır torbası / file","roomId":"r6","catId":"c3","order":4},{"id":"p17","name":"Tornavida seti (düz + yıldız)","roomId":"r6","catId":"c4","order":0},{"id":"p18","name":"Çekiç","roomId":"r6","catId":"c4","order":1},{"id":"p19","name":"Pense","roomId":"r6","catId":"c4","order":2},{"id":"p20","name":"Metre / şerit metre","roomId":"r6","catId":"c4","order":3},{"id":"p21","name":"Dübel + vida seti","roomId":"r6","catId":"c4","order":4},{"id":"p22","name":"Matkap (veya komşudan ödünç)","roomId":"r6","catId":"c4","order":5},{"id":"p23","name":"İlk yardım çantası","roomId":"r6","catId":"c5","order":0},{"id":"p24","name":"Yangın söndürücü (küçük)","roomId":"r6","catId":"c5","order":1},{"id":"p25","name":"Duman dedektörü","roomId":"r6","catId":"c5","order":2},{"id":"p26","name":"El feneri + pil","roomId":"r6","catId":"c5","order":3},{"id":"p27","name":"Makas","roomId":"r6","catId":"c6","order":0},{"id":"p28","name":"Bant + çift taraflı bant","roomId":"r6","catId":"c6","order":1},{"id":"p29","name":"Kalem / tükenmez","roomId":"r6","catId":"c6","order":2},{"id":"p30","name":"Not defteri","roomId":"r6","catId":"c6","order":3},{"id":"p31","name":"Zarf + pul (muhtemelen hiç lazım olmayacak)","roomId":"r6","catId":"c6","order":4},{"id":"p32","name":"Pil seti (AA + AAA)","roomId":"r6","catId":"c7","order":0},{"id":"p33","name":"Ampul yedek (E27 + diğer)","roomId":"r6","catId":"c7","order":1},{"id":"p34","name":"Çok girişli uzatma kablosu (x3)","roomId":"r6","catId":"c7","order":2},{"id":"p35","name":"Kapı paspası","roomId":"r6","catId":"c7","order":3},{"id":"p36","name":"Ayakkabılık / raf","roomId":"r6","catId":"c7","order":4},{"id":"p37","name":"Askılık (antre)","roomId":"r6","catId":"c7","order":5},{"id":"p38","name":"Şemsiye","roomId":"r6","catId":"c7","order":6},{"id":"p39","name":"Çift kişilik baza (başlıklı)","roomId":"r1","catId":"c8","order":0},{"id":"p40","name":"Yatak/şilte (160x200)","roomId":"r1","catId":"c8","order":1},{"id":"p41","name":"Yastık (x2)","roomId":"r1","catId":"c8","order":2},{"id":"p42","name":"Nevresim takımı (x2)","roomId":"r1","catId":"c8","order":3},{"id":"p43","name":"Koruyucu yatak pedi","roomId":"r1","catId":"c8","order":4},{"id":"p44","name":"Gardırop","roomId":"r1","catId":"c9","order":0},{"id":"p45","name":"Komodin (x2)","roomId":"r1","catId":"c9","order":1},{"id":"p46","name":"Şifonyer / Çekmece ünitesi","roomId":"r1","catId":"c9","order":2},{"id":"p47","name":"Tavan armatürü","roomId":"r1","catId":"c10","order":0},{"id":"p48","name":"Abajur / gece lambası (x2)","roomId":"r1","catId":"c10","order":1},{"id":"p49","name":"Priz başı gece lambası","roomId":"r1","catId":"c10","order":2},{"id":"p50","name":"Stor/Perde","roomId":"r1","catId":"c11","order":0},{"id":"p51","name":"Halı / kilim","roomId":"r1","catId":"c11","order":1},{"id":"p52","name":"Uzatma kablosu / akıllı priz","roomId":"r1","catId":"c12","order":0},{"id":"p53","name":"Boy aynası","roomId":"r1","catId":"c13","order":0},{"id":"p54","name":"Çerçeve / tablo","roomId":"r1","catId":"c13","order":1},{"id":"p55","name":"Kanca (kapı arkası)","roomId":"r1","catId":"c13","order":2},{"id":"p56","name":"Kanepe / köşe koltuk","roomId":"r2","catId":"c14","order":0},{"id":"p57","name":"Koltuk (tekli)","roomId":"r2","catId":"c14","order":1},{"id":"p58","name":"Sehpa","roomId":"r2","catId":"c14","order":2},{"id":"p59","name":"Tv ünitesi / konsol","roomId":"r2","catId":"c14","order":3},{"id":"p60","name":"Kitaplık / raf ünitesi","roomId":"r2","catId":"c14","order":4},{"id":"p61","name":"Televizyon","roomId":"r2","catId":"c15","order":0},{"id":"p62","name":"Soundbar / hoparlör","roomId":"r2","catId":"c15","order":1},{"id":"p63","name":"HDMI kablosu","roomId":"r2","catId":"c15","order":2},{"id":"p64","name":"Akıllı priz / çoklu uzatma","roomId":"r2","catId":"c15","order":3},{"id":"p65","name":"Tavan armatürü","roomId":"r2","catId":"c16","order":0},{"id":"p66","name":"Lambader","roomId":"r2","catId":"c16","order":1},{"id":"p67","name":"LED şerit (dekoratif)","roomId":"r2","catId":"c16","order":2},{"id":"p68","name":"Perde (x2 kanat)","roomId":"r2","catId":"c17","order":0},{"id":"p69","name":"Halı","roomId":"r2","catId":"c17","order":1},{"id":"p70","name":"Kırlent takımı","roomId":"r2","catId":"c17","order":2},{"id":"p71","name":"Battaniye / plaid","roomId":"r2","catId":"c17","order":3},{"id":"p72","name":"Ayna","roomId":"r2","catId":"c18","order":0},{"id":"p73","name":"Çerçeve / tablo / poster","roomId":"r2","catId":"c18","order":1},{"id":"p74","name":"Dekoratif vazo / obje","roomId":"r2","catId":"c18","order":2},{"id":"p75","name":"Buzdolabı","roomId":"r3","catId":"c19","order":0},{"id":"p76","name":"Çamaşır makinesi","roomId":"r3","catId":"c19","order":1},{"id":"p77","name":"Bulaşık makinesi","roomId":"r3","catId":"c19","order":2},{"id":"p78","name":"Fırın / ocak","roomId":"r3","catId":"c19","order":3},{"id":"p79","name":"Aspiratör","roomId":"r3","catId":"c19","order":4},{"id":"p80","name":"Kettle","roomId":"r3","catId":"c20","order":0},{"id":"p81","name":"Kahve makinesi / Moka pot","roomId":"r3","catId":"c20","order":1},{"id":"p82","name":"Blender / el blenderi","roomId":"r3","catId":"c20","order":2,"brand":"Tigrecook"},{"id":"p83","name":"Tost makinesi / ızgara","roomId":"r3","catId":"c20","order":3},{"id":"p84","name":"Mikrodalga fırın","roomId":"r3","catId":"c20","order":4},{"id":"p85","name":"Hava fritözü (isteğe bağlı)","roomId":"r3","catId":"c20","order":5,"brand":"Philips"},{"id":"p86","name":"Tencere seti (12'li)","roomId":"r3","catId":"c21","order":0,"brand":"Tefal"},{"id":"p87","name":"Döküm tava (isteğe bağlı)","roomId":"r3","catId":"c21","order":1},{"id":"p88","name":"Borcam set","roomId":"r3","catId":"c21","order":2},{"id":"p89","name":"Bıçak seti","roomId":"r3","catId":"c22","order":0},{"id":"p90","name":"Kesme tahtası (x2)","roomId":"r3","catId":"c22","order":1},{"id":"p91","name":"Rende / doğrayıcı","roomId":"r3","catId":"c22","order":2},{"id":"p92","name":"Kevgir / süzgeç","roomId":"r3","catId":"c22","order":3},{"id":"p93","name":"Kepçe / spatula seti","roomId":"r3","catId":"c22","order":4},{"id":"p94","name":"Kaşık seti","roomId":"r3","catId":"c22","order":5},{"id":"p95","name":"Ölçü kapları","roomId":"r3","catId":"c22","order":6},{"id":"p96","name":"Açacak / tirbüşon","roomId":"r3","catId":"c22","order":7},{"id":"p97","name":"Tencere altlığı (x2)","roomId":"r3","catId":"c22","order":8},{"id":"p98","name":"Tabak seti (yemek + çorba + tatlı)","roomId":"r3","catId":"c23","order":0},{"id":"p99","name":"Kase seti","roomId":"r3","catId":"c23","order":1},{"id":"p100","name":"Bardak seti (su + meşrubat)","roomId":"r3","catId":"c23","order":2},{"id":"p101","name":"Çay bardağı + fincan takımı","roomId":"r3","catId":"c23","order":3},{"id":"p102","name":"Çay / Kahve seti","roomId":"r3","catId":"c23","order":4},{"id":"p103","name":"Çatal bıçak kaşık seti","roomId":"r3","catId":"c23","order":5},{"id":"p104","name":"Servis tabağı / sahan","roomId":"r3","catId":"c23","order":6},{"id":"p105","name":"Saklama kabı seti","roomId":"r3","catId":"c23","order":7},{"id":"p106","name":"Baharat rafı / organizeri","roomId":"r3","catId":"c24","order":0},{"id":"p107","name":"Dolap içi raf / organizeri","roomId":"r3","catId":"c24","order":1},{"id":"p108","name":"Çöp kutusu (kapaklı)","roomId":"r3","catId":"c24","order":2},{"id":"p109","name":"Geri dönüşüm kutusu","roomId":"r3","catId":"c24","order":3},{"id":"p110","name":"Kağıt havluluk","roomId":"r3","catId":"c24","order":4},{"id":"p111","name":"Bulaşık süngeri + tel (x3)","roomId":"r3","catId":"c25","order":0},{"id":"p112","name":"Bulaşık deterjanı (başlangıç)","roomId":"r3","catId":"c25","order":1},{"id":"p113","name":"Mutfak bezi (x5)","roomId":"r3","catId":"c25","order":2},{"id":"p114","name":"Banyo havlusu (x4 beden)","roomId":"r4","catId":"c26","order":0},{"id":"p115","name":"El havlusu (x2)","roomId":"r4","catId":"c26","order":1},{"id":"p116","name":"Bornoz","roomId":"r4","catId":"c26","order":2},{"id":"p117","name":"Banyo paspası","roomId":"r4","catId":"c26","order":3},{"id":"p118","name":"Duş perdesi + ray","roomId":"r4","catId":"c26","order":4},{"id":"p119","name":"Diş fırçalık / banyo organizer","roomId":"r4","catId":"c27","order":0},{"id":"p120","name":"Şampuan/sabun raf/organizer","roomId":"r4","catId":"c27","order":1},{"id":"p121","name":"Tuvalet kağıdı tutacağı","roomId":"r4","catId":"c27","order":2},{"id":"p122","name":"Çöp kutusu","roomId":"r4","catId":"c27","order":3},{"id":"p123","name":"Ayna (yoksa)","roomId":"r4","catId":"c27","order":4},{"id":"p124","name":"Şampuan & saç bakım","roomId":"r4","catId":"c28","order":0},{"id":"p125","name":"Duş jeli / sabun","roomId":"r4","catId":"c28","order":1},{"id":"p126","name":"Diş fırçası + macun","roomId":"r4","catId":"c28","order":2},{"id":"p127","name":"Deodorant","roomId":"r4","catId":"c28","order":3},{"id":"p128","name":"Cilt bakım rutini","roomId":"r4","catId":"c28","order":4},{"id":"p129","name":"Tıraş / epilasyon gereçleri","roomId":"r4","catId":"c28","order":5},{"id":"p130","name":"Çalışma masası","roomId":"r5","catId":"c29","order":0},{"id":"p131","name":"Ofis koltuğu (ergonomik)","roomId":"r5","catId":"c29","order":1},{"id":"p132","name":"Raf / kitaplık","roomId":"r5","catId":"c29","order":2},{"id":"p133","name":"Monitör (isteğe bağlı)","roomId":"r5","catId":"c30","order":0},{"id":"p134","name":"Klavye + mouse (harici)","roomId":"r5","catId":"c30","order":1},{"id":"p135","name":"Laptop standı","roomId":"r5","catId":"c30","order":2},{"id":"p136","name":"USB hub","roomId":"r5","catId":"c30","order":3},{"id":"p137","name":"Kulaklık / mikrofon","roomId":"r5","catId":"c30","order":4},{"id":"p138","name":"Webcam (isteğe bağlı)","roomId":"r5","catId":"c30","order":5},{"id":"p139","name":"Masa lambası","roomId":"r5","catId":"c31","order":0},{"id":"p140","name":"Masa organizer","roomId":"r5","catId":"c32","order":0},{"id":"p141","name":"Kalem kutusu","roomId":"r5","catId":"c32","order":1},{"id":"p142","name":"Dosya organizer / kutu","roomId":"r5","catId":"c32","order":2},{"id":"p143","name":"Mama kabı + su kabı (çelik)","roomId":"r7","catId":"c33","order":0},{"id":"p144","name":"Brit Care Sterilised Tavşanlı mama","roomId":"r7","catId":"c33","order":1},{"id":"p145","name":"Malt takviyesi","roomId":"r7","catId":"c33","order":2},{"id":"p146","name":"Vitamin takviyesi","roomId":"r7","catId":"c33","order":3},{"id":"p147","name":"Kedi tuvaleti (kapalı tercihli)","roomId":"r7","catId":"c34","order":0},{"id":"p148","name":"Kedi kumu (bol stok)","roomId":"r7","catId":"c34","order":1},{"id":"p149","name":"Kürek","roomId":"r7","catId":"c34","order":2},{"id":"p150","name":"Koku giderici sprey","roomId":"r7","catId":"c34","order":3},{"id":"p151","name":"Kedi yatağı / evi","roomId":"r7","catId":"c35","order":0},{"id":"p152","name":"Tırmalama tahtası / direği","roomId":"r7","catId":"c35","order":1},{"id":"p153","name":"Kedi oyuncakları","roomId":"r7","catId":"c35","order":2},{"id":"p154","name":"Tarak / fırça (British Shorthair için)","roomId":"r7","catId":"c36","order":0},{"id":"p155","name":"Kedi taşıma çantası","roomId":"r7","catId":"c36","order":1},{"id":"p156","name":"Veteriner kartı / dosya","roomId":"r7","catId":"c36","order":2}]};
 
 /* ——— utils ——— */
@@ -429,12 +458,15 @@ const STATUSES = [
   { id:'arastiriliyor', label:'Araştırılıyor' },
   { id:'wishlist',      label:'Wishlist' },
   { id:'alinacak',      label:'Alınacak' },
-  { id:'alindi',        label:'Satın Alındı' },
-  { id:'evde',          label:'Evde Var' },
-  { id:'hediye',        label:'Hediye' },
+  { id:'tamam',         label:'Tamamlandı' },
 ];
-const DONE_ST = ['alindi','evde','hediye'];
-const stLabel = id => (STATUSES.find(s => s.id === id) || STATUSES[0]).label;
+const ACQS = [
+  { id:'satin',  label:'Satın Alındı' },
+  { id:'hediye', label:'Hediye' },
+  { id:'evde',   label:'Zaten Vardı' },
+];
+const stLabel  = id => (STATUSES.find(s => s.id === id) || STATUSES[0]).label;
+const acqLabel = id => (ACQS.find(a => a.id === id) || ACQS[0]).label;
 const PRIOS = [ {id:'yuksek',label:'Yüksek'}, {id:'orta',label:'Orta'}, {id:'dusuk',label:'Düşük'} ];
 const ROOM_COLORS = ['#3F4DBA','#C96A3A','#A55C7A','#9BA17B','#4A3C2F','#EFE7DA','#FCF1C4','#C09A3E'];
 const lightRoom = c => ['#EFE7DA','#FCF1C4'].includes((c||'').toUpperCase());
@@ -464,16 +496,44 @@ function freshState(){
 function load(){
   try {
     const raw = store.read(KEY);
-    if (raw){ S = JSON.parse(raw); migrate(); return; }
+    if (raw){ S = JSON.parse(raw); S = migrate(S); return; }
   } catch(e){ console.warn('state parse failed', e); }
   S = freshState();
   persistNow();
 }
-function migrate(){
-  if (!S.tagBank) S.tagBank = [];
-  if (!S.meta) S.meta = { installedAt:now(), welcomed:true, deviceId:uid() };
-  if (!S.settings.theme) S.settings.theme = 'system';
-  S.products.forEach(p => { p.tags ??= []; p.links ??= []; p.alts ??= []; });
+function migrate(st){
+  st = st || S;
+  if (!st.tagBank) st.tagBank = [];
+  if (!st.meta) st.meta = { installedAt:now(), welcomed:true, deviceId:uid() };
+  if (!st.settings) st.settings = { title:'Şehre Dönüş', date:'2028-02-01', currency:'₺', theme:'system', clientId:'', updatedAt:1 };
+  if (!st.settings.theme) st.settings.theme = 'system';
+  st.settings.includeLow ??= false;
+  /* v1 → v2: Hediye/Evde Var durumdan çıkar, edinim tipine taşınır (updatedAt'e DOKUNMA — LWW bozulur) */
+  const ACQ_MAP = { alindi:'satin', hediye:'hediye', evde:'evde' };
+  st.products.forEach(p => {
+    p.tags ??= []; p.links ??= []; p.alts ??= [];
+    if (ACQ_MAP[p.status]){ p.acq = ACQ_MAP[p.status]; p.status = 'tamam'; }
+    p.acq ??= (p.status === 'tamam' ? 'satin' : null);   /* tamamlanmış her ürünün tam bir edinimi olur */
+    if (p.status !== 'tamam') p.acq = null;
+    if (p.prevStatus && (ACQ_MAP[p.prevStatus] || p.prevStatus === 'tamam')) p.prevStatus = 'ihtiyac';
+    p.store ??= '';
+    p.acqDate ??= (p.purchasedAt ? new Date(p.purchasedAt).toISOString().slice(0, 10) : null);
+  });
+  st.rooms.forEach(r => { if (!r.icon) r.icon = guessRoomIcon(r.name); });
+  st.v = 2;
+  return st;
+}
+function guessRoomIcon(name){
+  const n = trLow(name || '');
+  if (n.includes('yatak')) return 'bed';
+  if (n.includes('salon') || n.includes('oturma')) return 'sofa';
+  if (n.includes('mutfak')) return 'pot';
+  if (n.includes('banyo')) return 'bath';
+  if (n.includes('çalışma') || n.includes('ofis')) return 'desk';
+  if (n.includes('bucky') || n.includes('kedi') || n.includes('pati')) return 'paw';
+  if (n.includes('çocuk') || n.includes('bebek')) return 'star';
+  if (n.includes('balkon') || n.includes('bahçe')) return 'plant';
+  return 'home';
 }
 const persistNow = () => store.write(KEY, JSON.stringify(S));
 const persist = debounce(persistNow, 250);
@@ -496,7 +556,13 @@ const cat      = id => S.cats.find(c => c.id === id);
 const prod     = id => S.products.find(p => p.id === id);
 const roomProds= rid => prodsA().filter(p => p.roomId === rid);
 const catProds = cid => prodsA().filter(p => p.catId === cid).sort(byOrder);
-const isDone   = p => DONE_ST.includes(p.status);
+const isDone   = p => p.status === 'tamam';
+const stChip   = p => p.status === 'tamam'
+  ? `<span class="chip acq-${p.acq || 'satin'}" style="padding:2px 8px">${acqLabel(p.acq || 'satin')}</span>`
+  : `<span class="chip st-${p.status}" style="padding:2px 8px">${stLabel(p.status)}</span>`;
+const isBought = p => p.status === 'tamam' && p.acq === 'satin';
+/* ilerleme havuzu: düşük öncelikliler varsayılan olarak yüzdeye girmez */
+const progPool = ps => S.settings.includeLow ? ps : ps.filter(p => p.priority !== 'dusuk');
 const usedTags = () => { const s = new Set(S.tagBank.map(t=>t.name)); prodsA().forEach(p => p.tags.forEach(t => s.add(t))); return [...s].sort((a,b)=>a.localeCompare(b,'tr')); };
 const usedCards= () => { const s = new Set(); prodsA().forEach(p => p.card && s.add(p.card)); return [...s]; };
 
@@ -511,29 +577,56 @@ function finOf(p){
   return { monthly, paid, remCnt, remain: remCnt * monthly, active: iNow >= i0 && iNow < i0 + p.instCount };
 }
 function finance(){
-  let debt = 0, month = 0, spent = 0, remCnt = 0, spentCnt = 0, unpriced = 0, maxLast = -1, listSum = 0, buySum = 0;
-  const cards = {};
-  const upcoming = {}; // ymIdx -> {card: amount}
   const i0 = ymIdx(ymNow());
+  let debt = 0, month = 0, pocket = 0, pocketCnt = 0, unpriced = 0, maxLast = -1;
+  let market = 0, acqVal = 0, giftVal = 0, ownedVal = 0;
+  let remainEst = 0, remainMiss = 0, wishEst = 0, wishMiss = 0;
+  const cards = {}, upcoming = {};
   for (const p of prodsA()){
-    if (p.status !== 'alindi') continue;   /* Evde Var / Hediye finansa girmez */
-    spentCnt++;
-    if (p.listPrice != null && p.price != null){ listSum += p.listPrice; buySum += p.price; }
-    if (p.price != null) spent += p.price; else { unpriced++; continue; }
-    const f = finOf(p);
-    if (!f.monthly) continue;
-    debt += f.remain; remCnt += f.remCnt;
-    const last = ymIdx(p.instStart) + p.instCount - 1;
-    if (f.remCnt > 0 && last > maxLast) maxLast = last;
-    if (f.active) month += f.monthly;
-    const cardName = p.card || 'Kart belirtilmedi';
-    cards[cardName] = (cards[cardName] || 0) + f.remain;
-    const s = ymIdx(p.instStart);
-    for (let i = Math.max(s, i0); i < s + p.instCount; i++){
-      (upcoming[i] ??= {})[cardName] = ((upcoming[i] ??= {})[cardName] || 0) + f.monthly;
+    if (p.status !== 'tamam'){
+      /* kalan alım tahmini + wishlist tahmini */
+      const est = p.listPrice ?? (p.alts.filter(a => a.st !== 'x' && a.price != null).map(a => a.price).sort((a,b)=>a-b)[0] ?? null);
+      if (est != null) remainEst += est; else remainMiss++;
+      if (p.status === 'wishlist'){ if (est != null) wishEst += est; else wishMiss++; }
+      continue;
+    }
+    const worth = p.listPrice ?? p.price;                 /* piyasa değeri: liste, yoksa ödenen */
+    if (worth != null) market += worth;
+    if (p.acq === 'satin'){
+      pocketCnt++;
+      if (p.price == null){ unpriced++; }
+      else {
+        pocket += p.price;
+        acqVal += p.price;
+        const f = finOf(p);
+        if (f.monthly){
+          debt += f.remain;
+          if (f.remCnt > 0){
+            const last = ymIdx(p.instStart) + p.instCount - 1;
+            if (last > maxLast) maxLast = last;
+          }
+          const sIdx = ymIdx(p.instStart);
+          for (let i = Math.max(sIdx, i0); i < sIdx + p.instCount; i++){
+            (upcoming[i] ??= {})[p.card || 'Kart yok'] = ((upcoming[i] ??= {})[p.card || 'Kart yok'] || 0) + f.monthly;
+            if (i === i0) month += f.monthly;
+            cards[p.card || 'Kart yok'] = (cards[p.card || 'Kart yok'] || 0) + f.monthly;
+          }
+        }
+      }
+    } else {
+      const v = p.listPrice ?? 0;                         /* hediye/evde: cebe dokunmaz, değeri liste fiyatı */
+      acqVal += v;
+      if (p.acq === 'hediye') giftVal += v; else ownedVal += v;
     }
   }
-  return { kar: listSum ? 1 - buySum / listSum : null, saved: listSum - buySum, remMonths: maxLast >= i0 ? maxLast - i0 + 1 : 0, debt, month, spent, remCnt, spentCnt, unpriced, cards, upcoming };
+  const saved = Math.max(0, market - pocket);
+  return {
+    market, acqVal, pocket, pocketCnt, giftVal, ownedVal,
+    saved, savedPct: market ? saved / market : null,
+    debt, month, remMonths: maxLast >= i0 ? maxLast - i0 + 1 : 0,
+    upcoming, cards, unpriced, remainEst, remainMiss, wishEst, wishMiss,
+    lastIdx: maxLast,
+  };
 }
 
 /* ——— insights ——— */
@@ -563,24 +656,37 @@ function insights(){
 <script>
 /* ═══════════════════ UI KIT ═══════════════════ */
 const I = {
-  home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/></svg>',
-  box:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.3 7.6 12 3l8.7 4.6v8.8L12 21l-8.7-4.6z"/><path d="M3.3 7.6 12 12.2l8.7-4.6"/><path d="M12 12.2V21"/></svg>',
-  spark:'<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2c.6 4.8 2.4 7.4 8 8-5.6.6-7.4 3.2-8 8-.6-4.8-2.4-7.4-8-8 5.6-.6 7.4-3.2 8-8Z"/></svg>',
-  fin:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>',
-  gear:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M19 12a7 7 0 0 0-.14-1.4l2-1.55-2-3.46-2.36.95a7 7 0 0 0-2.42-1.4L13.7 2.6h-3.4l-.38 2.54a7 7 0 0 0-2.42 1.4l-2.36-.95-2 3.46 2 1.55A7 7 0 0 0 5 12c0 .48.05.94.14 1.4l-2 1.55 2 3.46 2.36-.95a7 7 0 0 0 2.42 1.4l.38 2.54h3.4l.38-2.54a7 7 0 0 0 2.42-1.4l2.36.95 2-3.46-2-1.55c.09-.46.14-.92.14-1.4Z"/></svg>',
-  search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>',
-  filter:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>',
+  home:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.2 12 3.6l8 6.6V21H4Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M4 10.2 12 3.6l8 6.6M5.5 9v12h13V9M9.8 21v-5.6h4.4V21"/></svg>',
+  box:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.7 12 3l8.6 4.7v8.6L12 21l-8.6-4.7Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M3.4 7.7 12 3l8.6 4.7v8.6L12 21l-8.6-4.7ZM3.4 7.7 12 12.3l8.6-4.6M12 12.3V21"/></svg>',
+  spark:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 2.6c.6 4.6 2.3 7 7.8 7.6-5.5.6-7.2 3-7.8 7.6-.6-4.6-2.3-7-7.8-7.6 5.5-.6 7.2-3 7.8-7.6Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M12 2.6c.6 4.6 2.3 7 7.8 7.6-5.5.6-7.2 3-7.8 7.6-.6-4.6-2.3-7-7.8-7.6 5.5-.6 7.2-3 7.8-7.6Z"/><path d="M18.6 16.4c.25 1.9 1 2.9 3 3.1-2 .25-2.75 1.2-3 3.1-.25-1.9-1-2.85-3-3.1 2-.2 2.75-1.2 3-3.1Z" fill="currentColor" stroke="none"/></svg>',
+  fin:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M3 8a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3ZM3 9.6h18M7 15h4.4"/></svg>',
+  gear:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8.4a3.6 3.6 0 1 0 0 7.2 3.6 3.6 0 0 0 0-7.2Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M12 8.8a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4Zm7-.9-1.9.6a5.7 5.7 0 0 0-1-1.75l.9-1.8-2-1.15-1.35 1.5a5.7 5.7 0 0 0-2-.35L11 3h-2.3 4.6M19.4 12c0 .4-.04.8-.12 1.18l1.82 1-1.15 2-1.98-.6c-.5.6-1.1 1.1-1.8 1.46l.14 2.06-2.24.4-.72-1.94a5.8 5.8 0 0 1-2.06-.18l-1.24 1.66-2.06-.94.66-1.96a5.8 5.8 0 0 1-1.3-1.6l-2.06.24-.58-2.2 1.86-.9a5.8 5.8 0 0 1 .08-2.06l-1.7-1.18 1.1-1.98 1.98.68a5.8 5.8 0 0 1 1.66-1.24l-.06-2.1 2.26-.3.64 2a5.8 5.8 0 0 1 2.06.26l1.3-1.64 2 1-.72 1.96c.5.46.92 1 1.24 1.62l2.08-.18.5 2.22-1.88.84c.06.38.08.78.08 1.18Z"/></svg>',
+  search:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4.2a6.8 6.8 0 1 0 0 13.6 6.8 6.8 0 0 0 0-13.6Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M11 4.6a6.4 6.4 0 1 1 0 12.8 6.4 6.4 0 0 1 0-12.8Zm9 15.4-3.4-3.4"/></svg>',
+  filter:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6.2 7.2V19l-3.6-1.8v-5Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M4 5h16l-6.2 7.2V19l-3.6-1.8v-5Z"/></svg>',
   x:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   chev:'<svg class="ar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
   right:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>',
-  pen:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3.5 20.5 7 8.5 19H5v-3.5z"/></svg>',
+  pen:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16.8 3.6 20.4 7.2 8.6 19H5v-3.6Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M16.8 3.6 20.4 7.2 8.6 19H5v-3.6ZM14.6 5.8l3.6 3.6"/></svg>',
   tick:'<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>',
   plus:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
-  drag:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>',
-  trash:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4.8A1 1 0 0 1 10 4h4a1 1 0 0 1 1 1V7m3 0-.8 12.2a2 2 0 0 1-2 1.8H8.8a2 2 0 0 1-2-1.8L6 7"/></svg>',
-  link:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M10 14a4.5 4.5 0 0 0 6.4.4l3-3a4.5 4.5 0 0 0-6.4-6.4l-1.5 1.5"/><path d="M14 10a4.5 4.5 0 0 0-6.4-.4l-3 3a4.5 4.5 0 0 0 6.4 6.4L12.5 17.5"/></svg>',
-  cloud:'<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 18.5a4.5 4.5 0 0 0 .4-9A6 6 0 0 0 6.2 8.6 4.8 4.8 0 0 0 7 18.2z"/></svg>',
+  drag:'<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" opacity=".8"><circle cx="9" cy="6" r="1.7"/><circle cx="15" cy="6" r="1.7"/><circle cx="9" cy="12" r="1.7"/><circle cx="15" cy="12" r="1.7"/><circle cx="9" cy="18" r="1.7"/><circle cx="15" cy="18" r="1.7"/></svg>',
+  trash:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l-.9 13H6.9Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M4.5 7h15M9.6 7V4.8h4.8V7M6.4 7l.8 13h9.6l.8-13M10 11v5m4-5v5"/></svg>',
+  link:'<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="" fill="currentColor" opacity=".16" stroke="none"/><path d="M9.6 14.4 14.4 9.6M8 11.6 5.9 13.7a3.4 3.4 0 0 0 4.8 4.8l2.1-2.1M16 12.4l2.1-2.1a3.4 3.4 0 0 0-4.8-4.8L11.2 7.6"/></svg>',
+  cloud:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.4 4.4 0 0 1-.6-8.76A5.6 5.6 0 0 1 17.3 10 3.9 3.9 0 0 1 17 18Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M7 18a4.4 4.4 0 0 1-.6-8.76A5.6 5.6 0 0 1 17.3 10 3.9 3.9 0 0 1 17 18Z"/></svg>',
 };
+const RICONS = {
+  home:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.2 12 3.6l8 6.6V21H4Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M4 10.2 12 3.6l8 6.6M5.5 9v12h13V9M9.8 21v-5.6h4.4V21"/></svg>',
+  bed:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18v6H3Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M3 17v-6a2 2 0 0 1 2-2h9a4 4 0 0 1 4 4M3 17h18M3 17v2m18-2v2M3 9V6"/></svg>',
+  sofa:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11h16v6H4Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M6 11V8.6A2.6 2.6 0 0 1 8.6 6h6.8A2.6 2.6 0 0 1 18 8.6V11M4 17v-3.4A1.6 1.6 0 0 1 5.6 12h12.8a1.6 1.6 0 0 1 1.6 1.6V17H4Zm1 0v2m14-2v2"/></svg>',
+  pot:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h14v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M5 10h14v5a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4ZM3 10h2m14 0h2M10 10V8.6a2 2 0 0 1 4 0V10"/></svg>',
+  bath:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4ZM6 12V6.4A2.4 2.4 0 0 1 8.4 4c1.1 0 2 .7 2.3 1.7M7 19l-.8 1.8M17 19l.8 1.8"/></svg>',
+  desk:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 4.5 13 9l-4 4-4.5-4.5Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M4.5 8.5 8.5 4.5 13 9l-4 4ZM11 11l6.5 6.5M3.5 20.5h17"/></svg>',
+  paw:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12.6c2.6 0 4.8 1.7 4.8 4 0 1.6-1.2 2.6-2.6 2.6-.9 0-1.5-.4-2.2-.4s-1.3.4-2.2.4c-1.4 0-2.6-1-2.6-2.6 0-2.3 2.2-4 4.8-4Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M12 12.6c2.6 0 4.8 1.7 4.8 4 0 1.6-1.2 2.6-2.6 2.6-.9 0-1.5-.4-2.2-.4s-1.3.4-2.2.4c-1.4 0-2.6-1-2.6-2.6 0-2.3 2.2-4 4.8-4ZM7.2 10.4a1.7 1.9 0 1 0 0-.01M16.8 10.4a1.7 1.9 0 1 0 0-.01M10 6.6a1.6 1.9 0 1 0 0-.01M14 6.6a1.6 1.9 0 1 0 0-.01"/></svg>',
+  plant:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14h8l-1 6H9Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M8 14h8l-1 6H9ZM12 14V9m0 0C12 6 9.8 4.4 7 4.6 7.2 7.6 9.4 9.2 12 9Zm0 0c0-2.4 1.8-3.8 4.2-3.6-.2 2.4-2 3.8-4.2 3.6Z"/></svg>',
+  star:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.4c.5 4 2 6 6.6 6.6-4.6.5-6.1 2.6-6.6 6.6-.5-4-2-6.1-6.6-6.6 4.6-.6 6.1-2.6 6.6-6.6Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M12 3.4c.5 4 2 6 6.6 6.6-4.6.5-6.1 2.6-6.6 6.6-.5-4-2-6.1-6.6-6.6 4.6-.6 6.1-2.6 6.6-6.6Z"/></svg>',
+  boxr:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.4 7.7 12 3l8.6 4.7v8.6L12 21l-8.6-4.7Z" fill="currentColor" opacity=".16" stroke="none"/><path d="M3.4 7.7 12 3l8.6 4.7v8.6L12 21l-8.6-4.7ZM3.4 7.7 12 12.3l8.6-4.6M12 12.3V21"/></svg>',
+};
+const BRAND = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAA0rklEQVR42qW9eZwlR3Um+p2IyLvVXl29au3WLiSxyMKAQMIWiwRiEagbZMzisQ0IMMhgHgb/cCMWm/GwjJFhbB5mjBnPM93GgJGQYCxLDRK7NiS10K5utbZeq+pW1V0yI878kZERJ/IWY7/3Wr9udVfdujcz4sRZvu87Jwn/L35t3bpD/9M/vc4ys//K5TPPPv+sC048Yc3WRrNJAC6cmR6f+OX9B3jd3BjNzY3hwMEV9HpD9AcFhjmjsA7OAswMZsA5BjMDVH6NwCAQAICo/BcAMDvAOUARiBQUlV93jgEwSCn/8wT/I/7nxA0wAHL+/QmM8ptKEYgArQgmUzBGodkwaLcM1s61cfDQCg4fXuETNq+h+x96qrtubuy6vfsOM1vaueu6n18P/Lcj1fVeeunX9M6d2+x/dE3pP/ay7Yroo84vPD3z3M9fcvTRsxeTMhdkJjs2Mw2s9AY4cPAwimIIdozBcIiisCACCAQiAojDv8tFL2+8upBqY6laK6LRRfQvKDegXHAWr1FEqL+8/B6HXahew+WHgB2Dw1YTwIBjgMGw1iHLDFqNBpRWMFkD09NTUIow1tEYDAZ7iXH9w3v2X33bze/8BgAmIjD/qQKudP+/N2Dr1h1hR88456pLnvn0oz641M/OcQwcPHAIK8tdNxgMGXAwmjSp8sZIKRDYWyjFhQ+LwnGBwSB/w+VFkTBarnYjXHG5WdV7pq8JG0neyv3nEIVXxl3xr3fMYX8IDJCKH0fsT2u5MQxGUTirtIbWGU1MjqtNG9aCiDG/cORnTz6+8Od3/PgPvlFfu/9PG7B9O6srryTXWPP+U156wTM/ZxrjLxkMczz5xFO231uBVk5prYnrC1YZHFf/4rBy1fEHxTVl59+BSGwMhxuurVn4uXKB/Umg1W6H/fspfwIBOILz1l69j3POG42/No7vx+HPaDjRCBjOMVsL1+50sGnjej091cEje5/43j33PvbuQ4/86b3bt29XV175q0/Cr9oA2rp1h9q5c5s99VmfuvisM4//x2GRje3b95hdWloio6G01uIm5XEnEHF1voN1UjApvxmVnZM3vsRN1Jx49TPV5lDdv6tqx8Npk25Hbg4jui4C4KpFDQur4iIo/zPORWOpDpu41urznIVrddp81Mb1Os/7yweeOvz6n930B1f7k+DEDYZferXF3779Bv2FL1xsL9761U8de+zRVz11YKHx6N7HrHO51gpU+mqO6xPuUlqjWEoSriWxVB6xgfCV6hQQvAWnLwouqNoQkp/o75Uo2QCOF5t8dOWi4meosFXiDcSpqU4GJadCKaLCWnXw4LydnOo0169f/1u6/ZyJG773u989//ztZs+eXf/+BmzdukN/4QsX2wsv+e+f3rz5mPfdc9+e4sjhI5RlpOAY7KpFSXxIsO7wpcT64qITAKYYaIV3Eu6JovWGYFxZGoc3kO+hiEqLZaTuLryoypIQXBwRgZhBxOlnVystYkmMNXLxyccRFseRYQypI/OL3B8M7czM2udPzp43+ZOb/vi6rVt36N27d/Kv3IDzz99uvvOdd9lXvf7vP33UUUe994c/uqvorayYLFPEzGC4cLMQVppabTj/YvHrrsXfPORCkzBMeTIcQCr4czCVqahSZWqKKsuSLgsytUrfkaoTGV1ntbEsrb667pCScXy7GOSgCCPukhnQStNwOFBFMSxmZtedOz77/Mkbvve71/mT4FaJATs0sM2e9oxPv+y888+85pZb7yv6/WWjtfZHjH16VncnqSepfK+iemAmEGkALhqWjxnRbXHMkJTyrqYMolXdEFyFX7AYSxiEclMcM5RSIguKNsAgfy/Vz1JMFKoUTiQSpFYL7CFPDhvg4hej+yUFxw7tzlhx9KaN5uFH97z89u9f8Z1qrcMJ2L59u7rxxnfy//znqS3PPPv4f71r9z7d7y9prYlCbu4zlMQtisNERMEVlUdaBimKLp04saDUT1cbS8HqgusSp6n8NieugRInTbWTN/rZJBc/uJn4eSxcSowhLg1uwQjCB8jlLw0RQL83oE6nYU84bt2rf/nAqV8r+u88AkDt2rWLFQDs3r2biEid/rS1X1rsFhP9Xpe0VhSNIY2AdT8PvyAsbpqr40tpEVRlIVU+Wd608zdH/hWMmIxEP1HlMVXaKC1VXhGD42Il3o9CcC2rXwetKpfqogMiiNqh2gw3uhbBVljEQl+ZV24OhCzT9PDDj9Pyip14yUu2fImI1O7du8mnm6x37iT7gpd+8VUbN6775l13PVgY7QzD+SLFH1RFiVWI6FY7efVMSFhjFcCku5HpJacJMvucT5EKCytyzHBSKjcT3RqLbMaBvKtgdrAOKAqgKBycX9BWU8EY8vdaK+hq+1e5TOkFnLgcEvlTkg4zoE1WnHDC8ebBB/e++vYfvudbW7eyNqefDsb5202nbbbvfXQ/AwVxkqKxjGVgH4SjT5anvirxy8WmuEbR73PEeljWvCzOT1hYj/dUmRIpceKQBPTKQlnk5mU9QugPHAZDB6U1piab2LSxhfVzbUxNNgBm3HXfERw8uAJSDHZVNRz9PVEsyCjuhL9kSlypjNRVqlzVRoPBgA4cOMTTU+3twPnXnH46HAGgc1/81xePT079y6N791mtnE6jZJWFCGOnWD2JojVatYunIART6SPlBoNrFkRhEUuMRhRxSSzimsVzCJpKKeS5xUqPkTUMTtg8g7PPWoNnP2MGZ5wwhrk1TUy0CeAC6GjcdmsXr3/nTWg1CM668pplwCWAROoLcf+VmTMpUIgJsdhMw5EDM+zm44/XTzx58JU///47rzYAePPm2a2P7lthdpahysVSIkCV7kjFQlaU49XiVzl2BbBVL2PngkVWGxviKxhcnQqlYgFVVbYU64AKL5KbULkoBoMUQWvCYGDRHzA2bpjAq162ERedvxbPOrWDzjgBzgLDAiiGGB7JoRSDBoyd37oLReHAmUqwqeDjHcBUrkkI/5Se2hLg4JAFy7RYOrI8t5zbgteuGdsK4Nt04Ru+Otkh3PPggwc2OTcoM8AAA3PNxVPEV+Ctu/qa41CclRiJWHhRNaaVZLUJlUVZb8XK5w8xL2eOBRlqQVZpwnDI6A+AE0+cwaUvPwav+I05bFyngHwAXs6ROw7ZmLMWWTPD4nIXb/3Qv+Fff5Jj47q1AOkkkyFSotgLPjS4QnY2vSawdzdp4RaMslwXbrbatHbN5OMP3rV4mtkw2b7o0KHepuFw4IxRitnFHSOxdOySVItDIeVfoygJzOXNKn98OUC/oDRrkWAQQaWpZ1jsBEcNb6A1Ic8dFhcdTjxhFm+8dDNe+5uzGJ9wwHIPw0M2xCitovHoTGNxZQmvftvXcfMti9h83PFwzkJpHZFXYSgJDlGdvDKXqsHmscBjca3kX+s3lXq9vms0Zzdt3NK5yDjHr+31c7Ara8EkjQ6wsfDwFbwrIWVhHdXFRVgAId2sLKTy9MnPI7qn6g7YJwAkQL3SXRG00ljsFpiebuP333Qi3vzq9ZietODFZeSHGUoBWtXyUCKwczAtjXd/4Frc+MPHsGXzFjhW0JXlV7gQWNb4MQORRSciKlDewsjipRU6fKrtHPd6BbSm15put4fD8yswpsRFZDnPycXXmJHAYgn/X8N8oj+vGX9YdArBWSKS4ZPZZzfkQkqoNWE4dBjmhJe+aDPe97vH4YRjNbCwhOFhhtKA1iIwV+koM6y1aEw28fVv3Y7/8a0HcMzRG+E4g1FZLe0UMDTJYCe3xKWIRz29rsiekBi5WLACKIoCGzaMwYyPmwuL4QpIkUaCcopcP5TdtMqCx2Pmws+k/l/Sf7I6knlymS05QaxwTGn9exitsNjNsWHjFP7o8tNwyQXTQH8Zw0M9b/FcC3rVKXWeLQOGvSH+61duw3hnEiYbh9ZNKNLenfgisMxFAzFDwfiphhV59qxmfBWuBKakbIEP41qTnp+fh1Z8odn76MJEYW158enyBAsooSAGlBIFlfPumkQFW7qNWhAJ+A/q2QPTSDXLiDhNVUlqUmAGDs3nuPCC47H9PSfiqHWMYn6x9Om6Hk9cvGHvGp1jZGMN/Oy2x3DnvV1MTc0ClEEpU24+yXSXQw0CqmqDGrzBaYpSGqBLijcJxlaGUBlcURQ46cQ1E2bzcZO877GDNN7JYCsLDJurfOGESIyXHyWB+cBMhRgR0i9BOYIFg0WefOfSLDm19Lg5BGPK1NJRAx+84kxcvm0t0O9heLiA0XHDy9TUjVbfkoDPFG6/9yCGeYZG1gKUASnjl0+FDQvgNJVlLstSmGRcczHV9BmThDxiIadCMRcLUcIjew6ymZ/vkTEaPEKJUA3aFYGpqlRj9AEpCm4ouVZfjcogBA8tKPk+Erzz/zIaWF4usGZuAp/8k6fjhc8ZQ3FwEcwOVcLi06wSKq8TO5JN8/dwaMFBqQxKZyDVAJGOrsUbDfn7CbyC5Iur4kxR6QkqsNIb5wg0Q5E/IKoqLIJlh3xoycwv9KB1LZ3C6C4HFUO8jIT8iKEihCSwoP5irl9aagUxxyut8P3yp4whHJkv8PQz1uIvP/YMbN7gMNw/D61VrZrmSAiVPGJZ/LGEbDlc//hYE1obKG3iaVQaSWWZnESk4gFSovpMgzAEIEnVa6sKWNALpIDBSoHTTlsLs7wyhKJR1JOIa18TmhtXC/9CZlLVHhFv5+D3xNlKLjZAva6sjLUCDh8p8OLfOA6f/fBpmMz6GB4ZwmgCs0UKCHHK2Ad2LhpJYMFyi9O2rEGr1YlslqJYswjQMAUbq/ScQoGWBvsojyGuKztERPU1FoGgFGGp24MaDHJR2rtUGiJANqIySwjGxlwT7FDEQZz8Xo3PrY43y8t0IeAbrXB4wWLrK0/A//2J0zDBy8iXhtDKV7/VjbMLJybFZyhU24K/hyKC6+U456y12HzcFAZDB61McD2SG45MH9dYPQ4QCNf4dRawhKsKzwBPp3IccAl1rPRyKA4vlohFLHxYMj0sedPKgqqzFYNLRZRTRf8F0ps86xSxY5n1aL/4b9p2Ej79oZPAy10UuYXSNQpRgiRcbYHUq8iTF11CkVtMzmZ446tPwnKvrCmqOqVaB2Zp0yoaYV0VIK6dRZ0m1zHgYSTZuAjzDHMLxZWFJng8J9AuhF9PcZiYgahKeyMIjeqGWGLm4sIqSNcxoJTCoYUCb37dSfjE+7bALi6BXZn5kmThJP7NPi0IwFxC0dX0ReVn2MUBfud1J+GZZ6xBtzsoN4FkllcP5BThBa7DDliV61ZKx2skCsBjcloUobAOql64pCmhd/muMlIeiVVRMSYgaFJRSiKwE8ep+6qszhiDQ/M53vCaE/GxKzajWFjyxZ4rXY1L6c3K4ZWnr0ppV/vlE+DguxnOMjomx6f+5Gx0xtoY5tbfsxM4E4c0Odq6S4ssGYU91kOpaszHFRKyHA5JMQFw1kExWwG0pcRKKL0JAueRp6Iu1oE4zozRnQUcC8EtgIZRODJf4JKXHY8//6MtKBaXQsomizyJxMK5VNwl5SQyKHPUolbuUSkg7w5x5qkdfHr7OcgL4bRYuK0a+0cQmFUI0n5zmWveiUeKtvJkUDwYFZIbSPOQ+6eCpUgkcMx2EtESRkr/xMKBlMiHCwvTyDTmuxYveO4GfOqPTwYvL/nvuVjkVTIYX2WG9yTpf2mk8q4jrdJlqkxjeHgFF71wCh9+z9Ox0M2htKgFmH0e4YQTp0BJskxDuS7cYlHpI9WjVucqYG31FIU9m8VpcKl2kFCjHSlae5CuVAe0dhzjgvoN1ISlFYuTTpzG57afjqxYgStK5JUdr0K01xUYguKvc9UsnVJVt7j4Pr6QGx5awlu2bcC7fud0HDo8gDF6JONx/ndi3cwxS6oFZlc/+OIaE0mPR0+VCgWR30nFQpDECYInrVKA5CFuBI7UBx6iSn3gT1glT1dAkTMmJju46iNnYbY9QD4oSssPi+k8EgpBQZLX+2AEr5cnT/rnke3jKolwpTs6soQPvH0ztr3qRByeH0IbFXGgBMtKyamY1aWLnDpmjlL8kZSdPPPInIiTQlHCqepAal+SYOgXlHytoJQOSrX0cInqmIBhofBn7z8FJx8HDLs5NFVxwy88U4AwqsDO7DzFmd6KvLYgFghirViMsatrWhnEDNvt4pMfOAXPe/ZGLCzmMDoSQhQKL5/JscjEanGYFCVSHKk7Ktk1GoGqFGka6WZI0swE/VMj4lupr6Ka2C41yjIt1VrhyILD295wPF563hSGh1egDYu6IP7BI50ZEXqIViWgD1dbkSo781VxlmmBTrhANrncolEs46qPnIXjjplCr289RsiJ1FJRSotWLjcKt8T/Q3EwWvtLeb7SWtXIi5rMsCq4iGLeQYIHEJbuIKvVmkKNGUYTFrsFXvCcDbjiLccgP7wEpVVC4sj3H6mgfVrHiQaUhbI5Kn0DaFjdl9J4/MA8nLNRVe2LEKUYeS/H2skBrvroM9BoGOSFE7WBLzRJoLhiuZxjuCpgg5NqWhakVFfdEaBQ53UE11sinPFUsPfJKc3O4T8Sfpc9VFABY6QIw5wxPd3Bx684Aaboj6RsLCV/Ia64GHcEOkuCQgxuktLGgconKyqFWJ/7f3Zj4ChCw+JztQIG832cdWqGj/7RWVjuuaB0kBleuC+wWGCKKoo6TCayTBKGRUI6JvTxEUdJFHgUNTtgUaAkMa8Kwk5sEIUjSQR0Vxjvf+tJ2HyswXCl8Kmfz6KcS7CWNJAilQyCalDAKNsWr4lBRuHAQh/fueExHJ4fgDSJoBrhb20Ig4OLeM1Fs3jL1hN9PFB1ExF2kxZdAYKRoaLS+1ZgXajQfV0ymiJGEIuwWrdhbAtiSrEhqus0/cJrDXSXLF743Dm8/qJZ5Ed6UJoEsCZy9qTYU4JQqVy3S+jyCG4xEkGZ/zXMGdQyuOPeI7jrgQFuu3ce1DbIhzapY6r71UqhOLKID1y+BWedsQHLK1YoATlJQNKizaW9CclpFBJe8Rd2TrogTo6/aH+TjaNCraxEPFGrdLG48PPWOrTHMnzo7SeB7EA6quhWSMr6WHS5SC8lKmxRtSbcsfCvWmt0ZpoohhZf/Nr9mJ6Yxhe/9ksMVvrozJS8QBSXcUUnwFlgLBvio394KpQxvtEQNXysxjtK8A3CjYbCQNQPLrptJfo1xYUIEqNyC0SpQ1hFOc2ihKiCkFal63nDq4/GaScb5Mu5l4vUjnC9uSJKLgQ+472maBAh5TX6CTRSur2Di4u44eb78dq3X42f3DaPDesmcctdK7jkrf+Cf7v5IRzsdr2ALBaeZaZGGC708Kynt/GmS7dgfnEIpSLczpJu9UrtQMkGijLGGpabxxE5JiKouqw8kZYIhDTtDCkry9JVsWh4kDL18gOGQ4eNG1r4/Us2wHX7gKIUPpC9WUQjC1kyVgJyIySyRWZKro0BKKPQ7Tt89L/dile//Qf41x92sXZuDZwlzK2ZxvdvGeIVv/+/8JG/uhXzfQZpjaQa8tojO7+Ed162CVuOn0K/XwShcoJmkeAmBEyjRBpNdapXpJl6/TEv/ki5i5y8dUnAkG+Krvp+kSggkh4uij0B7AsorQjzSzkuf8Nm/MbzpzDs5lBKpGiMpOVztF3QI6yiB7iSjJBMR6Vr9C9pNQwueOEZeM3FZ2Fl0MF9D/cwPt5Gd9nilReegi/+lxfhsotOxniDwNaKuEcBDbVDh/HZDFnWxHU3PoWxjg7SmxSBJaSYoEpS6SotVYKfdsyYmW6VQZhHSgAWBZ8n0dmVsgupNAhYiUxMKSxSP3c45qgOLrtwLVx3UAbetNdzFWx9NPInYYxI1L8yP0l5UucKZMNFPO1Yh7/5xJk499kbceDwEM9+xhr89ZWn4elbmmi4HtjmtcIxwiFKE4rFPi75zVmcdvI0ej2X8Ob1a4gYXWwioVqBxjKVVgqq1G9SUCDHbg8bg0aVaYiA5RLL47RKBZW+fznHK160EXNry6wj0vm8Cpwttf6U6u1Jxid5hBPVVMD1q/yf2aG3OAS5Fbz5lXNYXunjja86CkYVWDncjYVmLf7EjMfB5gXGJoBtL9+ElV6Rwt811oxEd349ca28DMvcvUR6S8XbSH4ty2FmQVFQClGID43NeIyisJiazPDaC9aC+0PZYhADbshYYkMdM6/ShMNJ22pyOlwkukf4AC9t4ZUcZ500hjNPn8ZZWzJwv0CWqQCNYzXopdpqReCVIS5+wSzWr2shz4v4c0kzipLwQVKoSo1sSo9U3QAcGyEUxcEaycX4WBBZeZWkf1Spm0FQcFheKfC8Z87i5OOayHs2bW0VEEE49nBC0iIbiqkmiK2qUcA5K2hEHkmPq6LRWcZU2+G3X7Eea2cacLkVnS6ulsrKSFf68LyXY8MGg/N/fS2WVopQF9T5X6zCSqDe7C1dGDOUPCKu1uHBlf+S8AQl/YUBpnC+hZV9+e5AuOi8OUDZmnayVjDVoVoJTyQyxvhaZx2cc2g0NLLMwFpbYjGBr05PUjUG5z+9fAMyKlLdK0ZgW4Hi+wyHANgCF71gFkqhjIUe/6mmqkRZP4k8MCXlk4YNDgJ30dnHvLq0T/AFVKf+KlLGVbiNRWGBtXNNPO+scXDfem1+7TiKNqOy6TryrRHbRzyd/uetdWh2MjSbjEf2HcBjTx5Aa6JRbkRhR6r3KPFksMs93KUgT36IcUQ1vpcDzMy9HOecNoajN7ZRSnk4TfBZrUJHpvwyjSJfMIlUSjbRkewMlGoAl3TChA9HHJzUW87x68+cwcZ1DeTLBUinvEJstPbvG4qhxMmPTLYoLKM12cBtd+7DRz57E35++16QyXDheVvwsSuei40b1qK/PCzFuoy0uAziK59AyJsLk1pGzmrQwuY5YXq2g6edPIE9+5bQahlYRwIZJTEKBGIoFJIZFZX9Kv8XlRRddcJAAE3RKKmeRXoCHQF5HNoCZ582BmgFK6ABEn3BMRi7UFeQUoL6FI6AGUXh0Jpp4Nv/6x686Ld34Npdj2HAE+gP2/jbHbvx4rd8E7sfPIjWRIaicKLm4Vjp+tgxwpwR1ZKOFGQMZAxZPOv0yfL9JR9BFJvAKQZkmTqHFLSmv1KJKqwmqWNBwqc2yRHrEEeYucR9mpnCmSePA0UR9fYckcsYeGV3vKq19yAgpYV1aM228Pf/eCsue/e1UHoSmzZuQKczg3ZnEscdeyz2PGHxst/ZiR/fuhft6TaKQtKn9Sktkm5V0VYD7FvjIqowUVicvqWDrEGw1sb3qPc2k4uKXglzAEKYIkn5MIvBv9BxwosGXH6k4MHIPLG8YEyOG2w5qgNU2YbkE2q9ALyKsqK66JLoYLSnG/j8l36Et334JkyMz2JsbApKjyPLOmg0xqH0GNbOrUF3pYFLLr8W37vxPrSnGigKW5PRj+p5ODZPiVpaeZ5V5PvEQO6weVMHk+Maha0gGBcI/3BXTgrFRLdnMr7Hc9yhy8OVH64SKLXGvYuxLxU5QzV2oSgc1s41sGZKoygYVD85NW45jZhCtOS53+ZUhj+76gf4w0/cjLnpWXQ6kzCmgyxr+t9tZFkLWncwO7MGjDZe/+7v4hvX3I32bBu2cEjacZhT+FwYVMUTJ4YVrovgLGN6UmNutoGicAmun6LgQqjgKhkOJ0hZ5WtMZd1EnEy1IqZaHUAijYpECsTkKcUOeVFg3YzBWFtj0CuE8tpFlRjRKrCP0KP6CVXZmMYH/vwGfPZLd2LjunXQpg2lW8hMo3SZPnsCKzil4CxhfGwCK0R48wd2obsyxJu2PQP9+RxKI0ml4/CNtI2IZYN2TVFhLWOs1cDspMEje3vlGhAlAt9EK6coaWsK0n5XcirWWpgRwjshxQF4EI456tJlb1eMAWW3Sl5YzExpIFPgZQZ0TeKRTGlyse3fv8RZhtYE1QAu//D38OUdD+LojeuhdAtKN2BUBq2UBwer5gwFxYTK4XTGSqHv5dt/iO5KgXe+5dcwWMiFmJhSRbvoaBnRc4lJaw6EzBDGOwbWcjoDBPF1aTVNI1JJCdmY0hpU7DLhtCKEc15+59KWbaqPg6xybYvxMRMgWmaVDmMK3fIcu+XD4jsYQygU43f+r+9ixzV7cfSm9VDUhDENKKWhlIbWSoyn9O1RxCAyJc2ZE6ilMDer8f5P/gyLS0N88B3PxaBbeKlLhahKrlnVYAxK+g64mlzCjIYBHFvR+WhGwENCbfhUjQ+oNCYmaR4jGlVIhEIgnenJ9cpWZAENAzEhUXSMpxrhdO6aYxij0SsGePN7v4vv3PgUjtm0HkqVvl4rDVIKWulS0Vwz0dK9Kz9UgVCo8sCvn5vFR6+6HcsrOT7+3vMwXLFgJSZ0yRYjSpgTpLxgXJty8YV0JnR3QtwnQzTK104EhU018G8Whx6li0VVry9TqmsRxHxVoMlO8Vif0GrcV6ry91XogB3e8N7v4ns/2I9jNq0DqIGGaUBrA60UlCoxdU0EUpz0KleweCkcUCBk4aRuWj+Hv/ibuwBS+Ph7X4DhsvXjKLjGcawy8UT6Kn8KKt1Q2jNNYf1TIobqb5nqXlkOQ+IIqElVQ5AUVgUFYlNH2opTbtlgaGv04ipxRmyCtQ7ZRAN/+Xe34dobn8SxR68tFz/z/Vze7RhFMAowmmF8X7AmB6OATJe/DQFGl502DWNgTBMma+OYTWvxmb+9C1df/wAa4xmstbWklFYZKinSUi8SLgqH7rInlmpYW71BIykCxQgcQqILqqpR6YKScR8jVgH+VUSIl590B0jaRgR0y5wS6MxAs2Fw6MAK/se3HsD6tTMgaqDRaMBoA62pXFgNZAZoZuW/G9qhqRkNzci0RUMDDUPINKGhFTKjYbRGZjIY3UKj0UanNY4v7rgXtiiEiQkTGlF0p+mzVoRu3+HQ/BDGKCRDfatUk4TQhVdJS6tuSv+hptLjSCk6/LAart6MSEB6QrgrxohVF68UcODIAGxZ0L40ks5WF+4cQ7UM7rxjP/YfHGJuZhbaNGCUhlaAUeT/X8YWTQxNDEVxBGtEYgFb9uJBMfyQwPLUFmhgcmIcDzyyjP37V7BxTQfD3IpZFYRVCHCPhpanQGcKR55axuH5AYxphlbblMOgtKFRDvwYmbDGMKSovGqWczHLCE1yjGRtFCUnbx6ZrMwoPL5/BQvdAcYzDctIc4K6gM2PoTxwpA+lWsiyBrRS0FpDE0r3YhiNysUohiH2rUu+88aV8LdlhdyVeX1uK7VVGZwBjWajgdw6LPVsOa4wT4cu1WNTbCSksjDMDB7Yt4TF7hAz082kfy7h6moDDSW9gVrmaITCSTgzJ4ZlyIuMMzYJqjZTqBTHZpnGE/uX8PiTSzh9yyyKfgHSHDoxiaje4epPKPkMR0ORhib2C05oaKBpGA3t0DCAoTIGlI3P8EUNowAwKHy/GoDcOjCVsYO5zKAca1jrogBB6DkDasm1MWRVraMJt/3yMIaFE4U1C5nkKgRMTU0XMj9viSZKwmX3i6odlapoivM7UcPDCVTerAaOzFvc+UAXp586B+5L5XCd/5Wwe6n9137AXhVYGxrIlEWDLMYaCk3DaJpyc6pWgaJgFKwwyB20Iqi8aq4j0e2iYLWCY5WkmKH/X57MVaKx1gquX+CHtz6FZqZjk3dt/DEz0rwqVPhxgIccam5SHASRTBM9t3HEmIsDNqRjIxbhrISUb77tAF73is1J326osGXoE9I98liUVgyjfEA1Dk0NdDLCWMNhvMXoNIFWxiAuABAKNugNHVYGBD2MCmTHgNNU9qVx+Z5Oq5GJAIm/lsSMCAmNlsZ9e+bxi3vmMdYe8xsmYodoyAs9BaK6ptCiGrdXkS/E0uDINSK8GkKhRKeKSq2EBU7EhLF2EzfdehBHDvYw2WmgcGG0gqCoqmNaglUKpXy9zPP9JviT0DIO7YbDeNNhZgyYbuWY6ADjU+MAAwtHlnFkibBgMoAY1jk4o1E4Ru4I2mMyzqmSRBGsXJyMS7WhUfHLzgHU1Ljm+/twZKHAhvVGTGKhoIMiStPyQNGQ8BKC4tXawAR/Dxb6/MgOca3lJo0JlHZG+m+12xke2beE63/yGC592YnIu0UZ9CST4+EDlg0QoidZeSFTRg4N7TDeZMyME+bG+jjp5HU46/xzMD4zCQLh0BMH8dPv/RiPPt4DO43CEgoHFFoht1WWJLo9RdANeJBQRpAS83iZYbTC8kIPX7/uEXTajTLbIxHAxIhLpZAAfakwN3ZZOmZoo8pCrM5CrbbslciU6p00JCelx6nlRhv8w7cfhitk1ZgK6EmOfgRE9kXQKIusTDPaDcJ4E5hqFTj2qA6ed/HzsWbjFBoYwnAfG09cj3Mvfh7mJgnjTUYnc2gahtHlBirfbxzHrXGNiqwJAkQ6aS0jG8/wzesfwZ33LWCs0wSzElpZP7ldjFyui5tTUDWm8Y2MvLYkafWvD5lA0kPMROKskJAHSd9LmJpo4fu3HMKNP34cjTGDwrq0vfVX/CpJivI4aypz/4ZmNDOLTqPAsZvXodk2KLqLYFcAzsIuLmDN2jFs3DSOdlaglQGZcjAou19UqB0ALTObZAB2Ggeqw6qNRndhBZ/7+7vRabVHp2ZROrfU+YmRrhLwcl0xHrfGaBWehVOThkuxLETIpBFVQ8RznMfASyapbNbL8J+/dAeGg2HobmTU1WcxI1JyDEXVkwUHRSXN2WkCzYYTc0ZZ0IcWY22HsaZFw3ioghy0f+BP1Dwhsl01bphrk75s4dCYMPj8P9yJu+9fwuRE2/e0iAY95pqMBUjHvqVzmKrXOVd2C6lG08A6l/bUsmg5qg2xQOg2TAWx1RwHIl1KsxxhZrKNm289hK9845doTprAIoU+K1GRkeBnw+h5/6fWJf6TqQLGYJTQ8ZfSNBYNbUOlDEW/Qu/LKYorF8nvvrWMzkQDt93xBD77d/dgzfQEHJdwOJQO4xjq7aAs1BZUV7ZS1FNprTC/0IcaH2+JIXyruwiuFSWrzdRPyWkCaQ1QhpmpCXzir3+B++7dj/ZYBmudaGJwCUqaDB9QURxcnQSjy36DskXARY9JCkQaSpWWr3Tll2s9G5Ve39k4PQQRtVV+MohjhmkoLC4P8K6P/QB5bmCyzOtAdTKYhERnT5yMVW8aVEHMVtUKjYzw0CNHoGanW7CFHZUiBuZePu4G6ZgZSSdWw7YJQrSq0Wq1sdgF3nHlTegPy0YHl/DjMfXjRKooZ6WK/uWqH0FVHaAe1/c9wVqpMPleUcxwXHhWGKUjaFiAlkGjS8iahHddeQNuu3sBs9MTccCfny2XUCU0OjMobdhIRLFhsvDcbAdqzWybC2vFA9Ekky9HtYhRNRy1oXIQX/SjFJrWHBNmZybxw9uO4IqP70KjTcnIFpmGcuT0fF8xlZNaoAKEwHWRqzAcpTQKhzCqwDpf13u9UZyKqeNZU7Ecd55Ab45rvO/PbsSOa/Zi/dwsHBsolYnni0WWi+TnU/2xW+TR4pjilh9RTno5atMUq72PdqnV9PgI1wb2hZSMZWNK7OEKYichvkJ8UE6J4zfgOMP6tdP4yjcfxgf/y/fRGldg8qrIqoqsutFdnLfAAApHKCwjLxiFpcTZyZsnUrC25BZyB1hXZmOVscA3nLBsaaVIR1pbFoLNNuF9H/83/NVXf4kN62YBakBpA6V1pecXn8uJ6JBloxilTyHjakq8X15FwONP9EidfOLabukWXK1FNIVNV2MrSEIRNUykvEHtfbMGYLBuzTT+69/d6zeh7FovcbGycHHeum1YwPL7hSUMbTneoLCUDgippps4i9wCw4KQ21LGyCBYpvi8yhHxefnvvLBodzT6eR9vfP+1uOqr92LDujUg1YTWleshLyesXBCnvMaIq5FqwGp4o++8sQ5Tk21Yy13FRNdNTE7CWbbxlUKqSCJ4scyQKqZMJ7JyX0rF/0hB6wxaN6F1C+vmpvGZL+/GWz94LRwKdNoZbG6Tpx2VEHO5CdaV0HJvwFhcdiicAY21oFtNqFYTqtmEbjWg2k0MbQMrQ4P+kJBbhWHByAuHwgu8Yj9i2fFTFOVajc00cMvd+/CS//Qv2HntY9i0fg2ImiDK/P2pMHYgwYmEWIHkfEtQjQeh2E0KgrXWzq6ZxtFHzVxnhkPC3JoO9j91GCbLQktmHNRdVa0uYjkVOkqjjdtJJz1VsUJDKQOYJpgdNqxbg7//5iN4eN81uOrD5+LUs4+ByRqeXCl/zgIonELuLAaW0M8VusMmHnloHtO7f4mM+9Cayg0ng+UVh72P9jDfM+jlhH5RPirAuoovVr7FSoWxmWNTBt3FLj7zVz/BZ/77nRjkBhvXrQFTA8Y0QeQHu3ojYxLtRlQrmimV0MvHNqYdM2VBqJTGnbsPwDz5VP712emxrUROjHrmkdlugSqoteNXM3JGJjPV5rcBupzvbBjWEjauX4Mf33EQL3rTN/DZKy/AwqIq3Y7HhByjBNNsCTMv9R2axuDu3Qt47KGbMNkBsqwslnJnsLBCONxrYXGg0RsShlbBOgXrp3Q5P2wkzws0GhpDFPja1+/GVV+9E3f8cgGzMxOYHesA1ITRGZQqrR+k4+RbHsX8idNx+0xVer0agwg4R2i2NDEbzC+sfJ2efeFfTm6ambznoYf2bRoOCyavJZeP/4v5rRI8QF3xl05SZqGNr2ZGMBzYFXCugLMDgAdY6Q2Q50PMTk+j0ZxEu9FAZhQMMTLl0DQO7Ywx0bSYaDHGm0CnBTQzQKGkFIcFYVAQVgaEpQFhZaiwPNTlSciB3BJyV27oUq+HM07JsP/AYfz09v1ot1uYmhgDIyvFX8qUPp+0t34VB9ZWzxXjmqyGViXBksHNVdIwGBR89KZJarVnH3/w8e5p+rEHrhuceua2Z6yda5/16L4DtpEZNarlpNpTjlLBC1dsl2wjFV011dAmRRVfoEqXRAaNRgOd9hhIt7zl6dizpmJlXM7jJOS2XNTlPrAy0FjqE5YHhMVeXPSVXGFoFQYFobBAwWUwtr6qv/fBIzhwaIi52Um0WmM+02lCqwbIb4BSOqarJGf+QDxclKKkM3kWJScPBZWDnPJ8YM8840Ra6eFbP73+bf9oANBDD8/v/PVf2/jGVovIOk5HM4qFJ3DSallRDpSU9KrGH6d9x6QUiH1cIB1UFVqpMMfZsULBADmHQmkMbemYHAODAsgUQykXZziAUDiFwgfs3BKGHpK2rHwc8AkCKczOTCMvclhXPiKrNAq/4CRHGYvhfOJBcHEaYjWkJ1WMpM21kUEsCofJyQZNT0/TQ48+uRMAKWamX/x4x7VZpm97zrNPVt1uzyr/eHCJjnJ9/EptVFfoQpHPlRHNDlX2UfUCVEe8zI6aIJUBpMFU+m3ryhqgdC8KvUKjVxis5ApLQ8LSwGChp7A4MFgcGCwPNVZyjV6uMSg0cqdROFWmoUKTT8qAqQFSTRifmSndLH2+rqap+01JhLW1B5gGfY9MR106XISjfFNrhaWlJXvhi5+hlpZ6t9183VeuZWZSO3eCiHYV3e7KlWedeQptWN/k4TD3Y7rEyLDa000J8vG1cnArexyHYrYgxwgr74LIZ0be8gK4xWUmVKkcCkfInULuMvRzQq9QWMk1lnO/KX7Re4XyC28wdBo5EwpHsK7MlCykpSto3SgnqFfYjtJi6AjVxo/VHgVcwxhU8nAfTodZATBGYWFhGec+5xg+5aQt9Is79l1JtKvYtg2ktm0j+7Wv7dBf/dJlV99//5M3/MYLn2UWu11bSqtdqgoQk6OQDo1JUc2aEJHEmEdiYUkkJy+UJ6eaK8pM3nVUGwEMqxNhSysfWI2B9/VDSxj4gq1gQl6Qz4I0CiYPZyif5urwW+ky06mPx6khdUGWyA4jEkyg3gchHh/teyZmZrR92+9eaK657q4bbvnhe66+9NIdeudOsgoA7r77bmZm9w//8/bfO/mkY7qX/97z+Ikn9nMj09UgMjG8FUljM/uWTUliiDnaoRE7TLD1Prcq4eUAI8eUDMdieQpsVReU2p+hK1PNoY1/L7OdcuGrU8S+Y6UE4yg+lK5ShXtuN8LkkfeIbqe6Zk4G1Ce9zkkTKCfD+g4eOsxvfct5/OOf7+9+/R+u+T1mdqeffjcD/mmqu3bt4t27n6Zv/dm7Dk9Pn3vHZa9/4RuL4bz96S171dTUOJzl5FnwqdqFRnttkU6rJVFElEc7LD/i2F+IwdYRhY3d+RRYptKayeNGlbsin/OX9YQcfslMYuBr+Yyy+JQ+JSAUlTwjOZk/neD54qHPlE52UcHllrz2gYOH8YE/fKHdf2jSfOGL17+m3/2rn37kI0/Tu3a9y4UNAIDdu3fy+edvN//yrSvu3f3giZN/+AcvO7cYHi5++vNyE8JIgOohZslz4tNjS4rEkyMYo88goFE2pVbCk/w6UZi66BBdlON0HBjCY1RcOHHVSXJhQ9UIbpNka0JSwiBRByAZr1N/UKxEmpQqlXRP7T+ID3/gguIF5z7P/MVnrvvMnns+9Pnzzttu9ux5lw16I2m1e/bscjt2sP7sX5xz3f2PnDr53itefu7U+LDYddP91Gq1yBgTBxzJwRqr+H1JZNbb9Ot/j3fhgzZx0t8bF0uFYeHyyTSxFVo+7ci7tVorVewUoTCUkEWXb/KEkCp5YCQjariGlUnYxhiF5eUB+v0uf/aTr7Rnn32OeccV//SZ23/07vdt3bpDf+c7cfFHNgAAdu68Etu332C++neXXnfPQydPXPGulz3/18+eoxt/sNsuLA5Uu9UodTYSpq49M4AZKaewyqNV6idHorCU8HtiSHZQn6WLH/2wErFIhRzccV06mJo/JY+fjhO/as+iS3odnGBiykdTaTjHOHDwCLYc37af/+xlamFpRn3oI1d/+ufff+cfbd9+g/nCFy52qyPKq4gTduxgtW0b2RPP+s8Xv/+K3/zH88/dNPbJT33dXvev95MxbTUx0QlNaOykj0xVZWXu7xspHNdGmCpv4C6cmOrZwBw69lWS6lbTuuKOiqcoITYDhrH7o6NX0sdnESXPixxtWOcUAGNO5SgEDIY5FrvLmBhj95bfOpvf+Nsv1d/89n3L73nHztcDn7l6xw7W27aRWw3T/z+qRJhZEZED3n7Khz++7XNv+q1nvuTRvXvx5a/8m/3Bj/ag3yfVbLWo3WpAa534UiTTRyiZQbdKB1X6oByMNlgT0ikr8W8u8LCcPB6xdD8yZlZPeGIxKrH+sM5EJSI0U0GK7lto86JAb2WAPB/w3GzDXXzhqbjsdefrwo7jqr+++Xtf+Ztvv5vw5XtdWMNfYen/jkwHW7fu0P+0c5tlABe+8m8veeMbfu2DzznnmHOWlhbxne/egpt+dL+7/4FDvNAdgllpY4zvavEtRUp5mKHELhQogbtZBN24oAjpItVmmCIR1PLIuGSgvuAUTl9ccGkEKh1OiPgsAefKFNs6B+sciryAszmMYTsz3cAZp2+kF19whjr/+WfhwKEC37j6rp/9zZdv/fOFfR/8BhFQ5vrb7P9RB4X/0K/tSquPOS9foRe94iuXXPGO51183HHjF7BzxzIX2LNnP+67fx/uf+gpHDy4hIXFHnr9Av1+jqJwsNb7YxcfklxOkSr5uYjY8mgGVcnAVTkc3MkhS6gD8/XmETki02+KotCYUT31upz0jmA4RhNMptBuGXQ6TcxMd3Ds0TM4YfMcjjtuE449eg6ONR57fHnvz29/4vpPfnrX1QuP/ck3AHCZBf2pAq50/97K/gc3wJ+GHTv0P1/2elvq6wHg5TO/+fLXXPDudzx366tedgr96Kd7LnzaqWsnBv0B9wc59Qc5er0hhsMc+bBAYUtLck48jchxzQVEypGQTrnhaoKVY9GjFR/kw4KPZvnQmtrAqlj8CTjZP8FJa42soZFlGo3MoNVqoNk0mJ7s8H0PLlB3adidnW1ft/Ofd/Otvziw85qdf3w9sPdIqfUhvOY1X/t3rV7++t/X0oBuj9X+1gAAAABJRU5ErkJggg==';
 const sparkTxt = '✦';
 
 /* toast */
@@ -716,8 +822,8 @@ const prioChips = sel => `<button class="pill ${!sel ? 'on' : ''}" data-prio="">
 let TAB = 'home';
 let invRoom = null;            // open room id in Envanter
 let sortMode = false;          // reorder mode in Envanter
-const F = { q:'', status:[], prio:[], tags:[], roomId:null };   // filters
-const filterCount = () => F.status.length + F.prio.length + F.tags.length + (F.roomId ? 1 : 0);
+const F = { q:'', status:[], prio:[], tags:[], acq:[], roomId:null };   // filters
+const filterCount = () => F.status.length + F.prio.length + F.tags.length + F.acq.length + (F.roomId ? 1 : 0);
 
 const NAV = [
   { id:'home', label:'Ana Sayfa', ic:I.home },
@@ -738,10 +844,35 @@ function go(tab){
 }
 
 function pageHead(eyebrow, title){
-  return `<div class="eyebrow"><span class="sp">${sparkTxt}</span>${eyebrow}</div><h1 class="page-title">${title}</h1>`;
+  return `<div class="eyebrow"><img class="brandmark" src="${BRAND}" alt="">${eyebrow}</div><h1 class="page-title">${title}</h1>`;
 }
 
 /* ——— HOME ——— */
+function pulseCard(){
+  const done = prodsA().filter(isDone);
+  const today = new Date(); const dayMs = 864e5;
+  const withD = done.filter(p => p.acqDate).sort((a,b) => b.acqDate.localeCompare(a.acqDate));
+  let line = null, sub = '';
+  if (withD.length){
+    const last = withD[0];
+    const days = Math.floor((today - new Date(last.acqDate + 'T00:00:00')) / dayMs);
+    if (days <= 21){
+      line = `Son tamamlanan: <b>${esc(last.name)}</b>`;
+      sub = days === 0 ? 'bugün' : days === 1 ? 'dün' : days + ' gün önce';
+    }
+  }
+  if (!line){
+    const ym = new Date().toISOString().slice(0, 7);
+    const n = done.filter(p => (p.acqDate || '').startsWith(ym)).length;
+    if (n) { line = `Bu ay <b>${n} ürün</b> tamamlandı`; sub = 'yol alınıyor'; }
+  }
+  if (!line){
+    const f = finance();
+    if (f.month) { line = `Bu ay <b>${fmtMoney(f.month)}</b> taksit ödemesi var`; sub = ymLabel(ymNow()); }
+  }
+  if (!line) line = `Yol devam ediyor — <b>${daysLeft()} gün</b> var`;
+  return `<div class="pulse"><img class="brandmark" src="${BRAND}" alt=""><div class="tx">${line}${sub ? ` <span class="sb">· ${sub}</span>` : ''}</div></div>`;
+}
 function daysLeft(){
   const d = new Date(S.settings.date + 'T00:00:00');
   return Math.ceil((d - new Date().setHours(0,0,0,0)) / 864e5);
@@ -776,10 +907,11 @@ function renderHome(){
     <div class="stat"><div class="lb">Tamamlanma</div><div class="v serif">%${pct}</div><div class="sub">tüm envanter</div></div>
     <div class="stat"><div class="lb">Güncel Borç</div><div class="v serif" style="font-size:21px">${fmtMoney(fin.debt)}</div><div class="sub">${fin.remMonths ? fin.remMonths + ' ay taksit kaldı' : 'aktif taksit yok'}</div></div>
     <div class="stat"><div class="lb">Bu Ay Taksit</div><div class="v serif" style="font-size:21px">${fmtMoney(fin.month)}</div><div class="sub">${ymLabel(ymNow())} ödemesi</div></div>
-    <div class="stat"><div class="lb">Toplam Harcama</div><div class="v serif" style="font-size:21px">${fmtMoney(fin.spent)}</div><div class="sub">${fin.spentCnt} satın alım</div></div>
-    <div class="stat"><div class="lb">Toplam Kâr</div><div class="v serif" style="font-size:21px">${fin.kar == null ? '—' : '%' + Math.round(fin.kar * 100)}</div><div class="sub">${fin.kar == null ? 'liste fiyatı girilmiş alım yok' : fmtMoney(fin.saved) + ' tasarruf'}</div></div>
+    <div class="stat"><div class="lb">Cepten Çıkan</div><div class="v serif" style="font-size:21px">${fmtMoney(fin.pocket)}</div><div class="sub">${fin.pocketCnt} satın alım</div></div>
+    <div class="stat"><div class="lb">Tasarruf</div><div class="v serif" style="font-size:21px">${fin.savedPct == null ? '—' : '%' + Math.round(fin.savedPct * 100)}</div><div class="sub">${fin.savedPct == null ? 'piyasa fiyatı girilmemiş' : fmtMoney(fin.saved) + ' cepte kaldı'}</div></div>
   </div>
 
+  ${pulseCard()}
   <div class="section-h"><div class="eyebrow">Odalar</div><button class="act" data-go="inv">Tümü ${sparkTxt}</button></div>
   <div class="rooms">${roomsA().map(roomCard).join('')}</div>
 
@@ -793,14 +925,16 @@ function renderHome(){
 }
 function roomCard(r){
   const ps = roomProds(r.id);
-  const done = ps.filter(isDone).length;
-  const pct = ps.length ? Math.round(done / ps.length * 100) : 0;
+  const pool = progPool(ps);
+  const done = pool.filter(isDone).length;
+  const pct = pool.length ? Math.round(done / pool.length * 100) : 0;
   const lite = lightRoom(r.color);
   const fg = lite ? 'var(--brown)' : 'var(--cream)';
   return `<button class="room-card ${lite ? 'lite' : ''}" data-room="${r.id}" style="background:${r.color};color:${fg}">
+    <span class="ricon">${RICONS[r.icon] || RICONS.home}</span>
     <div class="nm serif">${esc(r.name)}</div>
     <div>
-      <div class="room-row-ft"><span class="cnt">${done}/${ps.length} ürün</span><span class="pct serif">${pct}<sup>%</sup></span></div>
+      <div class="room-row-ft"><span class="cnt">${done}/${pool.length} ürün</span><span class="pct serif">${pct}<sup>%</sup></span></div>
       <div class="bar"><i style="width:${pct}%"></i></div>
     </div>
   </button>`;
@@ -824,6 +958,7 @@ function matchesFilters(p){
   if (F.q){ const q = trLow(F.q); if (!trLow(p.name).includes(q) && !trLow(p.brand).includes(q) && !trLow(p.model).includes(q)) return false; }
   if (F.status.length && !F.status.includes(p.status)) return false;
   if (F.prio.length && !F.prio.includes(p.priority)) return false;
+  if (F.acq.length && !(p.status === 'tamam' && F.acq.includes(p.acq))) return false;
   if (F.tags.length && !F.tags.every(t => p.tags.includes(t))) return false;
   if (F.roomId && p.roomId !== F.roomId) return false;
   return true;
@@ -838,7 +973,7 @@ function invBody(){
     body = hits.length
       ? `<div class="plist fadein">${hits.slice(0, 200).map(p => prodRow(p, { ctx:true })).join('')}</div>
          ${hits.length > 200 ? `<p class="empty" style="padding:14px">İlk 200 sonuç gösteriliyor</p>` : ''}`
-      : `<div class="empty"><div class="sp">${sparkTxt}</div><div class="t serif">Sonuç yok</div><div class="d">Aramayı veya filtreleri gevşetmeyi dene.</div></div>`;
+      : `<div class="empty"><img class="brandmark dim" src="${BRAND}" alt=""><div class="t serif">Sonuç yok</div><div class="d">Aramayı veya filtreleri gevşetmeyi dene.</div></div>`;
     body = `<div style="display:flex;align-items:center;justify-content:space-between;margin:2px 2px 10px">
       <span class="count-b">${hits.length} sonuç</span>
       <button class="act" style="font-size:12.5px;font-weight:800;color:var(--on-indigo)" id="clear-f">Temizle</button></div>` + body;
@@ -872,18 +1007,20 @@ function roomDetail(rid){
   if (!r) { invRoom = null; return ''; }
   const cats = catsA(rid);
   const ps = roomProds(rid);
-  const done = ps.filter(isDone).length;
-  const pct = ps.length ? Math.round(done / ps.length * 100) : 0;
+  const pool = progPool(ps);
+  const done = pool.filter(isDone).length;
+  const pct = pool.length ? Math.round(done / pool.length * 100) : 0;
+  const rval = ps.reduce((a, p) => a + (p.listPrice ?? p.price ?? 0), 0);
   return `
   <div class="fadein">
   <button style="display:flex;align-items:center;gap:6px;font-weight:800;font-size:13px;color:var(--ink-2);margin:2px 0 10px" id="back-rooms">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg> Odalar
   </button>
   <div class="card" style="display:flex;align-items:center;gap:14px;padding:16px">
-    <div style="width:44px;height:44px;border-radius:14px;background:${r.color};flex:none;display:grid;place-items:center;color:${lightRoom(r.color) ? 'var(--brown)' : 'var(--cream)'};font-family:var(--serif);font-size:19px">${esc([...r.name][0])}</div>
+    <div style="width:44px;height:44px;border-radius:14px;background:${r.color};flex:none;display:grid;place-items:center;color:${lightRoom(r.color) ? 'var(--brown)' : 'var(--cream)'};font-family:var(--serif);font-size:19px">${RICONS[r.icon] || RICONS.home}</div>
     <div style="flex:1;min-width:0">
       <div style="font-family:var(--serif);font-size:20px">${esc(r.name)}</div>
-      <div style="font-size:12px;color:var(--ink-2);margin-top:1px">${done}/${ps.length} ürün · %${pct}</div>
+      <div style="font-size:12px;color:var(--ink-2);margin-top:1px">${done}/${pool.length} ürün · %${pct}${rval ? ` · tahmini ${fmtMoney(rval)}` : ''}${S.settings.includeLow ? '' : (ps.length - pool.length ? ` · +${ps.length - pool.length} düşük öncelik` : '')}</div>
       <div class="iprog"><i style="width:${pct}%"></i></div>
     </div>
     <button class="pill" data-edroom="${r.id}" style="padding:7px 12px">${I.pen}</button>
@@ -895,12 +1032,13 @@ function roomDetail(rid){
   ${cats.length ? (sortMode
     ? `<div id="cat-sort" style="margin-top:6px">${cats.map(c => catBlock(c, true)).join('')}</div>`
     : cats.map(c => catBlock(c, false)).join(''))
-    : `<div class="empty"><div class="sp">${sparkTxt}</div><div class="t serif">Henüz kategori yok</div><div class="d">İlk kategoriyi ekleyerek başla.</div></div>`}
+    : `<div class="empty"><img class="brandmark dim" src="${BRAND}" alt=""><div class="t serif">Henüz kategori yok</div><div class="d">İlk kategoriyi ekleyerek başla.</div></div>`}
   </div>`;
 }
 function catBlock(c, sortable){
   const ps = catProds(c.id);
-  const done = ps.filter(isDone).length;
+  const pool = progPool(ps);
+  const done = pool.filter(isDone).length;
   return `<div data-id="${c.id}" class="catblock">
     <div class="cat-h">
       <div style="display:flex;align-items:center;gap:8px">
@@ -908,7 +1046,7 @@ function catBlock(c, sortable){
         <span class="t">${esc(c.name)}</span>
         <button data-edcat="${c.id}" style="color:var(--ink-3)">${I.pen}</button>
       </div>
-      <span class="n">${done}/${ps.length}</span>
+      <span class="n">${done}/${pool.length}</span>
     </div>
     ${ps.length ? `<div class="plist" ${sortable ? `data-psort="${c.id}"` : ''}>${ps.map(p => prodRow(p, { sortable })).join('')}</div>`
     : `<div class="plist"><div style="padding:13px 16px;font-size:13px;color:var(--ink-3)">Bu kategoride ürün yok</div></div>`}
@@ -925,7 +1063,7 @@ function prodRow(p, { ctx = false, sortable = false } = {}){
     ${sortable ? `<span class="drag-handle">${I.drag}</span>` : `<span class="tick ${done ? 'on' : ''}" data-tick="${p.id}">${I.tick}</span>`}
     <span class="bd">
       <span class="nm ${done ? 'done' : ''}" style="display:block">${p.priority ? `<span class="prio-dot prio-${p.priority}" style="margin-right:6px;vertical-align:2px"></span>` : ''}${esc(p.name)}</span>
-      <span class="mt">${`<span class="chip st-${p.status}" style="padding:2px 8px">${stLabel(p.status)}</span>`}${meta.length ? `<span style="overflow:hidden;text-overflow:ellipsis">${meta.join(' · ')}</span>` : ''}</span>
+      <span class="mt">${stChip(p)}${meta.length ? `<span style="overflow:hidden;text-overflow:ellipsis">${meta.join(' · ')}</span>` : ''}</span>
     </span>
     ${price != null ? `<span class="pr">${fmtMoney(price)}</span>` : ''}
     ${p.alts?.some(a => a.st === 'a') ? `<span style="color:var(--plum);font-size:12px">${sparkTxt}</span>` : ''}
@@ -939,7 +1077,7 @@ function renderWish(){
   return `
   ${pageHead('Karşılaştır, seç, arşivle', '<em>Wishlist</em>')}
   ${items.length ? items.map(wishCard).join('') : `
-    <div class="empty" style="margin-top:30px"><div class="sp">${sparkTxt}</div>
+    <div class="empty" style="margin-top:30px"><img class="brandmark dim" src="${BRAND}" alt="">
     <div class="t serif">Wishlist boş</div>
     <div class="d">Bir ürünün durumunu <b>Wishlist</b> yap veya ürün detayından alternatif ekle;<br>karşılaştırma burada yaşar.</div></div>`}`;
 }
@@ -954,7 +1092,7 @@ function wishCard(p){
         <div style="font-weight:800;font-size:15.5px">${esc(p.name)}</div>
         <div style="font-size:12px;color:var(--ink-2);margin-top:1px">${esc(room(p.roomId)?.name || '')} · ${esc(cat(p.catId)?.name || '')}</div>
       </div>
-      <span class="chip st-${p.status}">${stLabel(p.status)}</span>
+      ${stChip(p)}
     </button>
     <div style="margin-top:6px">
     ${acts.length ? acts.map(a => altRow(p, a, min)).join('') : `<div style="font-size:12.5px;color:var(--ink-3);padding:10px 0">Henüz alternatif yok</div>`}
@@ -981,63 +1119,80 @@ function altRow(p, a, min){
 /* ——— FINANCE ——— */
 function renderFin(){
   const f = finance();
+  const PAL = ['var(--indigo)','var(--terra)','var(--plum)','var(--sage)','var(--brown)','#C9962E'];
+  const _seen = {}; let _ci = 0;
+  const cc = c => _seen[c] ?? (_seen[c] = PAL[_ci++ % PAL.length]);
   const i0 = ymIdx(ymNow());
-  const months = Array.from({length:12}, (_,k) => i0 + k);
-  const cardNames = Object.keys(f.cards);
-  const cardColors = ['var(--indigo)','var(--terra)','var(--plum)','var(--sage)','var(--ochre)','var(--brown)'];
-  const cc = n => cardColors[cardNames.indexOf(n) % cardColors.length];
+  const realSpan = Math.max(12, Math.min(24, f.remMonths));
+  const months = Array.from({ length: realSpan }, (_, k) => i0 + k);
   const maxM = Math.max(1, ...months.map(i => Object.values(f.upcoming[i] || {}).reduce((a,b)=>a+b,0)));
-  const instP = prodsA().filter(p => p.status === 'alindi' && p.instCount && p.price != null && p.instStart);
-
+  const tots = months.map(i => Object.values(f.upcoming[i] || {}).reduce((a,b)=>a+b,0));
+  const dotCls = t => !t ? '' : t <= maxM*.25 ? 'lo' : t <= maxM*.5 ? 'mid' : t <= maxM*.75 ? 'hi' : 'max';
+  const ov = [];
+  ov.push(['Envanter Değeri', fmtMoney(f.acqVal), `${prodsA().filter(isDone).length} tamamlanan ürün`]);
+  ov.push(['Cepten Çıkan', fmtMoney(f.pocket), `${f.pocketCnt} satın alım${f.unpriced ? ` · ${f.unpriced} fiyatsız` : ''}`]);
+  ov.push(['Tasarruf', f.savedPct == null ? '—' : '%' + Math.round(f.savedPct * 100), f.savedPct == null ? 'piyasa fiyatı gir' : fmtMoney(f.saved) + ' cepte kaldı']);
+  if (f.giftVal) ov.push(['Hediye Değeri', fmtMoney(f.giftVal), 'sevgiyle geldi ' + sparkTxt]);
+  if (f.ownedVal) ov.push(['Evde Olanlar', fmtMoney(f.ownedVal), 'zaten senindi']);
+  if (f.remainEst) ov.push(['Kalan Alım Tahmini', fmtMoney(f.remainEst), f.remainMiss ? `+${f.remainMiss} ürün fiyatsız` : 'fiyatı bilinenler']);
+  if (f.wishEst) ov.push(['Wishlist Tahmini', fmtMoney(f.wishEst), f.wishMiss ? `+${f.wishMiss} fiyatsız` : 'en uygun alternatiflerle']);
   return `
   ${pageHead('Otomatik hesap · elle sıfır', '<em>Finans</em>')}
-  <div class="fin-hero fadein" style="margin-top:16px">
-    <span style="position:absolute;top:16px;right:18px;opacity:.6">${sparkTxt}</span>
-    <div class="lb">Güncel Kart Borcu</div>
-    <div class="v">${fmtMoney(f.debt)}</div>
-    <div class="row">
+  <div class="fin-hero">
+    <div class="lb">Güncel Kart Borcu <span style="float:right">${sparkTxt}</span></div>
+    <div class="big serif">${fmtMoney(f.debt)}</div>
+    <div class="row3">
       <div><div class="lb">Bu ay</div><div class="v2">${fmtMoney(f.month)}</div></div>
       <div><div class="lb">Kalan taksit</div><div class="v2">${f.remMonths ? f.remMonths + ' ay' : '—'}</div></div>
-      <div><div class="lb">Toplam harcanan</div><div class="v2">${fmtMoney(f.spent)}</div></div>
+      <div><div class="lb">Cepten çıkan</div><div class="v2">${fmtMoney(f.pocket)}</div></div>
     </div>
   </div>
 
-  <div class="section-h"><div class="eyebrow">Önümüzdeki 12 Ay</div></div>
-  <div class="card">
-    ${f.remCnt ? `
+  <div class="section-h"><div class="eyebrow">Genel Bakış</div></div>
+  <div class="ovgrid">
+    ${ov.map(([l, v, d]) => `<div class="stat"><div class="lb">${l}</div><div class="v serif" style="font-size:19px">${v}</div><div class="sub">${d}</div></div>`).join('')}
+  </div>
+
+  <div class="section-h"><div class="eyebrow">Önümüzdeki ${realSpan} Ay</div></div>
+  <div class="card" style="padding:14px 14px 12px">
+    ${f.lastIdx >= i0 ? `
     <div class="mrows">
-      ${months.map((i,k) => { const seg = f.upcoming[i] || {}; const tot = Object.values(seg).reduce((a,b)=>a+b,0);
+      ${months.map((i, k) => {
+        const seg = f.upcoming[i] || {}; const tot = tots[k];
         const ym = idxYm(i);
-        const mNum = String(+ym.slice(5));
-        const lab = (k === 0 || ym.endsWith('-01')) ? mNum + "'" + ym.slice(2,4) : mNum;
+        const mn = new Date(ym + '-01T00:00:00').toLocaleDateString('tr-TR', { month:'short' }).replace('.', '');
+        const lab = (k === 0 || ym.endsWith('-01')) ? `${mn} '${ym.slice(2, 4)}` : mn;
+        const prev = k ? tots[k - 1] : 0;
+        const mom = k && prev > 0 && tot > 0 ? Math.round((tot - prev) / prev * 100) : null;
         return `<button class="mrow ${tot ? '' : 'zero'}" data-mon="${i}">
+          <span class="mr-dot ${dotCls(tot)}"></span>
           <span class="mr-l">${lab}</span>
-          <span class="mr-track">${tot ? Object.entries(seg).map(([c,v]) =>
-            `<i style="width:${v/maxM*100}%;background:${cc(c)}"></i>`).join('') : ''}</span>
-          <span class="mr-v">${tot ? fmtMoney(tot) : '—'}</span></button>`; }).join('')}
+          <span class="mr-track">${tot ? Object.entries(seg).map(([c, v]) =>
+            `<i style="width:${v / maxM * 100}%;background:${cc(c)}"></i>`).join('') : ''}</span>
+          <span class="mr-v">${tot ? fmtMoney(tot) : '—'}${mom != null && mom !== 0 ? `<span class="mom">${mom < 0 ? '↓' : '↑'}${Math.abs(mom)}%</span>` : ''}</span>
+        </button>`; }).join('')}
     </div>
-    <div class="legend">${cardNames.map(c => `<span><i style="background:${cc(c)}"></i>${esc(c)} · ${fmtMoney(f.cards[c])}</span>`).join('')}</div>`
-    : `<div class="empty" style="padding:22px"><div class="sp">${sparkTxt}</div><div class="d">Aktif taksit yok. Satın alınan bir ürüne fiyat + taksit girdiğinde<br>aylık yük burada otomatik belirir.</div></div>`}
+    <div class="legend">${Object.entries(f.cards).map(([c, v]) => `<span class="lg"><i style="background:${cc(c)}"></i>${esc(c)} · ${fmtMoney(v)}</span>`).join('')}</div>`
+    : `<div class="empty" style="padding:14px"><img class="brandmark dim" src="${BRAND}" alt=""><div class="d">Aktif taksit planı yok — peşin gidiyorsun ${sparkTxt}</div></div>`}
   </div>
 
-  ${instP.length ? `
-  <div class="section-h"><div class="eyebrow">Taksitli Ürünler</div><span class="count-b">${instP.length}</span></div>
-  <div class="plist">
-    ${instP.map(p => { const fo = finOf(p); return `
-    <button class="prow" data-prod="${p.id}">
-      <span class="bd">
-        <span class="nm">${esc(p.name)}</span>
-        <span class="mt">${esc(p.card || 'Kart yok')} · ${fo.paid}/${p.instCount} taksit · ay ${fmtMoney(fo.monthly)}</span>
-        <span class="iprog" style="margin-top:6px"><i style="width:${fo.paid/p.instCount*100}%"></i></span>
-      </span>
-      <span class="pr">${fmtMoney(fo.remain)}<br><small style="font-family:var(--sans);font-size:10px;color:var(--ink-3)">kalan</small></span>
-    </button>`; }).join('')}
-  </div>` : ''}
-
-  ${f.unpriced ? `<div class="notice">${f.unpriced} satın alınmış ürünün fiyatı girilmemiş — toplam harcanana dahil değiller.</div>` : ''}`;
+  ${(() => { const instP = prodsA().filter(p => isBought(p) && p.instCount && p.price != null && p.instStart);
+    if (!instP.length) return '';
+    return `
+  <div class="section-h"><div class="eyebrow">Taksitli Ürünler</div></div>
+  <div class="card plist" style="padding:4px 6px">
+    ${instP.map(p => { const x = finOf(p); return `
+      <button class="prow" data-prod="${p.id}">
+        <span class="bd">
+          <span class="nm">${esc(p.name)}</span>
+          <span class="mt">${esc(p.card || 'Kart yok')} · ayda ${fmtMoney(x.monthly)} · ${x.paid}/${p.instCount}</span>
+          <span class="iprog"><i style="width:${x.paid / p.instCount * 100}%"></i></span>
+        </span>
+        <span class="pr">${fmtMoney(x.remain)}</span>
+      </button>`; }).join('')}
+  </div>`; })()}`;
 }
 
-/* ——— SETTINGS ——— */
 function renderSet(){
   const themes = [['system','Oto'],['light','Açık'],['dark','Koyu']];
   const syncOn = !!S.settings.clientId && Sync.enabled();
@@ -1057,6 +1212,9 @@ function renderSet(){
     </div>
     <div class="set-row"><span class="k">Para birimi</span>
       <div class="seg-ctl">${['₺','€','$'].map(c => `<button data-cur="${c}" class="${S.settings.currency === c ? 'on' : ''}">${c}</button>`).join('')}</div>
+    </div>
+    <div class="set-row"><span><span class="k">Oda ilerlemesi</span><div class="d">Düşük öncelikliler bilinçli olarak sona bırakılmış işler; kapalıyken yüzdeye girmezler.</div></span>
+      <div class="seg-ctl">${[['0','Hariç'],['1','Dahil']].map(([v,l]) => `<button data-inclow="${v}" class="${(S.settings.includeLow ? '1' : '0') === v ? 'on' : ''}">${l}</button>`).join('')}</div>
     </div>
   </div>
 
@@ -1092,70 +1250,102 @@ function renderSet(){
 /* — product detail — */
 function productSheet(pid){
   const p = prod(pid); if (!p) return;
-  const f = () => finOf(p);
   const rec = openSheet(`
     ${sheetHead(esc(p.name), `${esc(room(p.roomId)?.name || '')} · ${esc(cat(p.catId)?.name || '')}`)}
     <div class="sh-b" id="ps">
-      <details class="sect" open>
-        <summary>Genel ${I.chev}</summary>
+      <div class="sect always">
         <div class="in">
           <div class="frow"><span class="k">Ürün adı</span><span class="v"><input data-f="name" value="${esc(p.name)}"></span></div>
           <div class="frow"><span class="k">Konum</span><span class="v"><button data-move="${p.id}" style="color:var(--on-indigo);font-weight:700">${esc(room(p.roomId)?.name)} · ${esc(cat(p.catId)?.name)} ${I.right}</button></span></div>
           <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Durum</span><div class="pill-row" id="ps-st">${statusChips(p.status)}</div></div>
+          <div class="frow hidden" id="ps-acq-w" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Edinim</span><div class="pill-row" id="ps-acq"></div></div>
           <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Öncelik</span><div class="pill-row" id="ps-pr">${prioChips(p.priority)}</div></div>
-          <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:8px">Etiketler</span><div class="pill-row" id="ps-tg"></div></div>
           <div class="frow"><span class="k">Marka</span><span class="v"><input data-f="brand" value="${esc(p.brand)}" placeholder="Ekle"></span></div>
           <div class="frow"><span class="k">Model</span><span class="v"><input data-f="model" value="${esc(p.model)}" placeholder="Ekle"></span></div>
+          <div class="frow" style="display:block"><span class="k" style="display:block;margin-bottom:6px">Notlar</span><textarea class="inp" data-f="notes" rows="2" placeholder="Kendine not…" style="border:0;padding:2px 0;background:none;min-height:auto">${esc(p.notes)}</textarea></div>
         </div>
-      </details>
+      </div>
 
-      <details class="sect" id="ps-sec-fin" ${p.price != null || p.instCount ? 'open' : ''}>
-        <summary>Finans ${I.chev}</summary>
+      <details class="sect" id="ps-sec-res">
+        <summary>Araştırma ${I.chev}</summary>
         <div class="in">
-          <div class="frow"><span class="k">Liste fiyatı</span><span class="v"><input data-money="listPrice" inputmode="decimal" value="${p.listPrice ?? ''}" placeholder="—"></span></div>
-          <div class="frow"><span class="k">Alış fiyatı</span><span class="v"><input data-money="price" inputmode="decimal" value="${p.price ?? ''}" placeholder="—"></span></div>
-          <div class="frow"><span class="k">Kredi kartı</span><span class="v"><input data-f="card" value="${esc(p.card)}" placeholder="Ekle" list="cards-dl"></span></div>
-          <div class="frow"><span class="k">Taksit sayısı</span><span class="v"><input data-int="instCount" inputmode="numeric" value="${p.instCount ?? ''}" placeholder="—"></span></div>
-          <div class="frow"><span class="k">Taksit başlangıcı</span><span class="v" style="display:flex;gap:6px;justify-content:flex-end">
-            <select data-instm style="font:inherit;font-weight:600;color:inherit;background:none;text-align:right"><option value="">— Ay</option>${['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'].map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${p.instStart?.slice(5)===v?'selected':''}>${m}</option>`;}).join('')}</select>
-            <select data-insty style="font:inherit;font-weight:600;color:inherit;background:none"><option value="">Yıl</option>${Array.from({length:9},(_,i)=>2024+i).map(y=>`<option ${p.instStart?.slice(0,4)==String(y)?'selected':''}>${y}</option>`).join('')}</select>
-          </span></div>
-          <div class="frow" id="ps-fin"><span class="k">Hesap</span><span class="v ghosty" id="ps-fin-v"></span></div>
+          <div class="sub-h">Alışveriş bağlantıları</div>
+          <div id="ps-links"></div>
+          <div class="sub-h" style="margin-top:16px">Alternatifler</div>
+          <div id="ps-alts"></div>
         </div>
       </details>
 
-      <details class="sect" id="ps-sec-wish" ${p.alts.length ? 'open' : ''}>
-        <summary>Wishlist · Alternatifler ${I.chev}</summary>
-        <div class="in" id="ps-alts"></div>
+      <details class="sect" id="ps-sec-buy">
+        <summary>Satın Alma ${I.chev}</summary>
+        <div class="in" id="ps-buy"></div>
       </details>
 
-      <details class="sect" ${p.notes ? 'open' : ''}>
-        <summary>Notlar ${I.chev}</summary>
-        <div class="in"><textarea class="inp" data-f="notes" placeholder="Kendine not…" style="border:0;padding:4px 0;background:none">${esc(p.notes)}</textarea></div>
-      </details>
-
-      <details class="sect" ${p.links.length ? 'open' : ''}>
-        <summary>Alışveriş Bağlantıları ${I.chev}</summary>
-        <div class="in" id="ps-links"></div>
+      <details class="sect" id="ps-sec-org" ${p.tags.length ? 'open' : ''}>
+        <summary>Düzenleme ${I.chev}</summary>
+        <div class="in">
+          <div class="pill-row" id="ps-tg"></div>
+        </div>
       </details>
 
       <button class="btn danger" data-delprod="${p.id}">${I.trash} Ürünü sil</button>
       <datalist id="cards-dl">${usedCards().map(c => `<option value="${esc(c)}">`).join('')}</datalist>
+      <datalist id="stores-dl">${[...new Set(prodsA().map(x => x.store).filter(Boolean))].map(c => `<option value="${esc(c)}">`).join('')}</datalist>
     </div>`);
 
   const sh = rec.sh;
-  const refreshSects = () => {
-    const off = p.status === 'evde' || p.status === 'hediye';
-    $('#ps-sec-fin', sh).classList.toggle('hidden', off);
-    $('#ps-sec-wish', sh).classList.toggle('hidden', off);
+
+  const hasResearch = () => p.links.length || p.alts.length;
+  const hasBuyData = () => p.listPrice != null || p.price != null || p.store || p.instCount || p.acqDate;
+
+  const refreshAcq = () => {
+    const w = $('#ps-acq-w', sh);
+    w.classList.toggle('hidden', p.status !== 'tamam');
+    if (p.status === 'tamam')
+      $('#ps-acq', sh).innerHTML = ACQS.map(a => `<button class="pill ${p.acq === a.id ? 'on' : ''}" data-acq="${a.id}">${a.label}</button>`).join('');
   };
-  const refreshFin = () => {
-    const x = f();
-    $('#ps-fin-v', sh).textContent = x.monthly
-      ? `ayda ${fmtMoney(x.monthly)} · ${x.paid}/${p.instCount} ödendi · kalan ${fmtMoney(x.remain)}`
-      : p.price == null ? 'önce alış fiyatını gir'
-      : !p.instCount ? 'Peşin ödeme · taksit yok'
-      : 'taksit başlangıç ayını seç';
+
+  const buyRows = () => {
+    const satin = p.acq === 'satin' || p.status !== 'tamam';
+    const x = finOf(p);
+    let h = `<div class="frow"><span class="k">Piyasa fiyatı</span><span class="v"><input data-money="listPrice" inputmode="decimal" value="${p.listPrice ?? ''}" placeholder="—"></span></div>`;
+    if (satin) h += `
+      <div class="frow"><span class="k">Alış fiyatı</span><span class="v"><input data-money="price" inputmode="decimal" value="${p.price ?? ''}" placeholder="—"></span></div>
+      <div class="frow"><span class="k">Mağaza</span><span class="v"><input data-f="store" value="${esc(p.store)}" placeholder="Ekle" list="stores-dl"></span></div>`;
+    h += `<div class="frow"><span class="k">${p.acq === 'hediye' ? 'Hediye tarihi' : p.acq === 'evde' ? 'Edinme tarihi' : 'Alış tarihi'}</span><span class="v"><input data-f="acqDate" type="date" value="${p.acqDate ?? ''}"></span></div>`;
+    if (satin) h += `
+      <div class="frow"><span class="k">Kredi kartı</span><span class="v"><input data-f="card" value="${esc(p.card)}" placeholder="Ekle" list="cards-dl"></span></div>
+      <div class="frow"><span class="k">Taksit sayısı</span><span class="v"><input data-int="instCount" inputmode="numeric" value="${p.instCount ?? ''}" placeholder="—"></span></div>
+      <div class="frow"><span class="k">Taksit başlangıcı</span><span class="v" style="display:flex;gap:6px;justify-content:flex-end">
+        <select data-instm style="font:inherit;font-weight:600;color:inherit;background:none;text-align:right"><option value="">— Ay</option>${['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'].map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${p.instStart?.slice(5)===v?'selected':''}>${m}</option>`;}).join('')}</select>
+        <select data-insty style="font:inherit;font-weight:600;color:inherit;background:none"><option value="">Yıl</option>${Array.from({length:9},(_,i)=>2024+i).map(y=>`<option ${p.instStart?.slice(0,4)==String(y)?'selected':''}>${y}</option>`).join('')}</select>
+      </span></div>
+      <div class="frow"><span class="k">Hesap</span><span class="v ghosty" id="ps-buy-v"></span></div>`;
+    else if (p.status === 'tamam') h += `<div style="font-size:12px;color:var(--ink-3);padding:8px 0 2px">${p.acq === 'hediye' ? 'Hediye — cebinden çıkmadı; piyasa fiyatı tasarrufuna yazılır.' : 'Zaten vardı — cebinden çıkmadı; piyasa fiyatı tasarrufuna yazılır.'}</div>`;
+    return h;
+  };
+  const refreshBuy = () => {
+    $('#ps-buy', sh).innerHTML = buyRows();
+    const v = $('#ps-buy-v', sh);
+    if (v){
+      const x = finOf(p);
+      v.textContent = x.monthly
+        ? `ayda ${fmtMoney(x.monthly)} · ${x.paid}/${p.instCount} ödendi · kalan ${fmtMoney(x.remain)}`
+        : p.price == null ? 'önce alış fiyatını gir'
+        : !p.instCount ? 'Peşin ödeme · taksit yok'
+        : 'taksit başlangıç ayını seç';
+    }
+    const sec = $('#ps-sec-buy', sh);
+    let nud = $('#ps-nudge', sh);
+    if (p.status === 'tamam' && !hasBuyData()){
+      sec.open = true;
+      if (!nud){
+        nud = document.createElement('div'); nud.id = 'ps-nudge';
+        nud.style.cssText = 'font-size:12px;color:var(--terra);padding:0 0 8px';
+        nud.textContent = 'Tamamlandı ' + sparkTxt + ' — istersen fiyat bilgilerini de ekleyelim.';
+        $('#ps-buy', sh).prepend(nud);
+      }
+    } else if (nud) nud.remove();
   };
   const refreshTags = () => {
     $('#ps-tg', sh).innerHTML = p.tags.map(t =>
@@ -1167,7 +1357,7 @@ function productSheet(pid){
     const prices = acts.map(a => a.price).filter(n => n != null);
     const min = prices.length ? Math.min(...prices) : null;
     $('#ps-alts', sh).innerHTML =
-      (p.alts.length ? acts.map(a => altRow(p, a, min)).join('') + arch.map(a => altRow(p, a, null)).join('') : `<div style="font-size:12.5px;color:var(--ink-3);padding:8px 0">Alternatif ekle, fiyatları yan yana gör.</div>`)
+      (p.alts.length ? acts.map(a => altRow(p, a, min)).join('') + arch.map(a => altRow(p, a, null)).join('') : `<div style="font-size:12.5px;color:var(--ink-3);padding:4px 0">Alternatif ekle, fiyatları yan yana gör — burası karar masası.</div>`)
       + `<button class="btn ghost sm" style="margin-top:10px" data-addalt="${p.id}">${I.plus} Alternatif ekle</button>`;
   };
   const refreshLinks = () => {
@@ -1176,31 +1366,37 @@ function productSheet(pid){
         <span style="color:var(--on-indigo)">${I.link}</span>
         <a class="u" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label || l.url.replace(/^https?:\/\/(www\.)?/,'').split('/')[0])}</a>
         <button class="x" data-rmlink="${l.id}">${I.x}</button></div>`).join('')
-      + `<button class="btn ghost sm" style="margin-top:10px" id="ps-addlink">${I.plus} Bağlantı ekle</button>`;
+      + `<button class="btn ghost sm" style="margin-top:8px" id="ps-addlink">${I.plus} Bağlantı ekle</button>`;
   };
-  refreshFin(); refreshTags(); refreshAlts(); refreshLinks(); refreshSects();
+  const refreshOpen = () => {
+    $('#ps-sec-res', sh).open = hasResearch() || ['arastiriliyor','wishlist'].includes(p.status);
+    if (p.status === 'tamam' && hasBuyData()) $('#ps-sec-buy', sh).open = true;
+  };
+  refreshAcq(); refreshBuy(); refreshTags(); refreshAlts(); refreshLinks(); refreshOpen();
 
   sh.addEventListener('change', e => {
     const t = e.target;
     if (t.dataset.f !== undefined){
       const k = t.dataset.f, v = t.value.trim();
       if (k === 'name' && !v){ t.value = p.name; return; }
-      p[k] = k === 'instStart' ? (v || null) : v;
-      touch(p); save({ silent:true }); refreshFin();
+      p[k] = (k === 'acqDate') ? (v || null) : v;
+      touch(p); save({ silent:true }); refreshBuy();
       if (k === 'name') $('.sh-t', sh).textContent = p.name;
       render();
     }
-    if (t.dataset.money !== undefined){ p[t.dataset.money] = parseMoney(t.value); touch(p); save({silent:true}); refreshFin(); render(); }
-    if (t.dataset.int !== undefined){ const n = parseInt(t.value, 10); p[t.dataset.int] = isNaN(n) || n < 0 ? null : n; touch(p); save({silent:true}); refreshFin(); render(); }
+    if (t.dataset.money !== undefined){ p[t.dataset.money] = parseMoney(t.value); touch(p); save({silent:true}); refreshBuy(); render(); }
+    if (t.dataset.int !== undefined){ const n = parseInt(t.value, 10); p[t.dataset.int] = isNaN(n) || n < 0 ? null : n; touch(p); save({silent:true}); refreshBuy(); render(); }
     if (t.dataset.instm !== undefined || t.dataset.insty !== undefined){
       const m = $('[data-instm]', sh).value, y = $('[data-insty]', sh).value;
       p.instStart = m && y ? `${y}-${m}` : null;
-      touch(p); save({silent:true}); refreshFin(); render();
+      touch(p); save({silent:true}); refreshBuy(); render();
     }
   });
   sh.addEventListener('click', e => {
     const st = e.target.closest('[data-st]');
-    if (st){ setStatus(p, st.dataset.st, e); $('#ps-st', sh).innerHTML = statusChips(p.status); refreshSects(); return; }
+    if (st){ setStatus(p, st.dataset.st, e); $('#ps-st', sh).innerHTML = statusChips(p.status); refreshAcq(); refreshBuy(); refreshOpen(); return; }
+    const aq = e.target.closest('[data-acq]');
+    if (aq){ setAcq(p, aq.dataset.acq); refreshAcq(); refreshBuy(); return; }
     const pr = e.target.closest('[data-prio]');
     if (pr){ p.priority = pr.dataset.prio || null; touch(p); save({silent:true}); $('#ps-pr', sh).innerHTML = prioChips(p.priority); render(); return; }
     const rt = e.target.closest('[data-rmtag]');
@@ -1213,21 +1409,26 @@ function productSheet(pid){
     if (mv){ moveSheet(p, () => { closeSheet(rec); productSheet(p.id); }); return; }
     const dp = e.target.closest('[data-delprod]');
     if (dp){ confirmSheet({ title:'Ürünü sil', body:`<b>${esc(p.name)}</b> envanterden kaldırılacak.`, okLabel:'Sil', danger:true }, () => { p.deleted = now(); touch(p); save(); closeSheet(rec); toast('Ürün silindi'); }); return; }
-    /* alt actions inside sheet */
     if (handleAltClick(e, () => { refreshAlts(); })) return;
   });
 }
 
 function setStatus(p, st, e){
   if (st === p.status) return;
-  const willDone = DONE_ST.includes(st);
-  if (willDone && !isDone(p)){
+  if (st === 'tamam' && !isDone(p)){
     p.prevStatus = p.status;
+    p.acq = p.acq || 'satin';
+    p.purchasedAt = now();
+    p.acqDate = p.acqDate || new Date().toISOString().slice(0, 10);
     if (e) sparkle(e.clientX || innerWidth/2, e.clientY || innerHeight/2);
-    toast(({ alindi:'Satın alındı ', evde:'Evde var ', hediye:'Hediye ' })[st] + sparkTxt);
+    toast('Tamamlandı ' + sparkTxt);
   }
-  p.purchasedAt = st === 'alindi' ? now() : null;
+  if (st !== 'tamam'){ p.acq = null; p.purchasedAt = null; }
   p.status = st; touch(p); save({ silent:true }); render();
+}
+function setAcq(p, acq){
+  if (p.status !== 'tamam' || p.acq === acq) return;
+  p.acq = acq; touch(p); save({ silent:true }); render();
 }
 
 /* — tag picker — */
@@ -1356,8 +1557,8 @@ function quickAdd(){
     }
     if (!catId){ toast('Önce bir kategori ekle'); return; }
     const t = now();
-    const p = { id:uid(), name:nm, roomId:rid, catId, status:'ihtiyac', priority:null, tags:[], links:[], alts:[],
-      brand:'', model:'', notes:'', listPrice:null, price:null, card:'', instCount:null, instStart:null,
+    const p = { id:uid(), name:nm, roomId:rid, catId, status:'ihtiyac', priority:null, acq:null, tags:[], links:[], alts:[],
+      brand:'', model:'', notes:'', listPrice:null, price:null, card:'', store:'', acqDate:null, instCount:null, instStart:null,
       order:catProds(catId).length, createdAt:t, updatedAt:t };
     S.products.push(p); save(); closeSheet(rec);
     toast('Eklendi ' + sparkTxt);
@@ -1374,6 +1575,7 @@ function filterSheet(){
     ${sheetHead('Filtreler')}
     <div class="sh-b">
       <div class="fld"><label>Durum</label><div class="pill-row" id="ft-st"></div></div>
+      <div class="fld"><label>Edinim</label><div class="pill-row" id="ft-aq"></div></div>
       <div class="fld"><label>Öncelik</label><div class="pill-row" id="ft-pr"></div></div>
       <div class="fld"><label>Oda</label><div class="pill-row" id="ft-rm"></div></div>
       <div class="fld"><label>Etiket</label><div class="pill-row" id="ft-tg"></div></div>
@@ -1382,6 +1584,7 @@ function filterSheet(){
   const sh = rec.sh;
   const paint = () => {
     $('#ft-st', sh).innerHTML = STATUSES.map(s => `<button class="pill ${F.status.includes(s.id) ? 'on' : ''}" data-fst="${s.id}">${s.label}</button>`).join('');
+    $('#ft-aq', sh).innerHTML = ACQS.map(a => `<button class="pill ${F.acq.includes(a.id) ? 'on' : ''}" data-faq="${a.id}">${a.label}</button>`).join('');
     $('#ft-pr', sh).innerHTML = PRIOS.map(p => `<button class="pill ${F.prio.includes(p.id) ? 'on' : ''}" data-fpr="${p.id}"><span class="prio-dot prio-${p.id}"></span>${p.label}</button>`).join('');
     $('#ft-rm', sh).innerHTML = roomsA().map(r => `<button class="pill ${F.roomId === r.id ? 'on' : ''}" data-frm="${r.id}">${esc(r.name)}</button>`).join('');
     const tags = usedTags();
@@ -1391,10 +1594,11 @@ function filterSheet(){
   const tgl = (arr, v) => { const i = arr.indexOf(v); i >= 0 ? arr.splice(i, 1) : arr.push(v); };
   sh.addEventListener('click', e => {
     const st = e.target.closest('[data-fst]'); if (st){ tgl(F.status, st.dataset.fst); paint(); render(); return; }
+    const aq = e.target.closest('[data-faq]'); if (aq){ tgl(F.acq, aq.dataset.faq); paint(); render(); return; }
     const pr = e.target.closest('[data-fpr]'); if (pr){ tgl(F.prio, pr.dataset.fpr); paint(); render(); return; }
     const rm = e.target.closest('[data-frm]'); if (rm){ F.roomId = F.roomId === rm.dataset.frm ? null : rm.dataset.frm; paint(); render(); return; }
     const tg = e.target.closest('[data-ftg]'); if (tg){ tgl(F.tags, tg.dataset.ftg); paint(); render(); return; }
-    if (e.target.closest('#ft-clear')){ F.status = []; F.prio = []; F.tags = []; F.roomId = null; paint(); render(); }
+    if (e.target.closest('#ft-clear')){ F.status = []; F.prio = []; F.tags = []; F.acq = []; F.roomId = null; paint(); render(); }
   });
   rec.onClose = () => { if (TAB === 'inv') render(); };
 }
@@ -1424,17 +1628,26 @@ function roomSheet(rid){
     <div class="sh-b">
       <div class="fld"><label>Oda adı</label><input class="inp" id="rm-nm" value="${esc(r?.name || '')}" placeholder="ör. Balkon"></div>
       <div class="fld"><label>Renk</label><div class="pill-row" id="rm-cl"></div></div>
+      <div class="fld"><label>İkon</label><div class="pill-row" id="rm-ic"></div></div>
       <button class="btn" id="rm-ok">${r ? 'Kaydet' : 'Ekle'}</button>
       ${r ? `<button class="btn danger" id="rm-del">${I.trash} Odayı sil${cnt ? ` · ${cnt} ürün var` : ''}</button>` : ''}
     </div>`);
-  const paint = () => { $('#rm-cl', rec.sh).innerHTML = ROOM_COLORS.map(c =>
-    `<button data-cl="${c}" style="width:38px;height:38px;border-radius:12px;background:${c};border:${c === color ? '2.5px solid var(--ink)' : '1px solid var(--line-2)'}"></button>`).join(''); };
+  let icon = r?.icon || 'home';
+  const paint = () => {
+    $('#rm-cl', rec.sh).innerHTML = ROOM_COLORS.map(c =>
+      `<button data-cl="${c}" style="width:38px;height:38px;border-radius:12px;background:${c};border:${c === color ? '2.5px solid var(--ink)' : '1px solid var(--line-2)'}"></button>`).join('');
+    $('#rm-ic', rec.sh).innerHTML = Object.keys(RICONS).map(k =>
+      `<button class="pill ${k === icon ? 'on' : ''}" data-ric="${k}" style="padding:7px 9px">${RICONS[k]}</button>`).join('');
+  };
   paint();
-  rec.sh.addEventListener('click', e => { const c = e.target.closest('[data-cl]'); if (c){ color = c.dataset.cl; paint(); } });
+  rec.sh.addEventListener('click', e => {
+    const c = e.target.closest('[data-cl]'); if (c){ color = c.dataset.cl; paint(); return; }
+    const ic = e.target.closest('[data-ric]'); if (ic){ icon = ic.dataset.ric; paint(); }
+  });
   $('#rm-ok', rec.sh).addEventListener('click', () => {
     const nm = $('#rm-nm', rec.sh).value.trim(); if (!nm) return;
-    if (r){ r.name = nm; r.color = color; touch(r); }
-    else S.rooms.push({ id:uid(), name:nm, color, order:roomsA().length, updatedAt:now() });
+    if (r){ r.name = nm; r.color = color; r.icon = icon; touch(r); }
+    else S.rooms.push({ id:uid(), name:nm, color, icon: icon === 'home' ? guessRoomIcon(nm) : icon, order:roomsA().length, updatedAt:now() });
     save(); closeSheet(rec);
   });
   if (r) $('#rm-del', rec.sh)?.addEventListener('click', () => {
@@ -1502,7 +1715,7 @@ function insListSheet(ids){
 function monthSheet(mi){
   const ym = idxYm(mi);
   const list = prodsA()
-    .filter(p => p.status === 'alindi' && p.instCount && p.price != null && p.instStart)
+    .filter(p => isBought(p) && p.instCount && p.price != null && p.instStart)
     .map(p => ({ p, fo: finOf(p), s: ymIdx(p.instStart) }))
     .filter(x => mi >= x.s && mi < x.s + x.p.instCount)
     .sort((a,b) => b.fo.monthly - a.fo.monthly);
@@ -1524,7 +1737,7 @@ function monthSheet(mi){
           </span>
           <span class="pr">${fmtMoney(x.fo.monthly)}</span>
         </button>`).join('')}</div>`
-      : `<div class="empty" style="padding:18px"><div class="sp">${sparkTxt}</div><div class="d">Bu aya düşen taksit yok.</div></div>`}
+      : `<div class="empty" style="padding:18px"><img class="brandmark dim" src="${BRAND}" alt=""><div class="d">Bu aya düşen taksit yok.</div></div>`}
     </div>`);
   rec.sh.addEventListener('click', e => {
     const b = e.target.closest('[data-mprod]');
@@ -1557,8 +1770,8 @@ function importSheet(data){
     data.meta = { installedAt: now(), deviceId: uid(), ...(data.meta || {}), welcomed: true };
     data.settings = { title:'Şehre Dönüş', date:'2028-02-01', currency:'₺', theme:'system', clientId:'', ...(data.settings || {}) };
     if (!data.settings.clientId) data.settings.clientId = keepCid;
-    data.lastSync = 0; data.v = 1;
-    S = data;
+    data.lastSync = 0;
+    S = migrate(data);
     persistNow(); applyTheme(); render(); closeSheet(rec);
     toast('Yedek birebir geri yüklendi ' + sparkTxt);
   });
@@ -1566,8 +1779,8 @@ function importSheet(data){
 
 function toggleTick(el, e){
   const p = prod(el.dataset.tick); if (!p) return;
-  if (isDone(p)) setStatus(p, p.prevStatus && !DONE_ST.includes(p.prevStatus) ? p.prevStatus : 'ihtiyac');
-  else setStatus(p, 'alindi', e);
+  if (isDone(p)) setStatus(p, p.prevStatus && p.prevStatus !== 'tamam' ? p.prevStatus : 'ihtiyac');
+  else setStatus(p, 'tamam', e);
 }
 </script>
 <script>
@@ -1611,11 +1824,12 @@ function onClick(e){
   const ac = e.target.closest('[data-addcat]'); if (ac){ catSheet(ac.dataset.addcat); return; }
   const ec = e.target.closest('[data-edcat]');  if (ec){ const c = cat(ec.dataset.edcat); if (c) catSheet(c.roomId, c.id); return; }
   if (e.target.closest('#open-f')){ filterSheet(); return; }
-  if (e.target.closest('#clear-f')){ F.q=''; F.status=[]; F.prio=[]; F.tags=[]; F.roomId=null; render(); return; }
+  if (e.target.closest('#clear-f')){ F.q=''; F.status=[]; F.prio=[]; F.tags=[]; F.acq=[]; F.roomId=null; render(); return; }
 
   if (handleAltClick(e)) return;
 
   const th = e.target.closest('[data-theme-set]'); if (th){ S.settings.theme = th.dataset.themeSet; touch(S.settings); applyTheme(); save(); return; }
+  const il = e.target.closest('[data-inclow]');   if (il){ S.settings.includeLow = il.dataset.inclow === '1'; touch(S.settings); save(); return; }
   const cu = e.target.closest('[data-cur]');       if (cu){ S.settings.currency = cu.dataset.cur; touch(S.settings); save(); return; }
   if (e.target.closest('#sync-save')){ S.settings.clientId = ($('#cid')?.value || '').trim(); touch(S.settings); persistNow(); toast('Kaydedildi'); render(); return; }
   if (e.target.closest('#sync-on')){ Sync.connect(true); return; }
@@ -1844,6 +2058,7 @@ const Sync = {
 
   /* entity-level last-write-wins merge; returns what changed on each side */
   mergeRemote(remote){
+    migrate(remote);                                    /* uzak kopya v1 olabilir (eski yedek/Drive) */
     let changedLocal = false, aheadLocal = false;
     const mergeArr = key => {
       const loc = new Map((S[key] || []).map(x => [x.id, x]));
@@ -1880,6 +2095,13 @@ document.addEventListener('visibilitychange', () => {
 load();
 applyTheme();
 render();
+(() => {
+  const sp = $('#splash'); if (!sp) return;
+  sp.querySelector('.bm').src = BRAND;
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  if (!standalone){ sp.remove(); return; }
+  setTimeout(() => { sp.classList.add('out'); setTimeout(() => sp.remove(), 420); }, 430);
+})();
 navigator.storage?.persist?.().catch(() => {});   /* iOS: alan sıkışınca veriyi süpürme */
 document.addEventListener('click', onClick);
 document.addEventListener('input', onInput);

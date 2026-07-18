@@ -61,3 +61,9 @@ Bundan sonrası otomatik: değişiklikler ~4 sn sonra sessizce Drive'a yazılır
 - **Tema:** Oto/Açık/Koyu — Oto, iOS sistem temasını takip eder.
 - **Arşiv mantığı:** Wishlist'te "Bunu seç" → seçilen alternatifin markası/fiyatı/linki ürüne yazılır, diğerleri arşive iner (silinmez, kart altında ARŞİV bölümünde durur, geri alınabilir).
 - claude.ai önizlemesinde localStorage kısıtlı olduğundan uygulama **geçici depolama modu**na düşer ve bunu ayarlar sayfasının altında söyler; GitHub Pages'ta bu mod hiç görünmez.
+
+## Sürüm 1.1.0 — Refine
+
+İş akışı ve edinim ayrıştı: durumlar İhtiyaç → Araştırılıyor → Wishlist → Alınacak → **Tamamlandı**; tamamlanan her ürün tam bir **edinim tipi** taşır (Satın Alındı / Hediye / Zaten Vardı). Eski Hediye/Evde Var durumları ilk açılışta otomatik taşınır (v1→v2 migration; yedek içe aktarma ve Drive dahil her kapıda çalışır, veri kaybı yoktur). Finans ev envanteri modeline evrildi: Piyasa Değeri · Envanter (Edinim) Değeri · Cepten Çıkan ayrıştı; Tasarruf = piyasa − cepten (indirim + hediye + zaten-vardı değeri). Ürün detayı aşamalı açılıma geçti (Araştırma / Satın Alma / Düzenleme). Zaman çizelgesi gerekirse 24 aya uzar; yerel ay adları, ödeme yoğunluğu noktası ve ay-bazlı % değişim eklendi. Düşük öncelikliler oda yüzdesine varsayılan olarak girmez (Ayarlar → Oda ilerlemesi). Resmî logo uygulamanın kimliği oldu: ikonlar, splash, başlık, boş durumlar; ikon ailesi yarı dolu premium sete yenilendi, odalar ikon kazandı.
+
+**Güncelleme yüklerken 5 dosya şart:** `index.html`, `sw.js`, `icon-512.png`, `icon-192.png`, `apple-touch-icon.png`.
