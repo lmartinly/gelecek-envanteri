@@ -1297,7 +1297,7 @@ function productSheet(pid){
   const sh = rec.sh;
 
   const hasResearch = () => p.links.length || p.alts.length;
-  const hasBuyData = () => p.listPrice != null || p.price != null || p.store || p.instCount || p.acqDate;
+  const hasBuyData = () => p.listPrice != null || p.price != null || p.store || p.instCount;
 
   const refreshAcq = () => {
     const w = $('#ps-acq-w', sh);
@@ -1306,27 +1306,25 @@ function productSheet(pid){
       $('#ps-acq', sh).innerHTML = ACQS.map(a => `<button class="pill ${p.acq === a.id ? 'on' : ''}" data-acq="${a.id}">${a.label}</button>`).join('');
   };
 
+  let pendM = p.instStart?.slice(5) || '', pendY = p.instStart?.slice(0, 4) || '';
   const buyRows = () => {
     const satin = p.acq === 'satin' || p.status !== 'tamam';
-    const x = finOf(p);
     let h = `<div class="frow"><span class="k">Piyasa fiyatı</span><span class="v"><input data-money="listPrice" inputmode="decimal" value="${p.listPrice ?? ''}" placeholder="—"></span></div>`;
     if (satin) h += `
       <div class="frow"><span class="k">Alış fiyatı</span><span class="v"><input data-money="price" inputmode="decimal" value="${p.price ?? ''}" placeholder="—"></span></div>
       <div class="frow"><span class="k">Mağaza</span><span class="v"><input data-f="store" value="${esc(p.store)}" placeholder="Ekle" list="stores-dl"></span></div>`;
-    h += `<div class="frow"><span class="k">${p.acq === 'hediye' ? 'Hediye tarihi' : p.acq === 'evde' ? 'Edinme tarihi' : 'Alış tarihi'}</span><span class="v"><input data-f="acqDate" type="date" value="${p.acqDate ?? ''}"></span></div>`;
     if (satin) h += `
       <div class="frow"><span class="k">Kredi kartı</span><span class="v"><input data-f="card" value="${esc(p.card)}" placeholder="Ekle" list="cards-dl"></span></div>
       <div class="frow"><span class="k">Taksit sayısı</span><span class="v"><input data-int="instCount" inputmode="numeric" value="${p.instCount ?? ''}" placeholder="—"></span></div>
       <div class="frow"><span class="k">Taksit başlangıcı</span><span class="v" style="display:flex;gap:6px;justify-content:flex-end">
-        <select data-instm style="font:inherit;font-weight:600;color:inherit;background:none;text-align:right"><option value="">— Ay</option>${['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'].map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${p.instStart?.slice(5)===v?'selected':''}>${m}</option>`;}).join('')}</select>
-        <select data-insty style="font:inherit;font-weight:600;color:inherit;background:none"><option value="">Yıl</option>${Array.from({length:9},(_,i)=>2024+i).map(y=>`<option ${p.instStart?.slice(0,4)==String(y)?'selected':''}>${y}</option>`).join('')}</select>
+        <select data-instm style="font:inherit;font-weight:600;color:inherit;background:none;text-align:right"><option value="">— Ay</option>${['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'].map((m,i)=>{const v=String(i+1).padStart(2,'0');return `<option value="${v}" ${pendM===v?'selected':''}>${m}</option>`;}).join('')}</select>
+        <select data-insty style="font:inherit;font-weight:600;color:inherit;background:none"><option value="">Yıl</option>${Array.from({length:9},(_,i)=>2024+i).map(y=>`<option ${pendY==String(y)?'selected':''}>${y}</option>`).join('')}</select>
       </span></div>
       <div class="frow"><span class="k">Hesap</span><span class="v ghosty" id="ps-buy-v"></span></div>`;
     else if (p.status === 'tamam') h += `<div style="font-size:12px;color:var(--ink-3);padding:8px 0 2px">${p.acq === 'hediye' ? 'Hediye — cebinden çıkmadı; piyasa fiyatı tasarrufuna yazılır.' : 'Zaten vardı — cebinden çıkmadı; piyasa fiyatı tasarrufuna yazılır.'}</div>`;
     return h;
   };
-  const refreshBuy = () => {
-    $('#ps-buy', sh).innerHTML = buyRows();
+  const refreshCalc = () => {
     const v = $('#ps-buy-v', sh);
     if (v){
       const x = finOf(p);
@@ -1348,6 +1346,7 @@ function productSheet(pid){
       }
     } else if (nud) nud.remove();
   };
+  const refreshBuy = () => { $('#ps-buy', sh).innerHTML = buyRows(); refreshCalc(); };
   const refreshTags = () => {
     $('#ps-tg', sh).innerHTML = p.tags.map(t =>
       `<span class="pill on" style="gap:7px">${esc(t)}<button data-rmtag="${esc(t)}" style="color:inherit;opacity:.7">${I.x}</button></span>`).join('')
@@ -1380,17 +1379,18 @@ function productSheet(pid){
     if (t.dataset.f !== undefined){
       const k = t.dataset.f, v = t.value.trim();
       if (k === 'name' && !v){ t.value = p.name; return; }
-      p[k] = (k === 'acqDate') ? (v || null) : v;
-      touch(p); save({ silent:true }); refreshBuy();
+      p[k] = v;
+      touch(p); save({ silent:true }); refreshCalc();
       if (k === 'name') $('.sh-t', sh).textContent = p.name;
       render();
     }
-    if (t.dataset.money !== undefined){ p[t.dataset.money] = parseMoney(t.value); touch(p); save({silent:true}); refreshBuy(); render(); }
-    if (t.dataset.int !== undefined){ const n = parseInt(t.value, 10); p[t.dataset.int] = isNaN(n) || n < 0 ? null : n; touch(p); save({silent:true}); refreshBuy(); render(); }
+    if (t.dataset.money !== undefined){ p[t.dataset.money] = parseMoney(t.value); touch(p); save({silent:true}); refreshCalc(); render(); }
+    if (t.dataset.int !== undefined){ const n = parseInt(t.value, 10); p[t.dataset.int] = isNaN(n) || n < 0 ? null : n; touch(p); save({silent:true}); refreshCalc(); render(); }
     if (t.dataset.instm !== undefined || t.dataset.insty !== undefined){
-      const m = $('[data-instm]', sh).value, y = $('[data-insty]', sh).value;
-      p.instStart = m && y ? `${y}-${m}` : null;
-      touch(p); save({silent:true}); refreshBuy(); render();
+      pendM = $('[data-instm]', sh).value;
+      pendY = $('[data-insty]', sh).value;
+      p.instStart = pendM && pendY ? `${pendY}-${pendM}` : null;
+      touch(p); save({silent:true}); refreshCalc(); render();
     }
   });
   sh.addEventListener('click', e => {
