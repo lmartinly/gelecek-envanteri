@@ -2,7 +2,7 @@
 
 Şehre Dönüş (1 Şubat 2028) için ev envanteri PWA'sı. Excel'in yerini alır: oda → kategori → ürün hiyerarşisi, wishlist karşılaştırma, taksit/borç takibi, Google Drive eşitleme. Sunucu yok, hesap yok, veri senin.
 
-**İçe aktarılan başlangıç verisi:** 7 oda · 36 kategori · 156 ürün (Salon'daki 19 birebir kopya satır tekilleştirildi; *Market Listesi* sayfası bilinçli olarak dahil edilmedi — o bir alışveriş manifestosu, envanter değil).
+**Sürüm 2.0.0 — "The Blueprint".** Üç dönem (Hazırlık · Taşınma · Yaşam), satın alma fazları, roadmap, bağımlılıklar, temel ihtiyaçlar, ekosistemler, koli istasyonu, taşınma modu, ev arşivi, ev arama, upgrade planları, hediye listeleri, zaman kapsülleri, fikir kutusu, garanti takibi ve rozetler eklendi. Mevcut verinin tamamı korunur; şema otomatik olarak v3'e yükselir. Ayrıntılar için `CHANGELOG.md`, test kapsamı için `TEST_REPORT.md`.
 
 ---
 
@@ -10,6 +10,7 @@
 
 1. GitHub'da yeni repo aç (ör. `gelecek-envanteri`), bu klasördeki **6 dosyayı** köke yükle:
    `index.html · sw.js · manifest.webmanifest · icon-192.png · icon-512.png · apple-touch-icon.png`
+   (Markdown dosyaları ve `backup-template-v2.json` yalnızca referans; yüklemene gerek yok.)
 2. Settings → Pages → Branch: `main`, klasör `/ (root)` → Save.
 3. 1-2 dk sonra adres: `https://KULLANICIADIN.github.io/gelecek-envanteri/`
 4. iPhone'da Safari ile aç → Paylaş → **Ana Ekrana Ekle**. Tam ekran, çevrimdışı çalışır.
